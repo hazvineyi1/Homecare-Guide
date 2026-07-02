@@ -37,7 +37,7 @@
   --color-primary-border: var(--teal);
 
   --color-secondary: var(--teal-tint);
-  --color-secondary-foreground: var(--teal);
+  --color-secondary-foreground: var(--pine);
   --color-secondary-border: var(--teal-tint);
 
   --color-muted: var(--line);
@@ -45,7 +45,7 @@
   --color-muted-border: var(--line);
 
   --color-accent: var(--marigold);
-  --color-accent-foreground: var(--card);
+  --color-accent-foreground: var(--ink);
   --color-accent-border: var(--marigold);
 
   --color-destructive: var(--rose);
