@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Socratic Homecare Tutor | AI-Powered Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF9F3; --card:#FFFFFF; --ink:#24332D; --ink-soft:#5A6B63;
+  --pine:#1E4D42; --teal:#2E7265; --teal-tint:#E3EFEB;
+  --marigold:#D99A2B; --marigold-tint:#FBF0DB;
+  --rose:#C05B60; --rose-tint:#F8E9E9;
+  --line:#E5DFD1; --radius:14px;
+  --shadow:0 1px 2px rgba(30,55,46,.06),0 6px 18px rgba(30,55,46,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+body{font-family:'Atkinson Hyperlegible',system-ui,sans-serif;background:var(--paper);color:var(--ink);font-size:16.5px;line-height:1.6}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--marigold);outline-offset:2px;border-radius:4px}
+
+.app{display:grid;grid-template-columns:300px 1fr;height:100vh}
+/* ---------- Sidebar ---------- */
+.side{background:var(--pine);color:#F2EFE6;padding:24px 18px;overflow-y:auto;display:flex;flex-direction:column}
+.side h1{font-family:'Fraunces',serif;font-weight:700;font-size:1.25rem;line-height:1.25}
+.side .byline{font-size:.78rem;color:#BFD3CB;margin:4px 0 16px}
+.levelbox{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin-bottom:16px}
+.levelbox .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#9DBBAF;margin-bottom:8px}
+.levelbtns{display:flex;gap:6px}
+.levelbtns button{flex:1;background:transparent;border:1.4px solid rgba(255,255,255,.25);color:#DCE7E1;border-radius:8px;padding:6px 4px;font-size:.8rem}
+.levelbtns button.on{background:var(--marigold);border-color:var(--marigold);color:var(--pine);font-weight:700}
+.navdivider{margin:6px 4px 8px;font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:#8FAEA2}
+.topiclist{list-style:none;display:flex;flex-direction:column;gap:2px}
+.topiclist button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;color:#DCE7E1;padding:8px 10px;border-radius:9px;font-size:.88rem;line-height:1.3;transition:background .15s}
+.topiclist button:hover{background:rgba(255,255,255,.09)}
+.topiclist button.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.topiclist .num{font-family:'Fraunces',serif;font-size:.7rem;color:#9DBBAF;width:20px;flex:none}
+.topiclist .depth{margin-left:auto;flex:none;display:flex;gap:2px}
+.topiclist .depth i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22)}
+.topiclist .depth i.lit{background:var(--marigold)}
+.sessionstats{margin-top:auto;padding-top:16px;font-size:.78rem;color:#BFD3CB;border-top:1px solid rgba(255,255,255,.14)}
+.sessionstats b{color:#fff}
+
+/* ---------- Main / chat ---------- */
+.main{display:flex;flex-direction:column;height:100vh;max-width:100%}
+.chathead{padding:18px 30px 14px;border-bottom:1px solid var(--line);background:var(--card)}
+.chathead .eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);font-weight:700}
+.chathead h2{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;color:var(--pine);line-height:1.2}
+.chathead .sub{font-size:.82rem;color:var(--ink-soft)}
+.chatlog{flex:1;overflow-y:auto;padding:26px 30px;display:flex;flex-direction:column;gap:16px}
+.msg{max-width:72ch;padding:14px 18px;border-radius:var(--radius);box-shadow:var(--shadow);white-space:pre-wrap;animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.tutor{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);align-self:flex-start}
+.msg.tutor .who{color:var(--teal)}
+.msg.learner{background:var(--pine);color:#F2EFE6;align-self:flex-end}
+.msg.learner .who{color:#BFD3CB}
+.msg.system{background:var(--marigold-tint);border:1px solid #EBD5A6;align-self:center;font-size:.85rem;max-width:60ch;text-align:center}
+.msg.error{background:var(--rose-tint);border:1px solid #EACBCB;align-self:center;font-size:.88rem}
+.msg .who{display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px;font-family:'Atkinson Hyperlegible'}
+.msg.synth{border-left-color:var(--marigold)}
+.typing{align-self:flex-start;display:flex;gap:5px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.typing i{width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:.4;animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+
+.welcome{max-width:640px;margin:auto;text-align:center;padding:20px}
+.welcome .heart{margin-bottom:14px}
+.welcome h3{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--pine);margin-bottom:10px}
+.welcome p{color:var(--ink-soft);margin-bottom:18px}
+.startgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;text-align:left}
+.startgrid button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+.startgrid button:hover{transform:translateY(-2px);border-color:var(--teal)}
+.startgrid .mnum{font-family:'Fraunces',serif;font-size:.68rem;color:var(--marigold);font-weight:700;letter-spacing:.08em}
+.startgrid .mt{font-weight:700;color:var(--pine);font-size:.9rem;line-height:1.3}
+
+/* ---------- Composer ---------- */
+.composer{border-top:1px solid var(--line);background:var(--card);padding:14px 30px 18px}
+.toolrow{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.toolbtn{background:var(--teal-tint);border:1.4px solid #CDE2DB;color:var(--pine);border-radius:99px;padding:5px 14px;font-size:.8rem;font-weight:700;transition:background .15s}
+.toolbtn:hover{background:#D3E7E0}
+.toolbtn.gold{background:var(--marigold-tint);border-color:#EBD5A6;color:#7A5410}
+.toolbtn:disabled{opacity:.45;cursor:not-allowed}
+.inputrow{display:flex;gap:10px;align-items:flex-end}
+textarea#inbox{flex:1;font-family:inherit;font-size:1rem;line-height:1.5;padding:12px 14px;border:1.6px solid var(--line);border-radius:12px;resize:none;min-height:52px;max-height:160px;background:var(--paper)}
+textarea#inbox:focus{border-color:var(--teal);outline:none}
+.send{background:var(--pine);color:#fff;border:none;border-radius:12px;padding:13px 22px;font-weight:700;transition:background .15s}
+.send:hover{background:var(--teal)}
+.send:disabled{opacity:.45;cursor:not-allowed}
+.hintline{font-size:.72rem;color:var(--ink-soft);margin-top:6px}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr;height:auto;min-height:100vh}
+  .side{max-height:38vh}
+  .main{height:auto;min-height:62vh}
+  .chatlog{padding:18px 14px}
+  .chathead,.composer{padding-left:14px;padding-right:14px}
+  .sessionstats{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <h1>Socratic Homecare Tutor</h1>
+    <div class="byline">AI-guided inquiry &middot; grounded in <em>A Guide to Homecare</em> by Dorothy Mooka</div>
+    <div class="levelbox">
+      <div class="lbl">I am a...</div>
+      <div class="levelbtns">
+        <button id="lvl-new" class="on" onclick="setLevel('new')">New caregiver</button>
+        <button id="lvl-exp" onclick="setLevel('experienced')">Experienced</button>
+      </div>
+    </div>
+    <div class="navdivider">Dialogue topics</div>
+    <ul class="topiclist" id="topicList"></ul>
+    <div class="sessionstats" id="stats">Exchanges this session: <b id="stExch">0</b><br>Topics explored: <b id="stTopics">0</b> of 12</div>
+  </aside>
+
+  <main class="main">
+    <div class="chathead">
+      <div class="eyebrow" id="headEyebrow">Socratic dialogue</div>
+      <h2 id="headTitle">Choose a topic to begin</h2>
+      <div class="sub" id="headSub">Your tutor will not lecture. It asks questions that help you reason your way to sound caregiving judgement.</div>
+    </div>
+    <div class="chatlog" id="chatlog">
+      <div class="welcome" id="welcome">
+        <svg class="heart" width="52" height="48" viewBox="0 0 46 42" aria-hidden="true"><path d="M23 40 C10 30 2 22 2 13 C2 5.8 7.6 1 13.6 1 C17.6 1 21 3.2 23 6.6 C25 3.2 28.4 1 32.4 1 C38.4 1 44 5.8 44 13 C44 22 36 30 23 40Z" fill="#D99A2B"/></svg>
+        <h3>Learn caregiving by reasoning, not memorising</h3>
+        <p>Pick any of the twelve topics below. Your tutor opens with a realistic home care situation and guides you with questions, one at a time. Answer in your own words; there is no penalty for being wrong, only better questions.</p>
+        <div class="startgrid" id="startGrid"></div>
+      </div>
+    </div>
+    <div class="composer">
+      <div class="toolrow">
+        <button class="toolbtn" id="btnHint" onclick="askHint()" disabled>Give me a hint</button>
+        <button class="toolbtn" id="btnStuck" onclick="askStuck()" disabled>I'm stuck, simplify</button>
+        <button class="toolbtn gold" id="btnSynth" onclick="askSynthesis()" disabled>Check my understanding</button>
+        <button class="toolbtn" id="btnNew" onclick="restartTopic()" disabled>Restart topic</button>
+      </div>
+      <div class="inputrow">
+        <textarea id="inbox" placeholder="Choose a topic first..." aria-label="Your response" disabled></textarea>
+        <button class="send" id="btnSend" onclick="sendMsg()" disabled>Send</button>
+      </div>
+      <div class="hintline">Enter to send &middot; Shift+Enter for a new line &middot; The tutor asks one question at a time; take your time answering.</div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   KNOWLEDGE BASE: condensed chapter grounding
+========================================================= */
+const TOPICS = [
+{ id:1, title:"Introduction to home caregiving",
+  launch:"a relative you visit weekly whose bills are unpaid, whose hygiene has slipped, and who insists nothing is wrong",
+  kb:"Home caregiving is providing care in a person's own home to someone who cannot fully care for themselves physically, emotionally, socially or spiritually. Recipients are typically elderly, disabled, or acutely/chronically ill. Home care is preferred because people recover better at home, stay in control, and keep independence. Caregiving begins gradually (small tasks, refilling prescriptions, noticing unpaid bills and poor hygiene) or suddenly (stroke, accident, chronic illness, disability). Duties: personal care (bathing, grooming, dressing, toileting), meals, shopping, laundry, bills, medication oversight, appointments, legal/financial help, advocacy, emotional support. Dignity guidelines: respect the recipient's wishes and right to run their own life; provide privacy in bathing/dressing; let them decide basics (food, clothes, bills); help only after they have tried themselves, or self-esteem is destroyed; be their advocate especially in healthcare facilities. Challenges: time management, stress (lethargy, headaches, insomnia; low self-esteem, anger, anxiety, irritability), lack of privacy, lack of sleep. Benefits: purpose, accomplishment, stronger relationships, empathy; benefits outweigh challenges. Success depends on working without supervision, getting along with others, organising self-care time." },
+{ id:2, title:"Self-care and everyday tasks",
+  launch:"an uncle whose clothes smell, whose nails are untrimmed, and who has unexplained burns on his forearm",
+  kb:"Self-care: daily behaviours that promote/maintain health, prevent disease, and cope with illness (framework from Katz, 1983). Everyday tasks (activities of daily living): fundamental routine skills for independent function. Basic: personal hygiene, dressing, eating, maintaining continence, transferring/mobility, basic communication, transportation. Instrumental: meal preparation, shopping, housework, managing medications, managing finances. Difficulty stems from injury, ageing, disability, or disease. Caregivers assess everyday tasks to determine self-care deficits (inability to perform health/wellbeing functions like bathing, dressing, eating), identify what the person can still safely do without supervision, detect total dependence, and plan skills/resources. Deficit signs: cannot get out of bed to bathe; unkempt hair and nails; trouble with clothes, clothes worn long with odour; cannot sit/stand from toilet or clean self; needs feeding; trouble moving bed to chair; unexplained burns suggest cooking problems. Interventions: open compassionate discussion; solve around living conditions and preferences (front-zip dresses, delivered precooked meals); support and act for the patient while promoting activity and functional independence; establish the reason for impairment; encourage verbalising fears; rehabilitate, guide and teach self-care." },
+{ id:3, title:"Getting ready for the caregiver role",
+  launch:"deciding whether to become the primary caregiver for a parent just diagnosed with a progressive illness, while you hold a full-time job",
+  kb:"Caregiver readiness is associated with self-confidence, self-esteem, self-efficiency, coping skills and wellbeing (Scherbring, 2002). Warning signs: fall hazards, unfinished housework, unopened mail, unexplained dents/bruises/wounds, missed appointments, forgetfulness, weight loss, poor medication management, mobility difficulty, poor hygiene, confusion, incontinence. Next steps: determine level and hours of care needed; look at options; decide whether you want the role; consider hiring private care; weigh leaving employment and monetary consequences; degree of involvement follows disease stage. Transition: dropping by, helping with housekeeping, appointments, groceries; accepting the new role; seeking family/community support; taking charge without taking over; preserving independence; not treating the person like a child. Talk to the care recipient tactfully as the one with the biggest say; collect medical history; discuss finances (who pays) and legal issues (decision-making if mentally unstable); persist gently if reluctant. First-time essentials: join the hospital discharge plan (doctor gives diagnosis/treatment/side effects; social worker advises on rehabilitation, respite, day-care, home help); educate yourself; get professional training for injections, dressings, blood pressure. Build a support team (family, church, caregiver groups, condition organisations, therapists/social workers/nurses); assign tasks by expertise. Prepare the home: safe accessible ground-floor room near kitchen/bathroom; ramps, wider doorways, grab bars, regulated water temperature, lit stairs, slip-resistant floors, no throw rugs; secure sharps, poisons, fire hazards; emergency exit, alarms, visible emergency numbers. Sort finances (public benefits, medical aid, insurance, pensions, entitlements) and legal documents (certificates, property, wills, power of attorney)." },
+{ id:4, title:"Getting organised in caregiving",
+  launch:"a week in which you missed one of your mother's appointments and double-booked another, and her pills ran out on a Sunday",
+  kb:"Organisation prevents chaos, gives a sense of control for thinking through decisions, puts legal documents and a financial plan in place, and tames information overload (medications, appointments, phone numbers). Caregivers organise differently to achieve objectives (Bursack, 2020). Routines: same basic activity at the same time daily builds security and independence; morning is the recipient's high-energy window so encourage independence and assist only where needed; bathing once or twice daily or basin wash of face, armpits, genitals, groin, feet; oral care; moisturise; dress; balanced breakfast; afternoon lunch with recipient participating, chores, walk, appointments, leisure; evening dinner 2-3 hours before sleep, light meals, no stimulants, quiet wind-down. Calendars: one coded planning calendar for all events; a second for specific help from others (care team, community); include long-distance family in hands-off roles (finances, information coordinator). Lists: emergency contacts displayed publicly; contacts for family, health personnel, insurers, lawyers, financial advisors; service providers; substitute-caregiver task list (food preferences, equipment locations, toothpaste on brush). Medication system: record prescriber, purpose, dosage, frequency, pharmacy; labelled ordered storage; pill organiser; reminders; monitor intake; remove expired drugs; flag supplement interactions; stock over-the-counter basics. Documents: insurance, banking, wills, assets in one retrievable place. Digital: cloud drives as virtual binder; medication reminder apps; group coordination apps; monitoring devices." },
+{ id:5, title:"Knowledge and skills caregivers need",
+  launch:"a caregiver who is kind and devoted but keeps missing early signs of decline and cannot say no to any request",
+  kb:"Quality of care is determined by the caregiver's acquired knowledge and skills (Given, Sherwood & Given, 2008). Caregivers must learn the disease, prognosis, care plans and treatment protocols; skills build confidence and competence; knowledge reduces anxiety and fear of the unknown. First determine your area of care: household duties, hygiene, medical management, scheduling, liaison, transport, listening and advocacy; knowledge must match the client's needs. Build knowledge by talking to health professionals, research (internet, library, e-books, videos, workshops, conferences, short courses), keeping an information folder, using phone/tablet/e-reader, professional training for complex procedures. Knowledge enables observing changing condition, interpreting signs and symptoms, safe decisions, adjusting to changing needs, accessing resources, hands-on quality care, navigating the health system. Effective caregiver qualities: empathy; accepting/reaching out for help; compassion (tuning into distress); keen observation (patients may hide problems; watch person and environment; report changes); interpersonal skills (rapport, trust, dispels isolation); communication (how you say it matters; listen, interpret, express clearly; be polite, considerate, sensitive); time management (prioritise, schedules); organisation (know where everything is); cleanliness (light housekeeping only); patience (clients can be irritable; speak slowly and simply); flexibility (adjust plan as condition dictates); initiative (independent informed decisions, emergency action); technical skill (blood pressure machine, heart monitor, mobility aids, digital devices); positivity; reliability (predictable transport, medication, companionship); time for self; mutual respect (never talk down); objectivity (let them do small tasks). Boundaries: balance physical, emotional, mental, spiritual, social needs without guilt; say no appropriately or resentment and guilt corrode the relationship; without boundaries the caregiver falls into serious emotional burnout; set limits, realistic goals, firm daily communication, fixed times for calls and visits. Planning: realistic goals, task lists, recruit helpers, schedules up to 24-hour cover, respite to prevent burnout, partner with the healthcare team. Problem-solving: identify and define problems now and future; understand the individual's interests; identify solutions and act; evaluate; short and long-term strategies if worsening." },
+{ id:6, title:"Making a home caregiving plan",
+  launch:"three siblings who all want to help their father but keep duplicating some tasks and dropping others",
+  kb:"A home caregiving plan is a schedule of routine services organised at home to address pressing needs: feeding, dressing, toileting, medication management, shopping, transportation. It contains: needs and problems; the patient's views, concerns, wants, preferences, choices; available resources, goals and team actions; who provides services; who decides service frequency; care management arrangements; assessment frequency. Problem-solving process: define/identify/discuss current and future problems; determine cause; prioritise and select solution alternatives; set long and short-term strategies. Determine needs: assess the current situation; collect medical history, personal history, legal and financial documents; review home environment, everyday tasks, health status. Assess all areas: personal care (bathing, dressing, shaving, teeth, hair, eating, toilet, phone); house care (cooking, booking appointments); medication management; emotional care (companionship, meaningful conversation); home safety (hazards, stairs, yard); finances (expected expenditure, income source); legal (signed will, valid insurance, caregiver access); lifestyle (hobbies, visiting friends, church; prevent isolation). Medical assessment: appointment, thorough assessment, introduce yourself as primary caregiver, briefing on disease progress, involve patient always, research, advocate, ask questions for definite diagnosis. Identify needs and goals: what is lacking in routines; objectives; list shortcomings by priority; life-threatening issues first. Team: recipient, family, significant others, friends, neighbours, volunteers, community/faith groups, professionals (home care, accountants, lawyers, paid caregivers), agencies; keep all contacts. Examine team for expertise, interests, strengths; hands-on vs hands-off (finances) vs errands; viable solutions per problem; schedules; distribute the plan; a follow-up coordinator; an online communication platform. Implement: write plan, execute as written, everyone has a copy, check members regularly, coordinator per care area, honest self-assessment, best channel (calls, messaging apps). Evaluate: review as needs change; results may indicate new medical or hospice care, changed accommodation, gaps, finances needing supplementing. Emergencies: falls/hospitalisation, fire, power failure, worker illness or no-show, funds running out, natural disasters, unsafe housing; document team notification, who steps in, backup plans, update regularly, keep everyone informed with efficient communication methods." },
+{ id:7, title:"Infection control",
+  launch:"caring for an elderly diabetic relative during flu season while a household member has just tested positive for a respiratory virus",
+  kb:"Infection control is critical: home care clients often have compromised immunity; the elderly are more infection-prone when ill; good control reduces hospitalisations and saves lives; many caregivers start with no training. Countries set control measures (guide cites Botswana Government Gazette 2022). Main infections in the elderly: skin infections, urinary tract infections, influenza, pneumonia. Sepsis: the body's overreaction to an infection; develops quickly; life-threatening with extensive damage; the elderly usually do not survive it; worse on top of other infections. Symptoms of possible infection: agitation, hallucinations, confusion, rapid breathing, shaking; temperature 37.8C or more. Prevention: thorough frequent handwashing (before preparing meals, before eating, after leaving the client); mask and gloves around anyone with a cold or communicable disease when caring for the elderly; wash bedding frequently; sterilise supplies (thermometers); cover all wounds; inspect and dress wounds in diabetics; pneumonia, flu and shingles vaccination for those prone; antivirals reduce flu severity; sanitiser 60% alcohol; distance one to two metres; avoid crowded, poorly ventilated rooms. Home care for infectious disease (e.g. Covid-19): family plans together to prevent spread to household and community. Team: healthy lower-risk members (not hypertensive, diabetic, cancer patients); friends, neighbours, community services (meals, medicine delivery). Inventory: food, water, cleaning materials, medical supplies, fever medicine, over-the-counter basics; reschedule or virtualise appointments. Stay connected: isolate what is crucial; social distancing; technology for group communication; safe delivery of materials. Personal safety: limit visitors, self-care, plan a replacement if you fall ill; displayed emergency list and supplies. Isolation room: contains a toilet if possible, otherwise disinfect seats and knobs before and after; 14 days of personal supplies (soap, toothpaste, lotion); masks, gloves, sanitiser; extra linens; a table with stationery, TV, reading material; adequate water; lined waste bin; no shared items; good ventilation; disinfect room and non-disposables after recovery (about 10-14 days). Red flags for emergency care: trouble breathing, continuous chest pain and pressure, new confusion, pale or bluish lips and nail beds; then test. Care: support, protect yourself, limit contact, help with basic needs, plenty of water, watch warning signs; vaccinate when eligible." },
+{ id:8, title:"Home care basic procedures",
+  launch:"giving a first bed bath to a bedridden grandmother who is embarrassed about needing help",
+  kb:"General: assist with everyday tasks as needed; set short-term goals; encourage participation, independence, self-care and assistive devices; routine schedule for grooming, same place and time, no disturbances; agree when you will assist; ensure safety. Bed bath (for someone who cannot get out of bed; full or partial): supplies within reach: two basins, two towels, two washcloths, two pairs of gloves, soap, lotion, deodorant, clean clothes. Room: warm, windows closed, privacy, no draught; consult home care nurses if unsure. Initiate: ask bathing preference; adjust water temperature (elbow test); remove top linen and cover body with bath blanket; undress while keeping covered. Give: fill two basins (wash, rinse); big towel under the person; prevent falls if stepping away; wet washcloth without soap; wipe each eyelid from inner corner, pat dry; wash face, neck, ears without soap (soap dries the face); wash far arm then near arm with soapy water supporting the elbow, rinse, pat dry; chest and abdomen keeping the rest covered; under each breast for women; legs with towel underneath; feet in basin, between toes; turn person toward you, wash back shoulder to buttocks; lotion, treat pressure areas; discard gloves. Perineal: fresh water in both basins, new gloves; bend knees; women front to back to prevent infection; men around testicles and between buttocks; leave comfortable. Bed sores: small: clean gently with salty water; moderately deep: expose to air, paracetamol for pain; deep/extensive: salty water and light dressing. Partially dependent (seek professional training in lifting/transferring): limit full tub or shower to once or twice a week; bath chair; safety bars; no bath oils (slipping); handheld shower; hand-over-hand washing; dry skin folds; out of bed to a chair as often as possible; lift, never drag; reposition every two hours; pillows for support; watch pressure points for colour change; protect skin from urine and stool; moisturise back, hips, elbows, ankles; wash and air bedlinen frequently. Grooming: let the person comb hair; large comb; hair washing at sink or shampoo tray; dry shampoo option; electric razor for anyone prone to bleeding; nails trimmed and clean; soak dry flaky feet; daily oral care, dentures fit-checked, examine gums, rinse after meals. Dressing: lay out clothes, let them do what they can; assist with zips and buttons; avoid pullovers and back zippers; easy fastenings; grabber for socks. Eating: balanced diet, plenty of fluids; sit up to avoid choking; ask preferences; small portions; cut food; plate guards, two-handled or large utensils for weak shaky hands; never force an adult to eat; medical help if declining. Mobility: sit and dangle legs before standing (blood flow adjusts, prevents dizziness and falls); assisted movement doubles as exercise. Toileting: modify bathroom; grab bars, raised seat, disabled-accessible toilet; bedside commode or urinal at night; scheduled visits; preserve dignity; report new bladder/bowel control loss to the doctor (may signal a bigger problem, medication may help); ample disposable sanitary supplies. Rectal care: toilet paper, then soap and water when needed, barrier cream, doctor if skin is broken. Diaper change: gloves; raise bed; person on back, head horizontal; unfasten and tuck soiled diaper under hip; roll person away onto side; pull diaper out, rolling inward; bag it; clean front to back with wipes gently; clean unreachable areas after rolling back; check pressure sores, barrier ointment; fit fresh diaper without wrinkles, tabs up; discard bag; wash hands; turn every two hours. Bedpan: powder on rim; bed pad; help sit or lift hips; or roll to side, press pan to buttocks, roll back; privacy if safe; afterwards help wipe, avoid spills, empty into toilet, wash with diluted disinfectant, air dry, discard gloves. Also: manage medication (prescriptions, supervise intake, monitor side effects), household (cleaning, laundry), managerial tasks (finances, bills, social services, legal, appointments, pets, visitors), transport and shopping (also social time), companionship (positive frame of mind, varied visitors, games, TV, walks; seniors are prone to loneliness)." },
+{ id:9, title:"Common problems and solutions",
+  launch:"a bedbound patient who has had loose stools for two days and is now refusing food",
+  kb:"Headache: paracetamol for adults if mild; doctor if persistent. Nausea/vomiting: food matched to tastes and illness; frequent dry non-oily meals; medical help if worsening. Painful mouth ulcers/swallowing pain: avoid extreme temperatures and spice; soft toothbrush or cloth for debris; soft foods (potatoes, milk, honey, porridge); doctor if worse, persistent sores, smelly mouth, difficulty swallowing. Dry mouth: frequent sips of water; moisten lips with water and lip balm; doctor if not improving. Cough/difficulty breathing: honey and lemon for a simple cough; menthol/eucalyptus steam; sit patient up; extra pillows; open windows; water plus back/chest percussion to loosen sputum; doctor if blood in sputum or no improvement. Sputum handling: highly infectious; gloves; small container with ash and sand; cover, dispose safely. Hiccups: cold water; two heaped teaspoons of sugar with water; breathe into paper bag; hold breath; knees to chest leaning forward; stop anything uncomfortable. Worries: listen attentively; discuss confidentially; soft music, massage; meditation; refer for professional counselling. Sleeping problems: address fears keeping the patient awake; quiet nights; avoid tea/coffee; treat pain; soothing drink (warm milk, almond milk, decaffeinated green tea). Confusion: signs: forgetfulness, poor concentration, trouble speaking, mood swings, insults, undressing in public. Solutions: constant predictable environment; daily items within reach; routines at regular place and time; remove dangerous objects; very clear communication; quiet; avoid changes of setting or caregiver (increase confusion); medication as prescribed; quality care; respect; refer concerns to the doctor. Diarrhoea: increase fluids (water, rice, soup); oral rehydration solution given frequently; doctor if fever, vomiting, blood in stools, or five days of diarrhoea. Constipation: check rectal impaction with gloves; encourage exercise; regular toilet routine; roughage (fruit, vegetables); local remedies (dried pawpaw seeds with water; teaspoon vegetable oil before breakfast); small soap enema; medical help if no improvement. Incontinence: control stains and odours; cranberry juice reduces urine odour; waterproof mattress cover plus breathable layer (sheepskin) against sweating; remove and wash soiled linen immediately; soak stains in dishwashing detergent; clean bedpans/urinals/commodes with household cleaners; vinegar-diluted water for furniture odours; waterproof pads on furniture." },
+{ id:10, title:"Palliative care",
+  launch:"a family deciding how to care for a terminally ill grandfather at home, with young grandchildren in the house",
+  kb:"Palliative care: total care of a person with terminal illness, given at home to improve quality of life; controls pain and other physical, psychological, social and spiritual symptoms. Palliative caregivers are often overwhelmed by end-of-life emotions and responsibilities; the family supports the ill person and makes appropriate care decisions. Preparing patient and family for death: the patient expresses fear, anger, sadness, acceptance; listen and show understanding; address concerns (custody and upkeep of children, funeral costs); address spiritual aspects respectfully; be compassionate and willing to talk; with the healthcare provider some medicines may be stopped; control discomfort symptoms (e.g. diarrhoea); continue treatment where disease is infectious; moisten lips, mouth, eyes; keep patient clean; turn every two hours; call religious leaders as requested. Palliative team (family, friends, health professionals): collects history, comprehensive assessment of client and family, coordinates care, supervises medication; the primary caregiver is the best person to speak to health professionals on the sick person's behalf and communicates the children's preferences, needs and goals. Children and death: ask what they know; or explain how illness deteriorates until death; death is a normal stage of life we all go through; age-appropriate language and examples; honesty is very important as questions continue. Children of a dying parent: talk about the loss and the illness; never avoid them; make them feel loved. Caring for a dying child: prepare to answer questions simply; do not avoid; ensure company; family plays with the child when possible. End-of-life home: decide where care happens (sometimes hospital); consider room location, toilet type, possibly a hospital bed; clear rugs from floors and hallways (hazard); bed near a window for a view; decorate with favourite items; bedside table within reach; armchair near the bed; monitor or bell for help. Equipment (rentable): hospital bed, bedside lamp, commode, raised toilet seat, walker, wheelchair, bath seat, protective disposables. Grief: mourning is natural, may last months or years; rituals and time with family/friends to share feelings; express loss freely. Physical grief symptoms: appetite loss, painful upset stomach, sleep loss, worry, tiredness, low energy, depression, suicidal thoughts. Coping: find people who care (relatives, support groups); express feelings; do not depend on drugs and alcohol; aim to accept what happened as part of life." },
+{ id:11, title:"The strain of family caregiving",
+  launch:"a devoted caregiver who has stopped seeing friends, cries easily, sleeps four hours a night, and insists she is fine",
+  kb:"Role strain: the caregiver feels overwhelmed and cannot perform at their best, followed by stress and anxiety; very common. Causes: doing more for the recipient while ignoring own health; rising expenditure; financial burden; sleep difficulties caused by the recipient not sleeping; distress and irritation. Signs: sleep problems, irritability, social withdrawal, appetite change, tiredness, crying easily; untreated it becomes depression needing medical help. Prevention: stay in good health to keep caring; eight hours of sleep; balanced diet (vegetables, whole grains, fruit); at least 30 minutes daily exercise; do exciting things, laugh; do not isolate, keep friends; control negative emotions, patience. Treatment: community resources; ask for and accept help; focus on what you can provide; set routines; get organised; look after yourself. Managing stress: timetable matching tasks to persons; others take the person for walks, shopping, meal prep; delegate so you do only a few things; realistic goals, small achievable pieces, priorities; network for services (special disease training, laundry, transport, meal delivery). Support groups: problem-solving strategies for difficult situations; shared experience; meaningful relationships. Personal health goals: fixed bedtime; daily exercise time; regular balanced meals; doctor for persistent problems. Respite (every caregiver needs breaks): in-home respite (paid aides and nursing at a cost); adult care centres or programmes (adults or children); short-term nursing homes (brief stays relieving the caregiver). Greater stress risk: living with the recipient, limited socialising, depression, financial problems, long care hours, weak coping or problem-solving skills. Emotional side: positive and negative emotions arise; acknowledge but do not suppress; seek help for coping strategies. Emotions and coping: ambivalence (accept off days as normal and temporary, move on); anger and frustration (recipient uncooperative or irrational; cool down, express reasonably, talk to someone different); fulfilment, doubt and anxiety (diagnosis brings conflicting emotions; appreciation brings joy; worsening brings doubt; some rely on prayer while searching for solutions); guilt, frustration and fear (long hours, no improvement, bleak future, no self-care time; take a break to recharge, forgive yourself for selfish thoughts, seek counselling); feeling trapped and resentful (declining condition, helplessness; take breaks, more energy is required to give care, seek counselling). Emotional wellness: thoughts, feelings, behaviour; recognising and accepting feelings positive and negative; adapting to stress, life changes, difficult circumstances. Why it matters: feelings affect all of life; unmanaged stress decreases wellbeing and causes health problems; controlled emotions build strong relationships. Improve it: optimism; accept emotions good, bad or ugly; strong relationships; stay in the moment; mindfulness; smile and laugh; balance; enough sleep; professional support as needed; positive coping strategies." },
+{ id:12, title:"Support to overcome caregiving challenges",
+  launch:"a caregiver who is drowning in tasks but has never asked anyone for help because 'no one can do it right'",
+  kb:"Support is often needed to overcome challenges and make caregiving more rewarding. Best community services: counselling, caregiver services, respite programmes, cancer association, diabetes association, adult day-care, hospices, elder care, nutrition programmes. Professional resources: community nurses, occupational therapists and social workers recommend home modifications, help choose equipment and assistive devices, arrange assistant caregivers and respite; some hospitals run caregiving skills classes; doctors refer; local agencies guide. Community caregiving services: meal delivery; private home-care agencies; non-medical services (housekeeping, meal preparation, companionship, transport to appointments, home modifications like rails, ramps, bath fixtures); respite care; paid assistance when family is unavailable; caregiver groups. Support group benefits: caregiving is overwhelming and everyone struggles; do not suffer alone; groups ease life, reduce stress, anxiety and depression; empowerment and control improve coping; clear expectations of caregiving situations; practical information and treatment advice; improved caregiving ability raises the recipient's quality of life and helps them stay at home. Finding groups: hospitals and community centres; condition-specific organisation websites (Alzheimer's Association, National Stroke Association, Cancer Association, Diabetic Association); elder care. Support systems: the caregiver needs a team and cannot work alone; the entire village is needed; where people will not help, search online for organisations or hired help. Networks: clarify your needs, match resources; three need groups: emotional (non-judgemental listener with no unsolicited advice; respite partner so you can rest and rejuvenate; safe supportive space to vent with other caregivers; being pampered by those who have been there); technical assistance (people with information, knowledge and resources on finance and legal matters; health professionals who know the disease, help you understand and cope, suggest community resources); physical (formal and informal contacts for daily tasks: lawn mowing, house repairs, grocery shopping, transportation, housekeeping). Contacts: informal (family, friends, acquaintances); formal (community organisations for adult care and caregiver respite, church/faith groups, tradespeople, grocery delivery). Evaluate and revise the network periodically." }
+];
+</script>
+<script>
+/* =========================================================
+   STATE
+========================================================= */
+const S = {
+  level: 'new',
+  current: null,                 // topic index
+  sessions: {},                  // topicIdx -> {messages:[], exchanges:0}
+  busy: false,
+  totalExchanges: 0
+};
+
+/* =========================================================
+   SOCRATIC SYSTEM PROMPT
+========================================================= */
+function systemPrompt(topic){
+  const levelNote = S.level==='new'
+    ? "The learner is a NEW family caregiver. Start from concrete, everyday reasoning. Keep vocabulary plain, define any term you must use, and scaffold generously."
+    : "The learner is an EXPERIENCED caregiver. You may move faster, probe edge cases, challenge assumptions harder, and ask them to justify trade-offs and prioritisation.";
+  return `You are a Socratic tutor teaching family home caregiving. Your knowledge base is the chapter content below, adapted from "A Guide to Homecare" by Dorothy Mooka. Stay grounded in this content; do not invent medical guidance beyond it. If asked about something outside the chapter, briefly say it is beyond this topic and steer back with a question.
+
+TOPIC: ${topic.title}
+
+CHAPTER CONTENT (your ground truth):
+${topic.kb}
+
+LEARNER PROFILE: ${levelNote}
+
+YOUR SOCRATIC METHOD (follow strictly):
+1. NEVER lecture. Teach only through questions, brief acknowledgements, and realistic home-care scenarios.
+2. Ask exactly ONE question per turn. Keep each turn to 2-5 short sentences total.
+3. Open the session with a vivid, concrete scenario (2-3 sentences) drawn from the chapter, then one focused opening question. A good seed scenario for this topic: ${topic.launch}.
+4. Use elenchus: when the learner states a belief, test it. Ask what would follow if it were true, or pose a counterexample from home care.
+5. Use maieutics: when the learner is close, ask the question that lets them articulate the principle themselves. Then name the principle in ONE sentence at most, crediting their reasoning ("So you have arrived at what the guide calls...").
+6. When the learner is wrong, do not correct directly. Ask a question that exposes the gap. If they remain stuck after two attempts, give a graduated hint: first a nudge, then a narrower question, and only then a partial answer framed as a question.
+7. Vary question types across the dialogue: clarification, probing assumptions, probing evidence, viewpoint shifts (the care recipient's perspective, the doctor's, a sibling's), implications and consequences, and questions about the question.
+8. Periodically (roughly every 4-5 exchanges) ask the learner to apply what they have reasoned to a NEW mini-scenario, escalating complexity.
+9. Warm, respectful, encouraging tone. Never condescending. Celebrate good reasoning specifically, not generically.
+10. SAFETY OVERRIDE: if the learner proposes something that could harm a care recipient (e.g. forcing food, dragging rather than lifting, skipping hand hygiene, ignoring red-flag symptoms like blood in sputum or trouble breathing, wrong direction perineal cleaning), correct it clearly and immediately in one sentence, state the safe practice from the chapter, THEN resume questioning. Safety beats method.
+11. When you receive a message beginning [HINT], give one graduated hint for your last question without revealing the full answer, then re-ask it more narrowly.
+12. When you receive a message beginning [SIMPLIFY], break your last question into a smaller, easier first step.
+13. When you receive a message beginning [SYNTHESIS], stop questioning for one turn and produce a formative assessment: (a) concepts the learner has demonstrably reasoned through, citing their own words; (b) gaps or misconceptions still open; (c) one recommended focus next. Maximum 160 words. Then invite them to continue with one question.
+14. When you receive [BEGIN SESSION], greet the learner in one sentence and start per rule 3.`;
+}
+
+/* =========================================================
+   UI BUILDERS
+========================================================= */
+function buildTopics(){
+  document.getElementById('topicList').innerHTML = TOPICS.map((t,i)=>{
+    const ex = S.sessions[i] ? S.sessions[i].exchanges : 0;
+    const dots = [0,1,2,3,4].map(d=>`<i class="${ex>d?'lit':''}"></i>`).join('');
+    return `<li><button data-t="${i}" class="${S.current===i?'active':''}" onclick="openTopic(${i})"><span class="num">${String(i+1).padStart(2,'0')}</span>${t.title}<span class="depth" title="Dialogue depth">${dots}</span></button></li>`;
+  }).join('');
+  document.getElementById('startGrid').innerHTML = TOPICS.map((t,i)=>
+    `<button onclick="openTopic(${i})"><div class="mnum">TOPIC ${String(i+1).padStart(2,'0')}</div><div class="mt">${t.title}</div></button>`).join('');
+}
+function setLevel(l){
+  S.level=l;
+  document.getElementById('lvl-new').classList.toggle('on', l==='new');
+  document.getElementById('lvl-exp').classList.toggle('on', l==='experienced');
+  if(S.current!==null) addBubble('system', `Learner level set to ${l==='new'?'new caregiver':'experienced caregiver'}. The tutor will adjust from its next reply.`);
+}
+function setControls(on){
+  ['btnHint','btnStuck','btnSynth','btnNew','btnSend'].forEach(id=>document.getElementById(id).disabled=!on);
+  const ta=document.getElementById('inbox');
+  ta.disabled=!on;
+  ta.placeholder = on ? "Type your answer, question, or reasoning..." : "Choose a topic first...";
+}
+function addBubble(kind, text, synth){
+  const log = document.getElementById('chatlog');
+  const w = document.getElementById('welcome'); if(w) w.remove();
+  const d = document.createElement('div');
+  d.className = 'msg ' + kind + (synth?' synth':'');
+  const who = kind==='tutor' ? (synth?'Understanding check':'Socratic tutor') : kind==='learner' ? 'You' : '';
+  d.innerHTML = (who?`<span class="who">${who}</span>`:'') + escHtml(text);
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n{3,}/g,'\n\n')}
+function showTyping(){
+  const log=document.getElementById('chatlog');
+  const t=document.createElement('div'); t.className='typing'; t.id='typing';
+  t.innerHTML='<i></i><i></i><i></i>';
+  log.appendChild(t); log.scrollTop=log.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typing'); if(t) t.remove()}
+function updateStats(){
+  document.getElementById('stExch').textContent = S.totalExchanges;
+  document.getElementById('stTopics').textContent = Object.values(S.sessions).filter(s=>s.exchanges>0).length;
+  buildTopics();
+}
+
+/* =========================================================
+   SESSION FLOW
+========================================================= */
+function openTopic(i){
+  S.current = i;
+  const t = TOPICS[i];
+  document.getElementById('headEyebrow').textContent = `Topic ${String(i+1).padStart(2,'0')} of 12 · Socratic dialogue`;
+  document.getElementById('headTitle').textContent = t.title;
+  document.getElementById('headSub').textContent = 'One question at a time. Reason out loud; the tutor builds on whatever you give it.';
+  document.getElementById('chatlog').innerHTML = '';
+  setControls(true);
+  buildTopics();
+  if(!S.sessions[i]){
+    S.sessions[i] = { messages: [], exchanges: 0 };
+    startDialogue(i);
+  } else {
+    // replay existing dialogue
+    S.sessions[i].messages.forEach(m=>{
+      if(m.role==='user'){
+        if(m.content.startsWith('[BEGIN SESSION]')) return;
+        if(m.content.startsWith('[HINT]')) { addBubble('system','You asked for a hint.'); return; }
+        if(m.content.startsWith('[SIMPLIFY]')) { addBubble('system','You asked the tutor to simplify.'); return; }
+        if(m.content.startsWith('[SYNTHESIS]')) { addBubble('system','You requested an understanding check.'); return; }
+        addBubble('learner', m.content);
+      } else {
+        addBubble('tutor', m.content, m.synth);
+      }
+    });
+    addBubble('system','Resuming your dialogue where you left off.');
+  }
+}
+function restartTopic(){
+  if(S.current===null) return;
+  S.sessions[S.current] = { messages: [], exchanges: 0 };
+  document.getElementById('chatlog').innerHTML='';
+  updateStats();
+  startDialogue(S.current);
+}
+async function startDialogue(i){
+  await callTutor('[BEGIN SESSION]', {silent:true});
+}
+function sendMsg(){
+  const ta = document.getElementById('inbox');
+  const text = ta.value.trim();
+  if(!text || S.busy || S.current===null) return;
+  ta.value=''; ta.style.height='52px';
+  addBubble('learner', text);
+  callTutor(text);
+}
+function askHint(){ if(!S.busy&&S.current!==null){ addBubble('system','You asked for a hint.'); callTutor('[HINT] Please give me a graduated hint for your last question.', {silent:true}); } }
+function askStuck(){ if(!S.busy&&S.current!==null){ addBubble('system','You asked the tutor to simplify.'); callTutor('[SIMPLIFY] I am stuck. Please break your last question into a smaller first step.', {silent:true}); } }
+function askSynthesis(){ if(!S.busy&&S.current!==null){ addBubble('system','You requested an understanding check.'); callTutor('[SYNTHESIS] Please assess my understanding so far.', {silent:true, synth:true}); } }
+
+/* =========================================================
+   ANTHROPIC API CALL
+========================================================= */
+async function callTutor(userText, opts={}){
+  const i = S.current;
+  const sess = S.sessions[i];
+  sess.messages.push({role:'user', content:userText});
+  S.busy = true; setControls(false); showTyping();
+  try{
+    const response = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system: systemPrompt(TOPICS[i]),
+        messages: sess.messages.map(m=>({role:m.role, content:m.content}))
+      })
+    });
+    const data = await response.json();
+    hideTyping();
+    if(data.error){ throw new Error(data.error.message || 'API error'); }
+    const reply = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+    if(!reply) throw new Error('Empty response');
+    sess.messages.push({role:'assistant', content:reply, synth:!!opts.synth});
+    addBubble('tutor', reply, !!opts.synth);
+    if(!opts.silent || userText.startsWith('[HINT]') || userText.startsWith('[SIMPLIFY]')){
+      // count only real learner answers as exchanges
+    }
+    if(!userText.startsWith('[')){ sess.exchanges++; S.totalExchanges++; }
+    updateStats();
+  } catch(err){
+    hideTyping();
+    // remove the failed user turn so retry is clean
+    sess.messages.pop();
+    console.error('Tutor error:', err);
+    addBubble('error','The tutor could not respond ('+escHtml(String(err.message||err))+'). Check your connection and try again; your dialogue is preserved.');
+    if(!userText.startsWith('[')) addBubble('system','Tip: re-send your last answer to continue.');
+  } finally {
+    S.busy=false;
+    if(S.current!==null) setControls(true);
+    document.getElementById('inbox').focus();
+  }
+}
+
+/* =========================================================
+   INPUT ERGONOMICS + INIT
+========================================================= */
+const ta = document.getElementById('inbox');
+ta.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMsg(); }
+});
+ta.addEventListener('input', ()=>{ ta.style.height='52px'; ta.style.height=Math.min(ta.scrollHeight,160)+'px'; });
+
+buildTopics();
+</script>
+</body>
+</html>
