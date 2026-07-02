@@ -1,14 +1,20 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { conversations, messages } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import {
   CreateTutorSessionBody,
   SendTutorMessageBody,
   SendTutorMessageParams,
   GetTutorSessionParams,
 } from "@workspace/api-zod";
-import { anthropic } from "@workspace/integrations-anthropic-ai";
+import { anthropic, DEFAULT_MODEL } from "@workspace/integrations-anthropic-ai";
+import { aiRateLimiter } from "../../middlewares/rate-limit";
+import {
+  countExchanges,
+  parseTitle,
+  visibleMessages,
+} from "../../lib/tutor-session";
 import { TOPICS } from "./topics";
 
 const router = Router();
@@ -48,7 +54,44 @@ YOUR SOCRATIC METHOD (follow strictly):
 14. When you receive [BEGIN SESSION], greet the learner in one sentence and start per rule 3.`;
 }
 
-router.post("/tutor/sessions", async (req, res) => {
+// List the signed-in owner's tutor sessions so the client can rehydrate the
+// sidebar and resume topics after a page reload. Only conversations whose title
+// maps to a known topic are returned (excludes non-tutor conversations).
+router.get("/tutor/sessions", async (req, res) => {
+  const rows = await db
+    .select()
+    .from(conversations)
+    .where(eq(conversations.ownerId, req.ownerId))
+    .orderBy(conversations.createdAt);
+
+  const sessions = [];
+  for (const conv of rows) {
+    const { topicTitle, level } = parseTitle(conv.title);
+    const topic = TOPICS.find((t) => t.title === topicTitle);
+    if (!topic) continue; // not a tutor session
+
+    const msgs = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.conversationId, conv.id));
+
+    sessions.push({
+      conversationId: conv.id,
+      topicId: topic.id,
+      topicTitle,
+      level,
+      exchangeCount: countExchanges(msgs),
+      messageCount: msgs.length,
+      completed: conv.completed,
+      completedAt: conv.completedAt,
+      createdAt: conv.createdAt,
+    });
+  }
+
+  res.json({ sessions });
+});
+
+router.post("/tutor/sessions", aiRateLimiter, async (req, res) => {
   const parsed = CreateTutorSessionBody.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid request body" });
@@ -61,7 +104,10 @@ router.post("/tutor/sessions", async (req, res) => {
     return;
   }
   const title = `${topic.title} — ${level === "new" ? "New caregiver" : "Experienced"}`;
-  const [conv] = await db.insert(conversations).values({ title }).returning();
+  const [conv] = await db
+    .insert(conversations)
+    .values({ title, ownerId: req.ownerId })
+    .returning();
 
   await db.insert(messages).values({
     conversationId: conv.id,
@@ -77,7 +123,7 @@ router.post("/tutor/sessions", async (req, res) => {
   });
 });
 
-router.post("/tutor/sessions/:conversationId/message", async (req, res) => {
+router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req, res) => {
   const paramsParsed = SendTutorMessageParams.safeParse({ conversationId: Number(req.params.conversationId) });
   const bodyParsed = SendTutorMessageBody.safeParse(req.body);
   if (!paramsParsed.success || !bodyParsed.success) {
@@ -87,16 +133,16 @@ router.post("/tutor/sessions/:conversationId/message", async (req, res) => {
   const convId = paramsParsed.data.conversationId;
   const { content, messageType } = bodyParsed.data;
 
-  const [conv] = await db.select().from(conversations).where(eq(conversations.id, convId));
+  const [conv] = await db
+    .select()
+    .from(conversations)
+    .where(and(eq(conversations.id, convId), eq(conversations.ownerId, req.ownerId)));
   if (!conv) {
     res.status(404).json({ error: "Conversation not found" });
     return;
   }
 
-  const titleParts = conv.title.split(" — ");
-  const topicTitle = titleParts[0];
-  const levelLabel = titleParts[1] ?? "New caregiver";
-  const level = levelLabel === "Experienced" ? "experienced" : "new";
+  const { topicTitle, level } = parseTitle(conv.title);
   const topic = TOPICS.find((t) => t.title === topicTitle);
   if (!topic) {
     res.status(400).json({ error: "Could not determine topic from conversation" });
@@ -135,7 +181,7 @@ router.post("/tutor/sessions/:conversationId/message", async (req, res) => {
   let fullResponse = "";
 
   const stream = anthropic.messages.stream({
-    model: "claude-sonnet-4-6",
+    model: DEFAULT_MODEL,
     max_tokens: 8192,
     system: systemPrompt,
     messages: chatMessages,
@@ -153,21 +199,51 @@ router.post("/tutor/sessions/:conversationId/message", async (req, res) => {
   res.end();
 });
 
+// Mark a topic as mastered (locks in the completion state, celebrated in the UI).
+router.post("/tutor/sessions/:conversationId/complete", async (req, res) => {
+  const parsed = GetTutorSessionParams.safeParse({ conversationId: Number(req.params.conversationId) });
+  if (!parsed.success) {
+    res.status(400).json({ error: "Invalid conversationId" });
+    return;
+  }
+  const [updated] = await db
+    .update(conversations)
+    .set({ completed: true, completedAt: new Date() })
+    .where(
+      and(
+        eq(conversations.id, parsed.data.conversationId),
+        eq(conversations.ownerId, req.ownerId),
+      ),
+    )
+    .returning();
+  if (!updated) {
+    res.status(404).json({ error: "Session not found" });
+    return;
+  }
+  res.json({
+    conversationId: updated.id,
+    completed: updated.completed,
+    completedAt: updated.completedAt,
+  });
+});
+
 router.get("/tutor/sessions/:conversationId", async (req, res) => {
   const parsed = GetTutorSessionParams.safeParse({ conversationId: Number(req.params.conversationId) });
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid conversationId" });
     return;
   }
-  const [conv] = await db.select().from(conversations).where(eq(conversations.id, parsed.data.conversationId));
+  const [conv] = await db
+    .select()
+    .from(conversations)
+    .where(
+      and(eq(conversations.id, parsed.data.conversationId), eq(conversations.ownerId, req.ownerId)),
+    );
   if (!conv) {
     res.status(404).json({ error: "Session not found" });
     return;
   }
-  const titleParts = conv.title.split(" — ");
-  const topicTitle = titleParts[0];
-  const levelLabel = titleParts[1] ?? "New caregiver";
-  const level = levelLabel === "Experienced" ? "experienced" : "new";
+  const { topicTitle, level } = parseTitle(conv.title);
   const topic = TOPICS.find((t) => t.title === topicTitle);
 
   const msgs = await db
@@ -181,7 +257,10 @@ router.get("/tutor/sessions/:conversationId", async (req, res) => {
     topicId: topic?.id ?? 0,
     topicTitle,
     level,
-    messages: msgs.map((m) => ({
+    completed: conv.completed,
+    completedAt: conv.completedAt,
+    exchangeCount: countExchanges(msgs),
+    messages: visibleMessages(msgs).map((m) => ({
       id: m.id,
       conversationId: m.conversationId,
       role: m.role,

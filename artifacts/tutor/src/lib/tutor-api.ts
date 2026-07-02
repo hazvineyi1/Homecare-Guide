@@ -47,3 +47,67 @@ export const streamTutorResponse = async (
   }
   onDone();
 };
+
+export interface TutorSessionSummary {
+  conversationId: number;
+  topicId: number;
+  topicTitle: string;
+  level: string;
+  exchangeCount: number;
+  messageCount: number;
+  completed: boolean;
+  completedAt: string | null;
+  createdAt: string;
+}
+
+export interface TutorMessageRecord {
+  id: number;
+  conversationId: number;
+  role: string;
+  content: string;
+  createdAt: string;
+}
+
+export interface TutorSessionDetail {
+  conversationId: number;
+  topicId: number;
+  topicTitle: string;
+  level: string;
+  completed: boolean;
+  completedAt: string | null;
+  exchangeCount: number;
+  messages: TutorMessageRecord[];
+}
+
+// List the current owner's tutor sessions (for rehydration after a reload).
+export const fetchTutorSessions = async (): Promise<TutorSessionSummary[]> => {
+  try {
+    const res = await fetch("/api/tutor/sessions", { headers: { Accept: "application/json" } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data?.sessions) ? data.sessions : [];
+  } catch {
+    return [];
+  }
+};
+
+// Load a single session's full (rehydrated) history.
+export const fetchTutorSession = async (id: number): Promise<TutorSessionDetail | null> => {
+  try {
+    const res = await fetch(`/api/tutor/sessions/${id}`, { headers: { Accept: "application/json" } });
+    if (!res.ok) return null;
+    return (await res.json()) as TutorSessionDetail;
+  } catch {
+    return null;
+  }
+};
+
+// Mark a topic as mastered.
+export const completeTutorSession = async (id: number): Promise<boolean> => {
+  try {
+    const res = await fetch(`/api/tutor/sessions/${id}/complete`, { method: "POST" });
+    return res.ok;
+  } catch {
+    return false;
+  }
+};

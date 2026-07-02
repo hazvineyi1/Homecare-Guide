@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.tsbuildinfo
+.git
+.local
+.cache
+*.log
+Homecare-Guide.zip
+homecare-guide-improvements
+attached_assets

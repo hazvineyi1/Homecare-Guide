@@ -9,9 +9,28 @@ export interface SessionState {
   messages: Message[];
   exchanges: number;
   conversationId: number | null;
+  completed: boolean;
+  // Whether the full message history has been loaded from the server. A session
+  // rehydrated from the summary list starts `loaded: false` until opened.
+  loaded: boolean;
 }
 
 export type Level = "new" | "experienced";
+
+const emptySession = (): SessionState => ({
+  messages: [],
+  exchanges: 0,
+  conversationId: null,
+  completed: false,
+  loaded: false,
+});
+
+export interface HydratedSession {
+  topicIndex: number;
+  conversationId: number;
+  exchanges: number;
+  completed: boolean;
+}
 
 interface AppState {
   level: Level;
@@ -24,6 +43,10 @@ interface AppState {
   setBusy: (busy: boolean) => void;
   totalExchanges: number;
   incrementTotalExchanges: () => void;
+  mobileSidebarOpen: boolean;
+  setMobileSidebarOpen: (open: boolean) => void;
+  hydrated: boolean;
+  hydrateSessions: (records: HydratedSession[]) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -34,12 +57,34 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [sessions, setSessions] = useState<Record<number, SessionState>>({});
   const [busy, setBusy] = useState(false);
   const [totalExchanges, setTotalExchanges] = useState(0);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   const setSessionState = useCallback((topicIndex: number, updater: (prev: SessionState) => SessionState) => {
     setSessions((prev) => {
-      const existing = prev[topicIndex] || { messages: [], exchanges: 0, conversationId: null };
+      const existing = prev[topicIndex] || emptySession();
       return { ...prev, [topicIndex]: updater(existing) };
     });
+  }, []);
+
+  const hydrateSessions = useCallback((records: HydratedSession[]) => {
+    setSessions((prev) => {
+      const next = { ...prev };
+      let total = 0;
+      for (const r of records) {
+        next[r.topicIndex] = {
+          ...(next[r.topicIndex] || emptySession()),
+          conversationId: r.conversationId,
+          exchanges: r.exchanges,
+          completed: r.completed,
+          loaded: false,
+        };
+        total += r.exchanges;
+      }
+      setTotalExchanges((t) => t + total);
+      return next;
+    });
+    setHydrated(true);
   }, []);
 
   const incrementTotalExchanges = useCallback(() => {
@@ -59,6 +104,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setBusy,
         totalExchanges,
         incrementTotalExchanges,
+        mobileSidebarOpen,
+        setMobileSidebarOpen,
+        hydrated,
+        hydrateSessions,
       }}
     >
       {children}
