@@ -87,5 +87,34 @@ export async function ensureSchema(): Promise<void> {
     );
     CREATE UNIQUE INDEX IF NOT EXISTS org_members_org_user_idx ON org_members (org_id, user_id);
     CREATE INDEX IF NOT EXISTS org_members_user_idx ON org_members (user_id);
+    CREATE TABLE IF NOT EXISTS entitlements (
+      owner_id text PRIMARY KEY,
+      full_access boolean NOT NULL DEFAULT false,
+      source text,
+      coupon_code text,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS coupons (
+      code text PRIMARY KEY,
+      percent_off integer,
+      note text,
+      active boolean NOT NULL DEFAULT true,
+      max_redemptions integer,
+      redemptions integer NOT NULL DEFAULT 0,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS unlock_events (
+      id serial PRIMARY KEY,
+      owner_id text NOT NULL,
+      method text NOT NULL,
+      code text,
+      note text,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS app_settings (
+      key text PRIMARY KEY,
+      value text NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS unlock_events_owner_idx ON unlock_events (owner_id);
   `);
 }

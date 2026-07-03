@@ -115,7 +115,7 @@ export const completeTutorSession = async (id: number): Promise<boolean> => {
 };
 
 // ---- Accounts, attempts, certificates (Phase 1) ----
-export interface AuthUser { id: string; email: string; name: string; }
+export interface AuthUser { id: string; email: string; name: string; isAdmin?: boolean; }
 
 async function postJson(url: string, body?: unknown) {
   const res = await fetch(url, {
@@ -145,6 +145,50 @@ export const login = (email: string, password: string) =>
 export const logout = () => postJson("/api/auth/logout");
 export const changePassword = (currentPassword: string, newPassword: string) =>
   postJson("/api/auth/change-password", { currentPassword, newPassword });
+
+// ---------- Billing / access ----------
+export interface PayInfo {
+  price: string; currency: string; method: string;
+  recipient: string; name: string; instructions: string;
+}
+export const fetchAccess = async (): Promise<{ fullAccess: boolean; freeTopicId: number }> => {
+  try {
+    const res = await fetch("/api/access", { headers: { Accept: "application/json" } });
+    if (!res.ok) return { fullAccess: false, freeTopicId: 1 };
+    return await res.json();
+  } catch { return { fullAccess: false, freeTopicId: 1 }; }
+};
+export const fetchPayInfo = async (): Promise<PayInfo> => {
+  const res = await fetch("/api/pay-info", { headers: { Accept: "application/json" } });
+  return await res.json();
+};
+export const redeemCoupon = (code: string) => postJson("/api/access/redeem", { code });
+
+export interface AdminCoupon {
+  code: string; percentOff: number | null; note: string | null;
+  active: boolean; maxRedemptions: number | null; redemptions: number; createdAt: string;
+}
+export interface AdminUnlock {
+  id: number; ownerId: string; method: string; code: string | null; note: string | null; createdAt: string;
+}
+export interface AdminOverview {
+  payInfo: PayInfo; coupons: AdminCoupon[]; unlocks: AdminUnlock[];
+  counts: { fullAccessOwners: number; coupons: number; redemptions: number };
+}
+export const fetchAdminOverview = async (): Promise<AdminOverview | null> => {
+  try {
+    const res = await fetch("/api/admin/overview", { headers: { Accept: "application/json" } });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch { return null; }
+};
+export const adminCreateCoupon = (body: { code: string; percentOff?: number; maxRedemptions?: number; note?: string }) =>
+  postJson("/api/admin/coupons", body);
+export const adminToggleCoupon = (code: string) =>
+  postJson(`/api/admin/coupons/${encodeURIComponent(code)}/toggle`);
+export const adminGrant = (email: string) => postJson("/api/admin/grant", { email });
+export const adminSetPayInfo = (body: { recipient?: string; name?: string; instructions?: string }) =>
+  postJson("/api/admin/pay-info", body);
 
 export const recordAttempt = (a: {
   topicId: number; score: number; total: number; passed: boolean; durationSeconds: number;

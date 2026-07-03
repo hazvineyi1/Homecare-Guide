@@ -66,6 +66,10 @@ interface AppState {
   setPwOpen: (open: boolean) => void;
   settingsOpen: boolean;
   setSettingsOpen: (open: boolean) => void;
+  adminOpen: boolean;
+  setAdminOpen: (open: boolean) => void;
+  fullAccess: boolean;
+  setFullAccess: (v: boolean) => void;
   atLanding: boolean;
   setAtLanding: (v: boolean) => void;
   onboarded: boolean;
@@ -87,6 +91,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [teamOpen, setTeamOpen] = useState(false);
   const [pwOpen, setPwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [fullAccess, setFullAccess] = useState(false);
   const [atLanding, setAtLanding] = useState(true);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {
@@ -197,6 +203,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setPwOpen,
         settingsOpen,
         setSettingsOpen,
+        adminOpen,
+        setAdminOpen,
+        fullAccess,
+        setFullAccess,
         atLanding,
         setAtLanding,
         onboarded,

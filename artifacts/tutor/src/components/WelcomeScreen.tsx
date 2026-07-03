@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Search,
   Menu,
+  Lock,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { fetchCertificates } from "@/lib/tutor-api";
@@ -24,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Certificate } from "./Certificate";
 
 export function WelcomeScreen() {
-  const { setCurrentTopicIndex, sessions, currentUser, learnerName, setMobileSidebarOpen } = useAppState();
+  const { setCurrentTopicIndex, sessions, currentUser, learnerName, setMobileSidebarOpen, fullAccess } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
   const [certOpen, setCertOpen] = useState(false);
   const [certLevel, setCertLevel] = useState(1);
@@ -224,6 +225,7 @@ export function WelcomeScreen() {
                     const isCurrent = topic.id === currentTopicId;
                     const meta = TOPIC_META[topic.id];
                     const side = stepOf[topic.id] % 2 === 0 ? "left" : "right";
+                    const topicLocked = topic.id !== 1 && !fullAccess;
                     const stateLabel = mastered
                       ? "Mastered"
                       : isCurrent
@@ -264,9 +266,15 @@ export function WelcomeScreen() {
                             <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
                               Topic {topic.id.toString().padStart(2, "0")}
                             </span>
-                            <span className={cn("text-xs font-semibold", mastered ? "text-accent" : isCurrent ? "text-primary" : "text-muted-foreground/80")}>
-                              {stateLabel}
-                            </span>
+                            {topicLocked ? (
+                              <span className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground/80">
+                                <Lock className="w-3 h-3" /> Locked
+                              </span>
+                            ) : (
+                              <span className={cn("text-xs font-semibold", mastered ? "text-accent" : isCurrent ? "text-primary" : "text-muted-foreground/80")}>
+                                {stateLabel}
+                              </span>
+                            )}
                           </div>
                           <h3 className="font-serif text-base sm:text-lg text-foreground leading-snug">{topic.title}</h3>
                         </button>

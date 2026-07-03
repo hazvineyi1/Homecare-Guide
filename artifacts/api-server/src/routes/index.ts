@@ -4,6 +4,7 @@ import tutorRouter from "./tutor/index";
 import authRouter from "./auth";
 import certificateRouter from "./certificate";
 import orgRouter from "./org";
+import billingRouter from "./billing";
 
 const router: IRouter = Router();
 
@@ -12,5 +13,6 @@ router.use(tutorRouter);
 router.use(authRouter);
 router.use(certificateRouter);
 router.use(orgRouter);
+router.use(billingRouter);
 
 export default router;

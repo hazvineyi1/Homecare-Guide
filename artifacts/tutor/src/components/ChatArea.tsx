@@ -7,6 +7,7 @@ import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { WelcomeScreen } from "./WelcomeScreen";
+import { Paywall } from "./Paywall";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -37,6 +38,7 @@ export function ChatArea() {
     learnerName,
     country,
     currentUser,
+    fullAccess,
   } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
 
@@ -74,6 +76,9 @@ export function ChatArea() {
   // duplicate before the server's session list has loaded.
   useEffect(() => {
     if (currentTopicIndex === null || !hydrated || busy) return;
+    // Don't start or resume a locked topic (paywalled); Topic 1 is always free.
+    const t = TOPICS[currentTopicIndex];
+    if (t && t.id !== 1 && !fullAccess) return;
     const s = sessions[currentTopicIndex];
     if (s?.conversationId) {
       if (!s.loaded) void loadSession(currentTopicIndex, s.conversationId);
@@ -81,7 +86,7 @@ export function ChatArea() {
       void startSession(currentTopicIndex);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTopicIndex, hydrated, currentSession?.conversationId, currentSession?.loaded]);
+  }, [currentTopicIndex, hydrated, fullAccess, currentSession?.conversationId, currentSession?.loaded]);
 
   // When the learner switches the caregiver level while a topic is open, restart
   // that topic at the new level so the tutor actually adapts. Programmatic syncs
@@ -306,6 +311,11 @@ export function ChatArea() {
 
   if (!currentTopic) {
     return <WelcomeScreen />;
+  }
+
+  // Trial gate: Topic 1 is free; every other topic needs full access.
+  if (currentTopic.id !== 1 && !fullAccess) {
+    return <Paywall />;
   }
 
   const isCompleted = !!currentSession?.completed;

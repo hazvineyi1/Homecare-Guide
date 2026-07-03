@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, LogOut, UserCircle2, FileText, Users, KeyRound, Settings } from "lucide-react";
+import { CheckCircle2, LogOut, UserCircle2, FileText, Users, KeyRound, Settings, Lock, ShieldCheck } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { LEVELS } from "@/lib/course-structure";
@@ -68,10 +68,13 @@ export function Sidebar() {
     setAtLanding,
     setPwOpen,
     setSettingsOpen,
+    setAdminOpen,
+    fullAccess,
     country,
     learnerName,
   } = useAppState();
   const guestFirstName = (learnerName || "").trim().split(" ")[0];
+  const firstLockedIndex = Math.max(1, TOPICS.findIndex((t) => t.id !== 1));
 
   const sessionValues = Object.values(sessions);
   const startedTopicsCount = sessionValues.filter((s) => s.conversationId).length;
@@ -231,6 +234,23 @@ export function Sidebar() {
             </button>
           )}
         </div>
+
+        {!fullAccess && (
+          <button
+            onClick={() => { setCurrentTopicIndex(firstLockedIndex); setMobileSidebarOpen(false); }}
+            className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            <Lock className="w-3.5 h-3.5" /> Unlock full course
+          </button>
+        )}
+        {currentUser?.isAdmin && (
+          <button
+            onClick={() => { setAdminOpen(true); setMobileSidebarOpen(false); }}
+            className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" /> Admin dashboard
+          </button>
+        )}
       </div>
     </div>
   );

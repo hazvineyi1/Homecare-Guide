@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
-import { db, users, conversations } from "@workspace/db";
+import { db, users, conversations, entitlements } from "@workspace/db";
 import {
   hashPassword, verifyPassword, isValidEmail, SESSION_COOKIE, sessionCookieOptions,
 } from "../lib/auth";
@@ -10,8 +10,11 @@ import type { Request, Response } from "express";
 
 const router = Router();
 
+const ADMIN_EMAILS = ["hazvimusoni@gmail.com", "info@synops-consulting.com"];
+
 const publicUser = (u: { id: string; email: string; name: string }) => ({
   id: u.id, email: u.email, name: u.name,
+  isAdmin: ADMIN_EMAILS.includes(u.email.toLowerCase()),
 });
 
 // When a guest signs up / logs in, move their taster progress into the account.
@@ -19,6 +22,14 @@ async function claimGuest(req: Request, res: Response, userId: string) {
   const guest = req.signedCookies?.[OWNER_COOKIE];
   if (typeof guest === "string" && guest && guest !== userId) {
     await db.update(conversations).set({ ownerId: userId }).where(eq(conversations.ownerId, guest));
+    // Carry any course access the guest unlocked over to their new account.
+    const [guestEnt] = await db.select().from(entitlements).where(eq(entitlements.ownerId, guest));
+    if (guestEnt?.fullAccess) {
+      await db.insert(entitlements)
+        .values({ ownerId: userId, fullAccess: true, source: guestEnt.source ?? "coupon", couponCode: guestEnt.couponCode ?? null })
+        .onConflictDoUpdate({ target: entitlements.ownerId, set: { fullAccess: true } });
+      await db.delete(entitlements).where(eq(entitlements.ownerId, guest));
+    }
     res.clearCookie(OWNER_COOKIE, { path: "/" });
   }
 }

@@ -10,23 +10,28 @@ import { AuthModal } from "@/components/AuthModal";
 import { TeamDashboard } from "@/components/TeamDashboard";
 import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 import { SettingsModal } from "@/components/SettingsModal";
+import { AdminDashboard } from "@/components/AdminDashboard";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
 import { Landing } from "@/components/Landing";
 import { Onboarding } from "@/components/Onboarding";
 import { TOPICS } from "@/lib/constants";
-import { fetchTutorSessions, fetchMe } from "@/lib/tutor-api";
+import { fetchTutorSessions, fetchMe, fetchAccess } from "@/lib/tutor-api";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
 function MainLayout() {
-  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser, atLanding, onboarded } = useAppState();
+  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser, atLanding, onboarded, setFullAccess } = useAppState();
 
   useEffect(() => {
     fetchMe().then(setCurrentUser);
   }, [setCurrentUser]);
+
+  useEffect(() => {
+    fetchAccess().then((a) => setFullAccess(a.fullAccess));
+  }, [setFullAccess]);
 
   // Rehydrate the sidebar + resumable topics from the server on first load, so
   // reloading the tab doesn't lose the learner's place.
@@ -110,6 +115,7 @@ function App() {
           <TeamDashboard />
           <ChangePasswordModal />
           <SettingsModal />
+          <AdminDashboard />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>
