@@ -423,10 +423,19 @@ export function ChatArea() {
             <Button
               variant="default"
               size="sm"
-              disabled={busy || completing || !currentSession?.conversationId || !hasSynthesis}
-              onClick={() => setCheckOpen(true)}
-              title={hasSynthesis ? "Take the knowledge check to master this topic" : "Run 'Check my understanding' first"}
-              className="bg-accent text-accent-foreground hover:bg-accent/90"
+              disabled={busy || completing || !currentSession?.conversationId}
+              onClick={() => {
+                if (!hasSynthesis) {
+                  toast.info('First run "Check my understanding" — it recaps your reasoning, then unlocks the knowledge check.');
+                  return;
+                }
+                setCheckOpen(true);
+              }}
+              title="Take the knowledge check to master this topic"
+              className={cn(
+                "bg-accent text-accent-foreground hover:bg-accent/90",
+                !hasSynthesis && "opacity-60",
+              )}
             >
               <CheckCircle2 className="w-4 h-4 mr-1" />
               Take knowledge check
