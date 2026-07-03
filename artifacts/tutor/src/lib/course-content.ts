@@ -3,6 +3,12 @@ export interface KnowledgeCheckQuestion {
   options: string[];
   answer: number;
   why: string;
+  /** "case" items present a short clinical scenario before the question. */
+  type?: "mcq" | "case";
+  /** Scenario text shown above the question for case-based items. */
+  scenario?: string;
+  /** Marks items whose clinical content needs sign-off by a qualified nurse (Dr Mooka). */
+  clinical?: boolean;
 }
 
 export interface TopicMeta {

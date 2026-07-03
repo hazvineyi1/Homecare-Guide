@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TOPIC_META } from "@/lib/course-content";
+import { ASSESSMENT, ASSESSMENT_PASS_RATIO } from "@/lib/course-assessment";
 import { recordAttempt } from "@/lib/tutor-api";
 
 interface Props {
@@ -21,7 +22,8 @@ interface Props {
 }
 
 export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass }: Props) {
-  const questions = TOPIC_META[topicId]?.check ?? [];
+  const questions = ASSESSMENT[topicId] ?? TOPIC_META[topicId]?.check ?? [];
+  const passThreshold = Math.max(1, Math.ceil(questions.length * ASSESSMENT_PASS_RATIO));
   const [answers, setAnswers] = useState<(number | null)[]>(() => questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
   const startRef = useRef<number>(Date.now());
@@ -30,7 +32,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
   const handleSubmit = () => {
     const sc = questions.reduce((n, q, i) => n + (answers[i] === q.answer ? 1 : 0), 0);
     const durationSeconds = Math.round((Date.now() - startRef.current) / 1000);
-    void recordAttempt({ topicId, score: sc, total: questions.length, passed: sc === questions.length, durationSeconds });
+    void recordAttempt({ topicId, score: sc, total: questions.length, passed: sc >= passThreshold, durationSeconds });
     setSubmitted(true);
   };
 
@@ -39,7 +41,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
     (n, q, i) => n + (answers[i] === q.answer ? 1 : 0),
     0,
   );
-  const passed = submitted && correctCount === questions.length;
+  const passed = submitted && correctCount >= passThreshold;
 
   const reset = () => {
     setAnswers(questions.map(() => null));
@@ -58,13 +60,19 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">Knowledge check</DialogTitle>
           <DialogDescription>
-            {topicTitle} — answer both to lock in this topic as mastered.
+            {topicTitle} — score {Math.round(ASSESSMENT_PASS_RATIO * 100)}% or more ({passThreshold} of {questions.length}) to lock in this topic as mastered.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-2">
           {questions.map((q, qi) => (
             <div key={qi}>
+              {q.scenario && (
+                <div className="mb-3 rounded-lg border-l-2 border-accent bg-secondary/50 px-3 py-2 text-sm text-muted-foreground italic">
+                  <span className="not-italic font-semibold text-foreground">Scenario. </span>
+                  {q.scenario}
+                </div>
+              )}
               <p className="font-medium text-foreground mb-3">
                 {qi + 1}. {q.q}
               </p>
@@ -108,7 +116,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
             {submitted && (
               <span className={passed ? "text-primary font-semibold" : "text-muted-foreground"}>
                 {correctCount} / {questions.length} correct
-                {passed ? " — well reasoned!" : " — review and try again."}
+                {passed ? " — well reasoned!" : ` — you need ${passThreshold} to master. Review and try again.`}
               </span>
             )}
           </div>
