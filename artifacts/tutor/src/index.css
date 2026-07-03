@@ -77,18 +77,18 @@
   /* Bright, clean palette: crisp white cards on a bright near-white ground,
      near-black text for clarity, and richer, cleaner browns + amber (not greyed).
      (Token names like --pine/--teal/--marigold are kept for stability.) */
-  --paper: #FCFBF9;          /* very bright near-white background */
+  --paper: #F8FAF8;          /* clean near-white, faint sage whisper */
   --card: #FFFFFF;           /* crisp white card */
-  --ink: #211F1B;            /* crisp near-black text (max clarity) */
-  --ink-soft: #5A544C;       /* clear medium secondary text */
-  --pine: #6B4A2E;           /* brown used for chip/secondary text */
-  --teal: #A85E30;           /* clean cinnamon brown (primary/buttons) */
-  --teal-tint: #F3EDE4;      /* clean light tan (secondary surfaces + light sidebar) */
-  --marigold: #D68F35;       /* bright amber (accent/mastered) */
-  --marigold-tint: #F9F0E0;  /* pale amber */
-  --rose: #BC4A3A;           /* clean brick (destructive) */
+  --ink: #262A27;            /* dark warm-grey text (high contrast) */
+  --ink-soft: #5E655E;       /* calm grey-green secondary text */
+  --pine: #3E4A3C;           /* deep sage used for chip/secondary text */
+  --teal: #4F7350;           /* calm muted sage green (primary/buttons) */
+  --teal-tint: #EAF0E8;      /* light sage (secondary surfaces + light sidebar) */
+  --marigold: #6FA36B;       /* fresher green (accent/mastered) */
+  --marigold-tint: #E7F1E4;  /* pale green */
+  --rose: #BC4A3A;           /* muted red (errors/destructive only) */
   --rose-tint: #F8E6E1;
-  --line: #E8E4DC;           /* crisp light border */
+  --line: #E4E9E2;           /* clean light grey-green border */
 
   --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
   --app-font-serif: 'Fraunces', serif;
@@ -135,8 +135,8 @@
   .hg-pop       { animation: hg-pop .5s cubic-bezier(.34,1.56,.64,1) both; }
   .hg-draw      { stroke-dasharray: 26; stroke-dashoffset: 26; animation: hg-draw .5s .15s ease-out forwards; }
   @keyframes hg-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(168, 94, 48, .30); }
-    50%      { box-shadow: 0 0 0 7px rgba(168, 94, 48, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(79, 115, 80, .30); }
+    50%      { box-shadow: 0 0 0 7px rgba(79, 115, 80, 0); }
   }
   .hg-pulse { animation: hg-pulse 2.2s ease-in-out infinite; }
 }
