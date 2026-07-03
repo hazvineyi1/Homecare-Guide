@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCreateTutorSession } from "@workspace/api-client-react";
 import {
   streamTutorResponse,
@@ -43,6 +44,7 @@ export function ChatArea() {
   const [completing, setCompleting] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
   const [showObjectives, setShowObjectives] = useState(false);
+  const [readingOpen, setReadingOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -300,7 +302,7 @@ export function ChatArea() {
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
-      <div className="px-4 sm:px-8 py-4 sm:py-6 border-b border-border bg-background z-10">
+      <div className="px-4 sm:px-8 py-3 sm:py-4 border-b border-border bg-background z-10 shrink-0">
         <div className="flex items-start gap-3">
           <Button
             variant="ghost"
@@ -325,25 +327,35 @@ export function ChatArea() {
                 </span>
               )}
             </div>
-            <h2 className="text-2xl sm:text-3xl font-serif text-foreground leading-tight mb-2">
+            <h2 className="text-xl sm:text-2xl font-serif text-foreground leading-tight mb-1">
               {currentTopic.title}
             </h2>
-            <p className="text-sm text-muted-foreground max-w-3xl leading-relaxed">
+            <p className="text-sm text-muted-foreground max-w-3xl leading-snug line-clamp-2">
               Scenario: {currentTopic.launch}
             </p>
             {meta && (
               <div className="mt-2">
-                <button
-                  onClick={() => setShowObjectives((v) => !v)}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
-                >
-                  <Target className="w-3.5 h-3.5" />
-                  Learning objectives
-                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
-                  <span className="text-muted-foreground font-normal ml-1 inline-flex items-center gap-1">
-                    <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
-                  </span>
-                </button>
+                <div className="flex items-center gap-4 flex-wrap">
+                  <button
+                    onClick={() => setShowObjectives((v) => !v)}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Learning objectives
+                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
+                    <span className="text-muted-foreground font-normal ml-1 inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
+                    </span>
+                  </button>
+                  {READINGS[currentTopic.id] && (
+                    <button
+                      onClick={() => setReadingOpen(true)}
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                    >
+                      <BookOpen className="w-3.5 h-3.5" /> Read the chapter
+                    </button>
+                  )}
+                </div>
                 {showObjectives && (
                   <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
                     {meta.objectives.map((o, i) => (
@@ -360,18 +372,7 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
-        {READINGS[currentTopic.id] && (
-          <details className="bg-card border border-border rounded-2xl px-5 py-4">
-            <summary className="flex items-center gap-2 cursor-pointer font-serif text-lg text-foreground list-none select-none">
-              <BookOpen className="w-5 h-5 text-primary" /> Read the chapter
-              <span className="ml-auto text-xs text-muted-foreground italic">from A Guide to Homecare</span>
-            </summary>
-            <div className="mt-3 border-t border-border pt-3">
-              <MarkdownContent content={READINGS[currentTopic.id]} />
-            </div>
-          </details>
-        )}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} />
         ))}
@@ -489,6 +490,18 @@ export function ChatArea() {
             : "Enter to send · Shift+Enter for new line · The tutor asks one question at a time"}
         </div>
       </div>
+
+      <Sheet open={readingOpen} onOpenChange={setReadingOpen}>
+        <SheetContent side="right" className="w-full sm:max-w-xl overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle className="font-serif text-xl flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-primary" /> Read the chapter
+            </SheetTitle>
+          </SheetHeader>
+          <p className="text-xs text-muted-foreground italic mt-1 mb-4">from A Guide to Homecare</p>
+          {READINGS[currentTopic.id] && <MarkdownContent content={READINGS[currentTopic.id]} />}
+        </SheetContent>
+      </Sheet>
 
       <KnowledgeCheck
         topicId={currentTopic.id}
