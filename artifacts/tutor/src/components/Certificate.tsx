@@ -43,7 +43,7 @@ function printCertificate(name: string, code: string, verifyUrl: string, dateStr
       <div class="sub">${SUBTITLE}</div>
       <div class="awarded">This certifies that</div>
       <div class="name">${(name || "Caregiver").replace(/</g, "")}</div>
-      <div class="body">has completed all ${topicCount} topics of this level of the caregiver-preparedness
+      <div class="body">has completed all ${topicCount} topics of this module of the caregiver-preparedness
       course and demonstrated understanding through the topic knowledge checks.</div>
       <div class="meta">
         <div>Date<b>${dateStr}</b></div>
@@ -104,7 +104,7 @@ export function Certificate({ level, open, onOpenChange }: Props) {
           <>
             <div className="rounded-xl border-2 border-sidebar p-6 sm:p-8 text-center bg-background"
               style={{ outline: "2px solid var(--marigold)", outlineOffset: "-14px" }}>
-              <div className="text-[11px] tracking-[0.3em] uppercase text-primary mb-3">{levelMeta.credential} · Level {levelMeta.level}</div>
+              <div className="text-[11px] tracking-[0.3em] uppercase text-primary mb-3">{levelMeta.credential} · Module {levelMeta.level}</div>
               <h3 className="font-serif text-2xl text-sidebar mb-1">{COURSE_TITLE}</h3>
               <p className="italic text-sm text-muted-foreground mb-6">{SUBTITLE}</p>
               <p className="text-sm text-muted-foreground mb-1">This certifies that</p>
@@ -112,7 +112,7 @@ export function Certificate({ level, open, onOpenChange }: Props) {
                 {cert.learnerName}
               </p>
               <p className="text-sm text-foreground max-w-md mx-auto leading-relaxed mb-6">
-                has completed all {topicCount} topics of Level {levelMeta.level} ({levelMeta.name}) and
+                has completed all {topicCount} topics of Module {levelMeta.level} ({levelMeta.name}) and
                 demonstrated understanding through the knowledge checks.
               </p>
               <div className="flex justify-center gap-12 text-xs text-muted-foreground mb-4">

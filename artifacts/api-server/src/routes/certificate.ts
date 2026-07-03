@@ -9,11 +9,11 @@ import { TOPICS } from "./tutor/topics";
 const router = Router();
 const COURSE = "A Guide to Homecare: Caregiver Preparedness";
 
-// The three stacked credentials and the topics each requires.
+// The three modules and the topics each requires (all issue a Certificate of Completion).
 const LEVELS = [
-  { level: 1, credential: "Certificate", topicIds: [1, 2, 3, 5] },
-  { level: 2, credential: "Advanced Certificate", topicIds: [4, 6, 7, 8, 9] },
-  { level: 3, credential: "Diploma", topicIds: [10, 11, 12] },
+  { level: 1, credential: "Certificate of Completion", topicIds: [1, 2, 3, 5] },
+  { level: 2, credential: "Certificate of Completion", topicIds: [4, 6, 7, 8, 9] },
+  { level: 3, credential: "Certificate of Completion", topicIds: [10, 11, 12] },
 ];
 
 async function masteredTopicIds(userId: string): Promise<Set<number>> {

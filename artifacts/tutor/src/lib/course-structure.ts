@@ -1,26 +1,25 @@
-// The three stacked credentials (NCQF-aligned) and the topics each contains.
+// The three course modules and the topics each contains.
 export interface CourseLevel {
   level: number;
   name: string;
-  credential: string; // Certificate II / III / IV (NCQF levels 2/3/4)
-  ncqf: number;
+  credential: string; // "Certificate of Completion" (honest, non-accredited framing)
   blurb: string;
   topicIds: number[];
 }
 
 export const LEVELS: CourseLevel[] = [
   {
-    level: 1, name: "Foundation", credential: "Certificate II", ncqf: 2,
+    level: 1, name: "Foundations", credential: "Certificate of Completion",
     blurb: "Recognise when care is needed, understand everyday tasks, and prepare for the caregiver role.",
     topicIds: [1, 2, 3, 5],
   },
   {
-    level: 2, name: "Core Caregiving", credential: "Certificate III", ncqf: 3,
+    level: 2, name: "Core Care", credential: "Certificate of Completion",
     blurb: "Organise care, build a plan, and perform infection control and core procedures safely.",
     topicIds: [4, 6, 7, 8, 9],
   },
   {
-    level: 3, name: "Complex & Compassionate Care", credential: "Certificate IV", ncqf: 4,
+    level: 3, name: "Complex & Compassionate Care", credential: "Certificate of Completion",
     blurb: "Provide palliative care, protect caregiver wellbeing, and mobilise support systems.",
     topicIds: [10, 11, 12],
   },

@@ -76,7 +76,7 @@ export function WelcomeScreen() {
           <h1 className="font-serif text-3xl sm:text-4xl text-foreground mb-2 leading-tight">Your caregiving roadmap</h1>
           <p className="text-muted-foreground leading-relaxed mb-5">
             Reason through 12 real-world topics with <b>Nurse Mooka</b>, grounded in <em>A Guide to Homecare</em>.
-            Master each stop to light up your path and earn three stacked certificates.
+            Master each stop to light up your path and earn a Certificate of Completion for each module.
           </p>
 
           <div className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -84,7 +84,7 @@ export function WelcomeScreen() {
               <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
                 <span className="truncate">
                   {masteredCount} of {total} mastered
-                  {currentLevel && !allMastered ? ` · working toward ${currentLevel.credential}` : ""}
+                  {currentLevel && !allMastered ? ` · on Module ${currentLevel.level}: ${currentLevel.name}` : ""}
                 </span>
                 <span className="shrink-0 ml-2">{pct}%</span>
               </div>
@@ -116,9 +116,9 @@ export function WelcomeScreen() {
                   {ring(masteredInLevel, levelTopics.length, levelComplete, lv.level)}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-serif text-lg sm:text-xl text-foreground">Level {lv.level}: {lv.name}</h2>
+                      <h2 className="font-serif text-lg sm:text-xl text-foreground">Module {lv.level}: {lv.name}</h2>
                       <span className="text-[11px] font-semibold uppercase tracking-wide text-secondary-foreground bg-card border border-border rounded-full px-2 py-0.5">
-                        {lv.credential} &middot; NCQF {lv.ncqf}
+                        {lv.credential}
                       </span>
                     </div>
                     <p className="text-sm text-muted-foreground leading-snug">{lv.blurb}</p>
@@ -127,12 +127,12 @@ export function WelcomeScreen() {
                     <div className="text-xs text-muted-foreground mb-1">{masteredInLevel}/{levelTopics.length} mastered</div>
                     {earned ? (
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
-                        <Award className="w-4 h-4" /> {lv.credential} earned
+                        <Award className="w-4 h-4" /> Certificate earned
                       </span>
                     ) : levelComplete ? (
                       <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90"
                         onClick={() => { setCertLevel(lv.level); setCertOpen(true); }}>
-                        <Award className="w-4 h-4 mr-1" /> Claim {lv.credential}
+                        <Award className="w-4 h-4 mr-1" /> Claim your certificate
                       </Button>
                     ) : null}
                   </div>

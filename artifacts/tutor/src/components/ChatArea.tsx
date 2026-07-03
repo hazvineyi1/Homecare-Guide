@@ -589,7 +589,7 @@ function MessageBubble({ message, isStreamingActive }: { message: Message; isStr
         className={cn(
           "px-5 py-4 rounded-2xl text-[15px] leading-relaxed",
           isUser
-            ? "bg-sidebar text-sidebar-foreground rounded-tr-sm"
+            ? "bg-primary text-primary-foreground rounded-tr-sm"
             : "bg-card text-card-foreground shadow-sm rounded-tl-sm border border-border",
           !isUser && !isSynthesis && "border-l-4 border-l-primary",
           isSynthesis && "border-l-4 border-l-accent bg-accent/5"

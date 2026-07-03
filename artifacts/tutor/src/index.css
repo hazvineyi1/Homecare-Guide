@@ -52,9 +52,9 @@
   --color-destructive-foreground: var(--card);
   --color-destructive-border: var(--rose);
 
-  --color-sidebar: var(--pine);
-  --color-sidebar-foreground: var(--card);
-  --color-sidebar-border: var(--pine);
+  --color-sidebar: var(--teal-tint);
+  --color-sidebar-foreground: var(--ink);
+  --color-sidebar-border: var(--line);
   --color-sidebar-primary: var(--teal);
   --color-sidebar-primary-foreground: var(--card);
   --color-sidebar-primary-border: var(--teal);
@@ -77,18 +77,18 @@
   /* Bright, clean palette: crisp white cards on a bright near-white ground,
      near-black text for clarity, and richer, cleaner browns + amber (not greyed).
      (Token names like --pine/--teal/--marigold are kept for stability.) */
-  --paper: #F9F8F6;          /* bright near-white background */
+  --paper: #FCFBF9;          /* very bright near-white background */
   --card: #FFFFFF;           /* crisp white card */
-  --ink: #23201C;            /* crisp near-black text (max clarity) */
-  --ink-soft: #5D564C;       /* clear medium brown-grey secondary text */
-  --pine: #63432B;           /* clean rich brown (sidebar, user bubbles) */
-  --teal: #A85E30;           /* clean bright cinnamon brown (primary) */
-  --teal-tint: #F4EEE6;      /* clean light tan (secondary surfaces) */
-  --marigold: #D08A38;       /* bright clean amber (accent) */
+  --ink: #211F1B;            /* crisp near-black text (max clarity) */
+  --ink-soft: #5A544C;       /* clear medium secondary text */
+  --pine: #6B4A2E;           /* brown used for chip/secondary text */
+  --teal: #A85E30;           /* clean cinnamon brown (primary/buttons) */
+  --teal-tint: #F3EDE4;      /* clean light tan (secondary surfaces + light sidebar) */
+  --marigold: #D68F35;       /* bright amber (accent/mastered) */
   --marigold-tint: #F9F0E0;  /* pale amber */
   --rose: #BC4A3A;           /* clean brick (destructive) */
   --rose-tint: #F8E6E1;
-  --line: #E7E3DC;           /* crisp light border */
+  --line: #E8E4DC;           /* crisp light border */
 
   --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
   --app-font-serif: 'Fraunces', serif;

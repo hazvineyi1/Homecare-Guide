@@ -21,7 +21,7 @@ export function Sidebar() {
   const masteredCount = sessionValues.filter((s) => s.completed).length;
 
   return (
-    <div className="w-full md:w-[300px] h-full bg-sidebar md:border-r border-sidebar-accent flex flex-col shrink-0">
+    <div className="w-full md:w-[300px] h-full bg-sidebar md:border-r border-border flex flex-col shrink-0">
       <div className="p-6 pb-4">
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
           A Guide to Homecare
@@ -116,7 +116,7 @@ export function Sidebar() {
         })}
       </div>
 
-      <div className="p-4 border-t border-sidebar-accent/30 bg-sidebar-accent/5">
+      <div className="p-4 border-t border-border bg-black/[0.02]">
         {currentUser ? (
           <div className="flex items-center gap-2 mb-3">
             <UserCircle2 className="w-5 h-5 text-sidebar-foreground/70 shrink-0" />
