@@ -11,6 +11,7 @@ import { TeamDashboard } from "@/components/TeamDashboard";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
+import { Landing } from "@/components/Landing";
 import { TOPICS } from "@/lib/constants";
 import { fetchTutorSessions, fetchMe } from "@/lib/tutor-api";
 import NotFound from "@/pages/not-found";
@@ -18,7 +19,7 @@ import NotFound from "@/pages/not-found";
 const queryClient = new QueryClient();
 
 function MainLayout() {
-  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser } = useAppState();
+  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser, atLanding } = useAppState();
 
   useEffect(() => {
     fetchMe().then(setCurrentUser);
@@ -55,6 +56,8 @@ function MainLayout() {
       cancelled = true;
     };
   }, [hydrateSessions]);
+
+  if (atLanding) return <Landing />;
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">

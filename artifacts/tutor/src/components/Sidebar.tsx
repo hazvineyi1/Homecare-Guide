@@ -65,6 +65,7 @@ export function Sidebar() {
     currentUser,
     setAuthOpen,
     setTeamOpen,
+    setAtLanding,
   } = useAppState();
 
   const sessionValues = Object.values(sessions);
@@ -74,9 +75,9 @@ export function Sidebar() {
   return (
     <div className="w-full md:w-[300px] h-full bg-sidebar md:border-r border-border flex flex-col shrink-0">
       <button
-        onClick={() => { setCurrentTopicIndex(null); setMobileSidebarOpen(false); }}
+        onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); setMobileSidebarOpen(false); }}
         className="p-6 pb-4 text-left w-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-        title="Back to the roadmap"
+        title="Back to the landing page"
       >
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
           A Guide to Homecare
