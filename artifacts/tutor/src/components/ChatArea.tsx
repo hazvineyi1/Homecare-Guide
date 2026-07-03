@@ -520,7 +520,7 @@ function MessageBubble({ message, isStreamingActive }: { message: Message; isStr
   return (
     <div className={cn("flex flex-col max-w-[85%]", isUser ? "ml-auto items-end" : "mr-auto items-start")}>
       <span className="text-xs font-medium text-muted-foreground mb-1 px-1">
-        {isUser ? "You" : isSynthesis ? "Understanding check" : "Socratic tutor"}
+        {isUser ? "You" : isSynthesis ? "Understanding check" : "Nurse Mooka"}
       </span>
       <div
         className={cn(

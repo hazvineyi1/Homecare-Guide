@@ -41,8 +41,9 @@ export function WelcomeScreen() {
             Learn family caregiving by <span className="text-primary italic">reasoning it through</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-7">
-            A warm, one-question-at-a-time tutor that helps you think like a confident caregiver —
-            across 12 real-world topics, grounded in <em>A Guide to Homecare</em> by Dorothy Mooka.
+            Meet <b>Nurse Mooka</b>, a warm tutor who helps you think like a confident caregiver —
+            one question at a time, across 12 real-world topics, grounded in
+            <em>A Guide to Homecare</em> by Dorothy Mooka.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
@@ -87,7 +88,7 @@ export function WelcomeScreen() {
           <h2 className="font-serif text-2xl text-foreground text-center mb-6">How it works</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
-              { icon: MessageCircleQuestion, title: "Socratic dialogue", body: "The tutor never lectures. It poses a real caregiving scenario and asks one focused question at a time, so you build judgement — not just facts." },
+              { icon: MessageCircleQuestion, title: "Socratic dialogue", body: "Nurse Mooka never lectures. She poses a real caregiving scenario and asks one focused question at a time, so you build judgement — not just facts." },
               { icon: Lightbulb, title: "Support when stuck", body: "Ask for a hint or a simpler version any time. Choose New caregiver for gentle scaffolding, or Experienced to be challenged harder." },
               { icon: CheckCircle2, title: "Check & master", body: "Run “Check my understanding” for a formative recap, then pass a short knowledge check to lock in each topic as mastered." },
             ].map((c) => (
