@@ -331,7 +331,7 @@ export function ChatArea() {
               {currentTopic.title}
             </h2>
             <div className="mt-1.5 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
-              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Scenario</span>
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Scenario</span>
               <p className="text-sm text-foreground leading-snug">
                 The situation you'll reason through with Nurse Mooka: {currentTopic.launch}.
               </p>
@@ -581,7 +581,7 @@ function MarkdownContent({ content }: { content: string }) {
   // Guarantee no em dashes in displayed text, regardless of model output or older stored messages.
   const clean = content.replace(/ \u2014 /g, ", ").replace(/\u2014/g, ", ");
   return (
-    <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:font-serif prose-headings:mb-2 prose-headings:mt-3 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-strong:text-foreground prose-a:text-primary text-[15px] leading-relaxed dark:prose-invert">
+    <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:font-serif prose-headings:mb-2 prose-headings:mt-3 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-strong:text-foreground prose-a:text-primary text-base leading-relaxed dark:prose-invert">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{clean}</ReactMarkdown>
     </div>
   );
@@ -608,7 +608,7 @@ function MessageBubble({ message, isStreamingActive }: { message: Message; isStr
       </span>
       <div
         className={cn(
-          "px-5 py-4 rounded-2xl text-[15px] leading-relaxed",
+          "px-5 py-4 rounded-2xl text-base leading-relaxed",
           isUser
             ? "bg-primary text-primary-foreground rounded-tr-sm"
             : "bg-card text-card-foreground shadow-sm rounded-tl-sm border border-border",

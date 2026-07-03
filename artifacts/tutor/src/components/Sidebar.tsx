@@ -26,7 +26,7 @@ export function Sidebar() {
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
           A Guide to Homecare
         </h1>
-        <p className="text-sidebar-foreground/70 text-[11px] tracking-tight whitespace-nowrap">
+        <p className="text-sidebar-foreground/80 text-[11px] tracking-tight whitespace-nowrap">
           Caregiver preparedness &middot; guided by Dorothy Mooka
         </p>
       </div>
@@ -55,10 +55,10 @@ export function Sidebar() {
       </div>
 
       <div className="px-6 pb-2 flex items-baseline justify-between">
-        <h2 className="text-xs uppercase tracking-wider text-sidebar-foreground/50 font-bold">
+        <h2 className="text-xs uppercase tracking-wider text-sidebar-foreground/70 font-bold">
           Dialogue topics
         </h2>
-        <span className="text-xs text-sidebar-foreground/50 font-medium">
+        <span className="text-xs text-sidebar-foreground/70 font-medium">
           {masteredCount}/12 mastered
         </span>
       </div>
@@ -82,7 +82,7 @@ export function Sidebar() {
                 isActive ? "bg-sidebar-primary/20 text-sidebar-foreground" : "text-sidebar-foreground/80 hover:bg-sidebar-accent/10 hover:text-sidebar-foreground"
               )}
             >
-              <span className="font-serif text-sidebar-foreground/40 text-sm mt-0.5 w-5 shrink-0">
+              <span className="font-serif text-sidebar-foreground/60 text-sm mt-0.5 w-5 shrink-0">
                 {isCompleted ? (
                   <CheckCircle2 className="w-4 h-4 text-accent" aria-label="Mastered" />
                 ) : (
@@ -90,7 +90,7 @@ export function Sidebar() {
                 )}
               </span>
               <div className="flex-1">
-                <div className={cn("text-sm font-medium leading-snug mb-2", isCompleted && "text-sidebar-foreground")}>
+                <div className={cn("text-sm font-medium leading-snug mb-2 text-sidebar-foreground/90", isCompleted && "text-sidebar-foreground")}>
                   {topic.title}
                 </div>
                 {isCompleted ? (
@@ -122,7 +122,7 @@ export function Sidebar() {
             <UserCircle2 className="w-5 h-5 text-sidebar-foreground/70 shrink-0" />
             <div className="min-w-0 flex-1">
               <div className="text-sm text-sidebar-foreground truncate">{currentUser.name}</div>
-              <div className="text-[11px] text-sidebar-foreground/50 truncate">{currentUser.email}</div>
+              <div className="text-xs text-sidebar-foreground/70 truncate">{currentUser.email}</div>
             </div>
             <button
               onClick={async () => { await logout(); window.location.reload(); }}
@@ -141,7 +141,7 @@ export function Sidebar() {
             Sign in to save progress
           </Button>
         )}
-        <div className="text-xs text-sidebar-foreground/60 flex flex-col gap-1">
+        <div className="text-xs text-sidebar-foreground/75 flex flex-col gap-1">
           <div>Exchanges this topic: {sessions[currentTopicIndex ?? -1]?.exchanges || 0}</div>
           <div>Mastered {masteredCount} &middot; Explored {startedTopicsCount} of 12</div>
         </div>

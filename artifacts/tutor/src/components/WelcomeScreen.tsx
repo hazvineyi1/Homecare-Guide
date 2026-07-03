@@ -131,6 +131,8 @@ export function WelcomeScreen() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
+              aria-label="Search topics for a quick reference"
+              type="search"
               placeholder="Search topics, e.g. bed bath, infection, falls, medicines..."
               className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground"
             />
@@ -150,7 +152,7 @@ export function WelcomeScreen() {
                     className="w-full text-left px-4 py-3 hover:bg-secondary flex items-center justify-between gap-3 transition-colors"
                   >
                     <div className="min-w-0">
-                      <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                      <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
                         Topic {topic.id.toString().padStart(2, "0")}
                       </div>
                       <div className="font-serif text-base text-foreground leading-snug">{topic.title}</div>
@@ -181,7 +183,7 @@ export function WelcomeScreen() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="font-serif text-lg sm:text-xl text-foreground">Module {lv.level}: {lv.name}</h2>
-                      <span className="text-[11px] font-semibold uppercase tracking-wide text-secondary-foreground bg-card border border-border rounded-full px-2 py-0.5">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-secondary-foreground bg-card border border-border rounded-full px-2 py-0.5">
                         {lv.tag}
                       </span>
                     </div>
@@ -246,10 +248,10 @@ export function WelcomeScreen() {
                           )}
                         >
                           <div className={cn("flex items-center gap-2 mb-0.5", side === "left" && "sm:flex-row-reverse")}>
-                            <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                            <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
                               Topic {topic.id.toString().padStart(2, "0")}
                             </span>
-                            <span className={cn("text-[11px] font-semibold", mastered ? "text-accent" : isCurrent ? "text-primary" : "text-muted-foreground/80")}>
+                            <span className={cn("text-xs font-semibold", mastered ? "text-accent" : isCurrent ? "text-primary" : "text-muted-foreground/80")}>
                               {stateLabel}
                             </span>
                           </div>

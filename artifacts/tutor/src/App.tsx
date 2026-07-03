@@ -57,10 +57,16 @@ function MainLayout() {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-3 focus:left-3 focus:rounded-md focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
       {/* Desktop: persistent sidebar column */}
-      <div className="hidden md:flex">
+      <nav aria-label="Course topics" className="hidden md:flex">
         <Sidebar />
-      </div>
+      </nav>
 
       {/* Mobile: sidebar in a slide-in drawer */}
       <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
@@ -70,7 +76,9 @@ function MainLayout() {
         </SheetContent>
       </Sheet>
 
-      <ChatArea />
+      <main id="main-content" tabIndex={-1} className="flex-1 flex min-w-0 h-full outline-none">
+        <ChatArea />
+      </main>
     </div>
   );
 }

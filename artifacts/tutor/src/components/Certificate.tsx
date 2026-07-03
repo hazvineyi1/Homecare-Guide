@@ -104,7 +104,7 @@ export function Certificate({ level, open, onOpenChange }: Props) {
           <>
             <div className="rounded-xl border-2 border-sidebar p-6 sm:p-8 text-center bg-background"
               style={{ outline: "2px solid var(--marigold)", outlineOffset: "-14px" }}>
-              <div className="text-[11px] tracking-[0.3em] uppercase text-primary mb-3">{levelMeta.credential} · Module {levelMeta.level}</div>
+              <div className="text-xs tracking-[0.3em] uppercase text-primary mb-3">{levelMeta.credential} · Module {levelMeta.level}</div>
               <h3 className="font-serif text-2xl text-sidebar mb-1">{COURSE_TITLE}</h3>
               <p className="italic text-sm text-muted-foreground mb-6">{SUBTITLE}</p>
               <p className="text-sm text-muted-foreground mb-1">This certifies that</p>
@@ -119,7 +119,7 @@ export function Certificate({ level, open, onOpenChange }: Props) {
                 <div>Date<div className="text-foreground font-medium mt-0.5">{date}</div></div>
                 <div>Mastered<div className="text-foreground font-medium mt-0.5">{topicCount} of {topicCount}</div></div>
               </div>
-              <div className="text-[11px] text-muted-foreground flex items-center justify-center gap-1.5">
+              <div className="text-xs text-muted-foreground flex items-center justify-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                 Verifiable at {window.location.host}/verify/<b className="text-foreground">{cert.code}</b>
               </div>

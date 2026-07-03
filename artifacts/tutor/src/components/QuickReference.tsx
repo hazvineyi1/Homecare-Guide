@@ -58,7 +58,7 @@ export function QuickReference({ topicId, open, onOpenChange }: Props) {
         {topic && meta ? (
           <>
             <SheetHeader>
-              <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Quick reference</div>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Quick reference</div>
               <SheetTitle className="font-serif text-2xl">{topic.title}</SheetTitle>
             </SheetHeader>
             <p className="text-sm text-muted-foreground mt-1">{topic.launch}</p>
@@ -91,7 +91,7 @@ export function QuickReference({ topicId, open, onOpenChange }: Props) {
                 <h3 className="font-serif text-lg text-foreground mb-2 flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" /> Full chapter
                 </h3>
-                <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:font-serif prose-headings:mb-2 prose-headings:mt-4 prose-ul:my-2 prose-li:my-0.5 prose-strong:text-foreground text-[15px] leading-relaxed">
+                <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:font-serif prose-headings:mb-2 prose-headings:mt-4 prose-ul:my-2 prose-li:my-0.5 prose-strong:text-foreground text-base leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{reading}</ReactMarkdown>
                 </div>
               </div>
