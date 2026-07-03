@@ -322,7 +322,7 @@ export function ChatArea() {
                 {(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}
               </span>
               {isCompleted && (
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent-foreground bg-accent/15 border border-accent/30 rounded-full px-2 py-0.5">
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent bg-accent/15 border border-accent/30 rounded-full px-2 py-0.5">
                   <CheckCircle2 className="w-3.5 h-3.5" /> Mastered
                 </span>
               )}
@@ -474,7 +474,7 @@ export function ChatArea() {
             size="sm"
             disabled={busy || !currentSession?.conversationId}
             onClick={() => handleSend("[SYNTHESIS]", "synthesis")}
-            className="border-accent text-accent-foreground bg-accent/10 hover:bg-accent/20"
+            className="border-accent text-foreground bg-accent/10 hover:bg-accent/20"
           >
             Check my understanding
           </Button>
@@ -591,7 +591,7 @@ function MessageBubble({ message, isStreamingActive }: { message: Message; isStr
   if (message.role === "system") {
     return (
       <div className="flex justify-center my-4">
-        <div className="bg-accent/10 text-accent-foreground text-xs py-1 px-3 rounded-full font-medium">
+        <div className="bg-accent/10 text-foreground text-xs py-1 px-3 rounded-full font-medium">
           {message.content}
         </div>
       </div>
