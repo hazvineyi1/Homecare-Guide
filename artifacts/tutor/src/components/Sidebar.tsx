@@ -1,10 +1,60 @@
 import React from "react";
-import { CheckCircle2, LogOut, UserCircle2 } from "lucide-react";
+import { CheckCircle2, LogOut, UserCircle2, FileText } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
+import { LEVELS } from "@/lib/course-structure";
+import { HydratedSession } from "@/hooks/use-app-state";
 import { cn } from "@/lib/utils";
 import { logout } from "@/lib/tutor-api";
 import { Button } from "@/components/ui/button";
+
+// Printable training record for onboarding / staff files.
+function printTrainingRecord(name: string, sessions: Record<number, HydratedSession>) {
+  const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const statusOf = (i: number) => {
+    const sx = sessions[i];
+    return sx?.completed ? "Completed" : sx?.conversationId ? "In progress" : "Not started";
+  };
+  const rows = TOPICS.map((t, i) =>
+    `<tr><td>${t.id.toString().padStart(2, "0")}</td><td>${esc(t.title)}</td><td class="st ${statusOf(i) === "Completed" ? "ok" : ""}">${statusOf(i)}</td></tr>`
+  ).join("");
+  const modules = LEVELS.map((lv) => {
+    const done = lv.topicIds.filter((id) => sessions[TOPICS.findIndex((t) => t.id === id)]?.completed).length;
+    const complete = done === lv.topicIds.length;
+    return `<li>Module ${lv.level}: ${esc(lv.name)} &mdash; ${done}/${lv.topicIds.length} topics${complete ? " <b>(Certificate of Completion earned)</b>" : ""}</li>`;
+  }).join("");
+  const completed = TOPICS.filter((_, i) => sessions[i]?.completed).length;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>Training record: ${esc(name)}</title>
+  <style>
+    @page { margin: 16mm; }
+    body { font-family: Georgia,'Times New Roman',serif; color:#202420; line-height:1.5; max-width:720px; margin:0 auto; }
+    .eyebrow { letter-spacing:.18em; text-transform:uppercase; font-size:11px; color:#3E5E3F; }
+    h1 { font-size:23px; margin:4px 0 2px; }
+    .meta { font-size:12px; color:#4C524B; margin-bottom:14px; }
+    h2 { font-size:14px; color:#3E5E3F; margin:20px 0 6px; border-bottom:1px solid #DCE3DA; padding-bottom:4px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th,td { text-align:left; padding:5px 8px; border-bottom:1px solid #E9EFE7; }
+    th { color:#4C524B; font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+    td:first-child { width:34px; color:#4C524B; }
+    .st.ok { color:#3E5E3F; font-weight:bold; }
+    ul { padding-left:20px; } li { margin:4px 0; }
+    .sign { margin-top:24px; display:flex; gap:48px; font-size:13px; }
+    .sign div { flex:1; border-top:1px solid #202420; padding-top:6px; color:#4C524B; }
+    .foot { margin-top:20px; font-size:11px; color:#4C524B; border-top:1px solid #DCE3DA; padding-top:8px; }
+  </style></head><body>
+    <div class="eyebrow">A Guide to Homecare &mdash; Training record</div>
+    <h1>${esc(name)}</h1>
+    <div class="meta">Date printed: ${new Date().toLocaleDateString()} &nbsp;&middot;&nbsp; Topics completed: ${completed} of ${TOPICS.length}</div>
+    <h2>Modules</h2><ul>${modules}</ul>
+    <h2>Topic completion</h2>
+    <table><thead><tr><th>#</th><th>Topic</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="sign"><div>Learner signature &amp; date</div><div>Supervisor / manager signature &amp; date</div></div>
+    <div class="foot">This record shows completion of the &ldquo;A Guide to Homecare&rdquo; preparation and reference training. It is a Certificate of Completion record, not a licensed or government-accredited qualification, and not a substitute for professional medical training. Keep with the staff member's onboarding file.</div>
+    <script>window.onload=function(){window.print();}</script>
+  </body></html>`;
+  const w = window.open("", "_blank");
+  if (w) { w.document.write(html); w.document.close(); }
+}
 
 export function Sidebar() {
   const {
@@ -145,6 +195,12 @@ export function Sidebar() {
           <div>Exchanges this topic: {sessions[currentTopicIndex ?? -1]?.exchanges || 0}</div>
           <div>Mastered {masteredCount} &middot; Explored {startedTopicsCount} of 12</div>
         </div>
+        <button
+          onClick={() => printTrainingRecord(currentUser?.name ?? "Caregiver", sessions)}
+          className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+        >
+          <FileText className="w-3.5 h-3.5" /> Print training record
+        </button>
       </div>
     </div>
   );

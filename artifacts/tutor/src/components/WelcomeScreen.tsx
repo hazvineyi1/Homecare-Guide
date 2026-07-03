@@ -57,6 +57,7 @@ export function WelcomeScreen() {
     <span className="relative inline-flex items-center justify-center w-12 h-12 shrink-0" title={`${masteredInLevel} of ${count} mastered`}>
       <svg viewBox="0 0 40 40" className="w-12 h-12 -rotate-90">
         <circle cx="20" cy="20" r="16" fill="none" stroke="var(--line)" strokeWidth="3.5" />
+        <circle cx="20" cy="20" r="12.5" fill="var(--teal)" />
         <circle
           cx="20" cy="20" r="16" fill="none"
           stroke={complete ? "var(--marigold)" : "var(--teal)"}
@@ -68,7 +69,7 @@ export function WelcomeScreen() {
           } as React.CSSProperties}
         />
       </svg>
-      <span className="absolute font-serif text-primary text-base">{label}</span>
+      <span className="absolute font-serif text-primary-foreground text-base">{label}</span>
     </span>
   );
 
@@ -229,8 +230,8 @@ export function WelcomeScreen() {
                               mastered
                                 ? "bg-accent text-accent-foreground shadow"
                                 : isCurrent
-                                ? "bg-card border-2 border-primary text-primary shadow hg-pulse"
-                                : "bg-secondary border border-border text-muted-foreground hover:border-primary/40",
+                                ? "bg-primary text-primary-foreground shadow hg-pulse ring-4 ring-primary/25"
+                                : "bg-[#585E57] text-white hover:bg-primary",
                             )}
                           >
                             {mastered ? <CheckCircle2 className="w-6 h-6" /> : topic.id}
