@@ -51,6 +51,8 @@ interface AppState {
   setMobileSidebarOpen: (open: boolean) => void;
   hydrated: boolean;
   hydrateSessions: (records: HydratedSession[]) => void;
+  learnerName: string;
+  setLearnerName: (name: string) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -63,6 +65,21 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [totalExchanges, setTotalExchanges] = useState(0);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [learnerName, setLearnerNameState] = useState<string>(() => {
+    try {
+      return localStorage.getItem("hg_learner_name") ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const setLearnerName = useCallback((name: string) => {
+    setLearnerNameState(name);
+    try {
+      localStorage.setItem("hg_learner_name", name);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const setSessionState = useCallback((topicIndex: number, updater: (prev: SessionState) => SessionState) => {
     setSessions((prev) => {
@@ -113,6 +130,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setMobileSidebarOpen,
         hydrated,
         hydrateSessions,
+        learnerName,
+        setLearnerName,
       }}
     >
       {children}

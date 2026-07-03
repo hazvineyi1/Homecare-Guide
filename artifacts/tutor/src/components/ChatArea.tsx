@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,8 @@ import {
   fetchTutorSession,
   completeTutorSession,
 } from "@/lib/tutor-api";
+import { TOPIC_META } from "@/lib/course-content";
+import { KnowledgeCheck } from "./KnowledgeCheck";
 
 export function ChatArea() {
   const {
@@ -38,6 +40,8 @@ export function ChatArea() {
   const [streamingContent, setStreamingContent] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [completing, setCompleting] = useState(false);
+  const [checkOpen, setCheckOpen] = useState(false);
+  const [showObjectives, setShowObjectives] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -229,7 +233,7 @@ export function ChatArea() {
     }
   };
 
-  const handleComplete = async () => {
+  const finishMastery = async () => {
     if (!currentSession?.conversationId || currentTopicIndex === null || completing) return;
     setCompleting(true);
     const ok = await completeTutorSession(currentSession.conversationId);
@@ -237,11 +241,46 @@ export function ChatArea() {
     if (ok) {
       setSessionState(currentTopicIndex, (p) => ({ ...p, completed: true }));
       toast.success(`Topic mastered: ${currentTopic?.title ?? ""}`, {
-        description: "Locked in. Your reasoning on this topic is saved.",
+        description: "Locked in. Your key takeaways are below \u2014 you can download a summary.",
       });
     } else {
-      toast.error("Couldn't save that just now — please try again.");
+      toast.error("Couldn't save that just now \u2014 please try again.");
     }
+  };
+
+  // Open a clean printable one-page summary the learner can save as PDF.
+  const printSummary = () => {
+    if (!currentTopic) return;
+    const meta = TOPIC_META[currentTopic.id];
+    const lvl = (currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver";
+    const answers = (currentSession?.messages ?? [])
+      .filter((m) => m.role === "user")
+      .map((m) => m.content)
+      .filter((c) => c && !c.startsWith("["));
+    const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const li = (arr: string[]) => arr.map((x) => `<li>${esc(x)}</li>`).join("");
+    const html = `<!doctype html><html><head><meta charset="utf-8"><title>Summary \u2014 ${esc(currentTopic.title)}</title>
+    <style>
+      @page { margin: 18mm; }
+      body { font-family: Georgia, serif; color: #38221A; line-height: 1.55; max-width: 720px; margin: 0 auto; }
+      .eyebrow { letter-spacing:.2em; text-transform:uppercase; font-size:11px; color:#B4531D; }
+      h1 { font-size: 24px; margin: 4px 0 2px; color:#3E2318; }
+      .meta { font-size: 12px; color:#7A6152; margin-bottom: 18px; }
+      h2 { font-size: 15px; color:#B4531D; margin: 22px 0 6px; border-bottom:1px solid #EADBC8; padding-bottom:4px; }
+      ul { margin: 6px 0; padding-left: 20px; } li { margin: 4px 0; }
+      .foot { margin-top: 28px; font-size: 11px; color:#7A6152; border-top:1px solid #EADBC8; padding-top:8px; }
+    </style></head><body>
+      <div class="eyebrow">Socratic Homecare Course \u2014 Topic summary</div>
+      <h1>${esc(currentTopic.title)}</h1>
+      <div class="meta">Mode: ${lvl} &nbsp;&middot;&nbsp; ${new Date().toLocaleDateString()}</div>
+      ${meta ? `<h2>Learning objectives</h2><ul>${li(meta.objectives)}</ul>` : ""}
+      ${meta ? `<h2>Key takeaways</h2><ul>${li(meta.takeaways)}</ul>` : ""}
+      ${answers.length ? `<h2>In your own words</h2><ul>${li(answers)}</ul>` : ""}
+      <div class="foot">Grounded in "A Guide to Homecare" by Dorothy Mooka. For education only \u2014 not medical advice.</div>
+      <script>window.onload=function(){window.print();}</script>
+    </body></html>`;
+    const w = window.open("", "_blank");
+    if (w) { w.document.write(html); w.document.close(); }
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -256,6 +295,7 @@ export function ChatArea() {
   }
 
   const isCompleted = !!currentSession?.completed;
+  const meta = TOPIC_META[currentTopic.id];
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
@@ -290,6 +330,31 @@ export function ChatArea() {
             <p className="text-sm text-muted-foreground max-w-3xl leading-relaxed">
               Scenario: {currentTopic.launch}
             </p>
+            {meta && (
+              <div className="mt-2">
+                <button
+                  onClick={() => setShowObjectives((v) => !v)}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                >
+                  <Target className="w-3.5 h-3.5" />
+                  Learning objectives
+                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
+                  <span className="text-muted-foreground font-normal ml-1 inline-flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
+                  </span>
+                </button>
+                {showObjectives && (
+                  <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
+                    {meta.objectives.map((o, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                        <span className="text-primary mt-0.5">•</span>
+                        <span>{o}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -303,6 +368,25 @@ export function ChatArea() {
             message={{ role: "assistant", content: streamingContent }}
             isStreamingActive={true}
           />
+        )}
+        {isCompleted && meta && (
+          <div className="mr-auto max-w-[85%] bg-accent/5 border border-accent/30 rounded-2xl p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Award className="w-4 h-4 text-accent" />
+              <span className="font-serif text-lg text-foreground">Key takeaways</span>
+            </div>
+            <ul className="space-y-2 mb-4">
+              {meta.takeaways.map((t, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-foreground leading-relaxed">
+                  <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+            <Button variant="secondary" size="sm" onClick={printSummary}>
+              <Printer className="w-4 h-4 mr-2" /> Download summary
+            </Button>
+          </div>
         )}
       </div>
 
@@ -340,12 +424,12 @@ export function ChatArea() {
               variant="default"
               size="sm"
               disabled={busy || completing || !currentSession?.conversationId || !hasSynthesis}
-              onClick={handleComplete}
-              title={hasSynthesis ? "Lock in this topic as mastered" : "Run 'Check my understanding' first"}
+              onClick={() => setCheckOpen(true)}
+              title={hasSynthesis ? "Take the knowledge check to master this topic" : "Run 'Check my understanding' first"}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
               <CheckCircle2 className="w-4 h-4 mr-1" />
-              {completing ? "Saving…" : "Mark as mastered"}
+              Take knowledge check
             </Button>
           )}
           <div className="flex-1" />
@@ -380,10 +464,18 @@ export function ChatArea() {
 
         <div className="text-center mt-3 text-xs text-muted-foreground">
           {hasSynthesis && !isCompleted
-            ? "Ready? Lock in this topic with “Mark as mastered.”"
+            ? "Ready? Take the knowledge check to master this topic."
             : "Enter to send · Shift+Enter for new line · The tutor asks one question at a time"}
         </div>
       </div>
+
+      <KnowledgeCheck
+        topicId={currentTopic.id}
+        topicTitle={currentTopic.title}
+        open={checkOpen}
+        onOpenChange={setCheckOpen}
+        onPass={finishMastery}
+      />
     </div>
   );
 }

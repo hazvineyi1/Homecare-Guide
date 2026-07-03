@@ -74,18 +74,22 @@
 }
 
 :root {
-  --paper: #FBF9F3;
-  --card: #FFFFFF;
-  --ink: #24332D;
-  --ink-soft: #5A6B63;
-  --pine: #1E4D42;
-  --teal: #2E7265;
-  --teal-tint: #E3EFEB;
-  --marigold: #D99A2B;
-  --marigold-tint: #FBF0DB;
-  --rose: #C05B60;
-  --rose-tint: #F8E9E9;
-  --line: #E5DFD1;
+  /* Palette matched to the book cover of "A Guide to Homecare" by Dorothy Mooka:
+     warm cream, deep espresso/mahogany, burnt-terracotta, and amber glow.
+     (Token names like --pine/--teal/--marigold are kept for stability but now
+     hold warm values.) */
+  --paper: #FAF2E7;          /* warm cream background */
+  --card: #FFFDF8;           /* near-white warm card */
+  --ink: #38221A;            /* deep warm brown text */
+  --ink-soft: #7A6152;       /* muted brown */
+  --pine: #3E2318;           /* espresso / mahogany (sidebar, user bubbles) */
+  --teal: #B4531D;           /* burnt terracotta / rust (primary) */
+  --teal-tint: #F6E5D3;      /* pale peach (secondary surfaces) */
+  --marigold: #D98A2B;       /* warm amber (accent) */
+  --marigold-tint: #FBEEDA;  /* pale amber */
+  --rose: #B0473A;           /* warm brick (destructive) */
+  --rose-tint: #F6E4DF;
+  --line: #EADBC8;           /* warm tan border */
 
   --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
   --app-font-serif: 'Fraunces', serif;
