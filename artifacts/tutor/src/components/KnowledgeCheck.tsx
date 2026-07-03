@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
 import {
   Dialog,
@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TOPIC_META } from "@/lib/course-content";
+import { recordAttempt } from "@/lib/tutor-api";
 
 interface Props {
   topicId: number;
@@ -23,6 +24,15 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
   const questions = TOPIC_META[topicId]?.check ?? [];
   const [answers, setAnswers] = useState<(number | null)[]>(() => questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
+  const startRef = useRef<number>(Date.now());
+  useEffect(() => { if (open) startRef.current = Date.now(); }, [open]);
+
+  const handleSubmit = () => {
+    const sc = questions.reduce((n, q, i) => n + (answers[i] === q.answer ? 1 : 0), 0);
+    const durationSeconds = Math.round((Date.now() - startRef.current) / 1000);
+    void recordAttempt({ topicId, score: sc, total: questions.length, passed: sc === questions.length, durationSeconds });
+    setSubmitted(true);
+  };
 
   const allAnswered = answers.every((a) => a !== null);
   const correctCount = questions.reduce(
@@ -105,7 +115,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
           {!submitted ? (
             <Button
               disabled={!allAnswered}
-              onClick={() => setSubmitted(true)}
+              onClick={handleSubmit}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Submit

@@ -6,16 +6,22 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { AppStateProvider, useAppState, HydratedSession } from "@/hooks/use-app-state";
+import { AuthModal } from "@/components/AuthModal";
+import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
 import { TOPICS } from "@/lib/constants";
-import { fetchTutorSessions } from "@/lib/tutor-api";
+import { fetchTutorSessions, fetchMe } from "@/lib/tutor-api";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
 function MainLayout() {
-  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions } = useAppState();
+  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser } = useAppState();
+
+  useEffect(() => {
+    fetchMe().then(setCurrentUser);
+  }, [setCurrentUser]);
 
   // Rehydrate the sidebar + resumable topics from the server on first load, so
   // reloading the tab doesn't lose the learner's place.
@@ -73,6 +79,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={MainLayout} />
+      <Route path="/verify/:code">{(params) => <VerifyView code={params.code} />}</Route>
       <Route component={NotFound} />
     </Switch>
   );
@@ -86,6 +93,7 @@ function App() {
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
             <Router />
           </WouterRouter>
+          <AuthModal />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>

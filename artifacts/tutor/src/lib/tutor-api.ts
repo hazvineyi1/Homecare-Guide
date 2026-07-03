@@ -111,3 +111,56 @@ export const completeTutorSession = async (id: number): Promise<boolean> => {
     return false;
   }
 };
+
+// ---- Accounts, attempts, certificates (Phase 1) ----
+export interface AuthUser { id: string; email: string; name: string; }
+
+async function postJson(url: string, body?: unknown) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data } as { ok: boolean; status: number; data: any };
+}
+
+export const fetchMe = async (): Promise<AuthUser | null> => {
+  try {
+    const res = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.user ?? null;
+  } catch {
+    return null;
+  }
+};
+
+export const signup = (email: string, name: string, password: string) =>
+  postJson("/api/auth/signup", { email, name, password });
+export const login = (email: string, password: string) =>
+  postJson("/api/auth/login", { email, password });
+export const logout = () => postJson("/api/auth/logout");
+
+export const recordAttempt = (a: {
+  topicId: number; score: number; total: number; passed: boolean; durationSeconds: number;
+}) => postJson("/api/tutor/attempts", a);
+
+export interface CertificateRecord {
+  id: string; code: string; learnerName: string; masteredCount: number; issuedAt: string;
+}
+export const issueCertificate = () => postJson("/api/certificate");
+
+export interface VerifyResult {
+  valid: boolean; code?: string; learnerName?: string; course?: string;
+  masteredCount?: number; issuedAt?: string;
+}
+export const verifyCertificate = async (code: string): Promise<VerifyResult> => {
+  try {
+    const res = await fetch(`/api/verify/${encodeURIComponent(code)}`, { headers: { Accept: "application/json" } });
+    if (!res.ok) return { valid: false };
+    return await res.json();
+  } catch {
+    return { valid: false };
+  }
+};

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { conversations, messages } from "@workspace/db";
+import { conversations, messages, attempts } from "@workspace/db";
 import { and, eq } from "drizzle-orm";
 import {
   CreateTutorSessionBody,
@@ -18,6 +18,22 @@ import {
 import { TOPICS } from "./topics";
 
 const router = Router();
+
+// Record a knowledge-check attempt (score/pass/duration) as an immutable record.
+router.post("/tutor/attempts", async (req, res) => {
+  const { topicId, score, total, passed, durationSeconds } = req.body ?? {};
+  if (typeof topicId !== "number" || typeof score !== "number" || typeof total !== "number" || typeof passed !== "boolean") {
+    res.status(400).json({ error: "Invalid attempt" });
+    return;
+  }
+  await db.insert(attempts).values({
+    ownerId: req.ownerId,
+    userId: req.userId ?? null,
+    topicId, score, total, passed,
+    durationSeconds: typeof durationSeconds === "number" ? Math.max(0, Math.round(durationSeconds)) : 0,
+  });
+  res.status(201).json({ ok: true });
+});
 
 function buildSystemPrompt(topicId: number, level: string): string {
   const topic = TOPICS.find((t) => t.id === topicId);

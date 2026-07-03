@@ -1,34 +1,30 @@
 import { randomUUID } from "node:crypto";
 import type { Request, Response, NextFunction } from "express";
+import { SESSION_COOKIE } from "../lib/auth";
 import { logger } from "../lib/logger";
 
-/**
- * Name of the signed cookie that carries the opaque owner id.
- * The value is signed (HMAC) with COOKIE_SECRET by cookie-parser, so a client
- * cannot forge or tamper with it — they can only present one we issued.
- */
 export const OWNER_COOKIE = "hg_owner";
-
 const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 const isProduction = process.env.NODE_ENV === "production";
 
 /**
- * Resolve (or mint) a per-browser owner id and attach it to `req.ownerId`.
- *
- * This is intentionally lightweight, anonymous "ownership": there is no login,
- * but every conversation is bound to the owner id that created it, and the
- * routes refuse to read or mutate conversations owned by anyone else. That
- * closes the IDOR where any client could read/delete another user's session by
- * guessing its integer id. Swapping this for real accounts later only requires
- * populating `req.ownerId` from an authenticated session instead of a cookie.
+ * Resolves identity for every request.
+ *  - If a signed `hg_session` cookie is present, the learner is logged in:
+ *    `req.userId` is set and `req.ownerId` is the same user id, so every
+ *    existing owner-scoped conversation query keeps working unchanged.
+ *  - Otherwise it is an anonymous guest (free-taster flow): `req.ownerId` is a
+ *    per-browser opaque id (minted on first visit). No account required.
  */
-export function ownerMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
-  const existing = req.signedCookies?.[OWNER_COOKIE];
+export function ownerMiddleware(req: Request, res: Response, next: NextFunction): void {
+  const session = req.signedCookies?.[SESSION_COOKIE];
+  if (typeof session === "string" && session.length > 0) {
+    req.userId = session;
+    req.ownerId = session;
+    next();
+    return;
+  }
 
+  const existing = req.signedCookies?.[OWNER_COOKIE];
   if (typeof existing === "string" && existing.length > 0) {
     req.ownerId = existing;
     next();
@@ -45,6 +41,6 @@ export function ownerMiddleware(
     path: "/",
   });
   req.ownerId = ownerId;
-  logger.debug({ ownerId }, "Issued new owner id");
+  logger.debug({ ownerId }, "Issued new guest owner id");
   next();
 }

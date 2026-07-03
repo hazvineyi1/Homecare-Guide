@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import type { AuthUser } from "@/lib/tutor-api";
 
 export interface Message {
   role: "user" | "assistant" | "system" | "synthesis";
@@ -53,6 +54,10 @@ interface AppState {
   hydrateSessions: (records: HydratedSession[]) => void;
   learnerName: string;
   setLearnerName: (name: string) => void;
+  currentUser: AuthUser | null;
+  setCurrentUser: (u: AuthUser | null) => void;
+  authOpen: boolean;
+  setAuthOpen: (open: boolean) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -65,6 +70,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [totalExchanges, setTotalExchanges] = useState(0);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {
       return localStorage.getItem("hg_learner_name") ?? "";
@@ -132,6 +139,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         hydrateSessions,
         learnerName,
         setLearnerName,
+        currentUser,
+        setCurrentUser,
+        authOpen,
+        setAuthOpen,
       }}
     >
       {children}
