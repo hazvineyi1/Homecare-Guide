@@ -74,21 +74,21 @@
 }
 
 :root {
-  /* Clean, natural palette: white cards on a soft off-white ground, with
-     softer natural browns and high-contrast text for legibility.
+  /* Bright, clean palette: crisp white cards on a bright near-white ground,
+     near-black text for clarity, and richer, cleaner browns + amber (not greyed).
      (Token names like --pine/--teal/--marigold are kept for stability.) */
-  --paper: #F6F4F1;          /* soft warm off-white background */
-  --card: #FFFFFF;           /* clean white card */
-  --ink: #2E2A25;            /* dark warm charcoal text (high contrast) */
-  --ink-soft: #726A5F;       /* soft brown-grey secondary text */
-  --pine: #5E4F40;           /* soft natural brown (sidebar, user bubbles) */
-  --teal: #8C5E3E;           /* soft cognac brown (primary) */
-  --teal-tint: #EFEAE2;      /* clean warm light (secondary surfaces) */
-  --marigold: #C0894A;       /* warm honey (accent) */
-  --marigold-tint: #F4ECDD;  /* pale honey */
-  --rose: #B0473A;           /* warm brick (destructive) */
-  --rose-tint: #F5E4DF;
-  --line: #E7E1D8;           /* soft clean border */
+  --paper: #F9F8F6;          /* bright near-white background */
+  --card: #FFFFFF;           /* crisp white card */
+  --ink: #23201C;            /* crisp near-black text (max clarity) */
+  --ink-soft: #5D564C;       /* clear medium brown-grey secondary text */
+  --pine: #63432B;           /* clean rich brown (sidebar, user bubbles) */
+  --teal: #A85E30;           /* clean bright cinnamon brown (primary) */
+  --teal-tint: #F4EEE6;      /* clean light tan (secondary surfaces) */
+  --marigold: #D08A38;       /* bright clean amber (accent) */
+  --marigold-tint: #F9F0E0;  /* pale amber */
+  --rose: #BC4A3A;           /* clean brick (destructive) */
+  --rose-tint: #F8E6E1;
+  --line: #E7E3DC;           /* crisp light border */
 
   --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
   --app-font-serif: 'Fraunces', serif;
@@ -135,8 +135,8 @@
   .hg-pop       { animation: hg-pop .5s cubic-bezier(.34,1.56,.64,1) both; }
   .hg-draw      { stroke-dasharray: 26; stroke-dashoffset: 26; animation: hg-draw .5s .15s ease-out forwards; }
   @keyframes hg-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(140, 94, 62, .30); }
-    50%      { box-shadow: 0 0 0 7px rgba(140, 94, 62, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(168, 94, 48, .30); }
+    50%      { box-shadow: 0 0 0 7px rgba(168, 94, 48, 0); }
   }
   .hg-pulse { animation: hg-pulse 2.2s ease-in-out infinite; }
 }
