@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, LogOut, UserCircle2, FileText, Users, KeyRound } from "lucide-react";
+import { CheckCircle2, LogOut, UserCircle2, FileText, Users, KeyRound, Settings } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { LEVELS } from "@/lib/course-structure";
@@ -58,7 +58,7 @@ function printTrainingRecord(name: string, sessions: Record<number, HydratedSess
 
 export function Sidebar() {
   const {
-    level, setLevel,
+    level,
     currentTopicIndex, setCurrentTopicIndex,
     sessions,
     setMobileSidebarOpen,
@@ -67,6 +67,8 @@ export function Sidebar() {
     setTeamOpen,
     setAtLanding,
     setPwOpen,
+    setSettingsOpen,
+    country,
     learnerName,
   } = useAppState();
   const guestFirstName = (learnerName || "").trim().split(" ")[0];
@@ -90,27 +92,20 @@ export function Sidebar() {
         </p>
       </button>
 
-      <div className="px-6 mb-6">
-        <div className="flex bg-black/[0.05] rounded-md p-1">
-          <button
-            onClick={() => setLevel("new")}
-            className={cn(
-              "flex-1 py-1.5 text-sm rounded-sm font-medium transition-colors",
-              level === "new" ? "bg-primary text-primary-foreground shadow-sm" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
-            )}
-          >
-            New caregiver
-          </button>
-          <button
-            onClick={() => setLevel("experienced")}
-            className={cn(
-              "flex-1 py-1.5 text-sm rounded-sm font-medium transition-colors",
-              level === "experienced" ? "bg-primary text-primary-foreground shadow-sm" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
-            )}
-          >
-            Experienced
-          </button>
-        </div>
+      <div className="px-6 mb-5">
+        <button
+          onClick={() => setSettingsOpen(true)}
+          className="w-full flex items-center justify-between gap-2 rounded-md border border-sidebar-border/60 bg-black/[0.03] px-3 py-2 text-left hover:bg-black/[0.06] transition-colors"
+          title="Change your country, name and starting difficulty"
+        >
+          <span className="min-w-0">
+            <span className="block text-[11px] uppercase tracking-wide text-sidebar-foreground/60 font-semibold">Learning setup</span>
+            <span className="block text-sm text-sidebar-foreground truncate">
+              {country || "Set your country"} &middot; {level === "experienced" ? "Experienced" : "New caregiver"}
+            </span>
+          </span>
+          <Settings className="w-4 h-4 text-sidebar-foreground/60 shrink-0" />
+        </button>
       </div>
 
       <div className="px-6 pb-2 flex items-baseline justify-between">

@@ -9,6 +9,7 @@ import { AppStateProvider, useAppState, HydratedSession } from "@/hooks/use-app-
 import { AuthModal } from "@/components/AuthModal";
 import { TeamDashboard } from "@/components/TeamDashboard";
 import { ChangePasswordModal } from "@/components/ChangePasswordModal";
+import { SettingsModal } from "@/components/SettingsModal";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
@@ -111,6 +112,7 @@ function App() {
           <AuthModal />
           <TeamDashboard />
           <ChangePasswordModal />
+          <SettingsModal />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>

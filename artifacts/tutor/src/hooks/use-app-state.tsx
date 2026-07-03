@@ -54,6 +54,8 @@ interface AppState {
   hydrateSessions: (records: HydratedSession[]) => void;
   learnerName: string;
   setLearnerName: (name: string) => void;
+  country: string;
+  setCountry: (country: string) => void;
   currentUser: AuthUser | null;
   setCurrentUser: (u: AuthUser | null) => void;
   authOpen: boolean;
@@ -62,6 +64,8 @@ interface AppState {
   setTeamOpen: (open: boolean) => void;
   pwOpen: boolean;
   setPwOpen: (open: boolean) => void;
+  settingsOpen: boolean;
+  setSettingsOpen: (open: boolean) => void;
   atLanding: boolean;
   setAtLanding: (v: boolean) => void;
   onboarded: boolean;
@@ -82,6 +86,7 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [authOpen, setAuthOpen] = useState(false);
   const [teamOpen, setTeamOpen] = useState(false);
   const [pwOpen, setPwOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [atLanding, setAtLanding] = useState(true);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {
@@ -94,6 +99,21 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
     setLearnerNameState(name);
     try {
       localStorage.setItem("hg_learner_name", name);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+  const [country, setCountryState] = useState<string>(() => {
+    try {
+      return localStorage.getItem("hg_country") ?? "";
+    } catch {
+      return "";
+    }
+  });
+  const setCountry = useCallback((c: string) => {
+    setCountryState(c);
+    try {
+      localStorage.setItem("hg_country", c);
     } catch {
       /* ignore */
     }
@@ -165,6 +185,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         hydrateSessions,
         learnerName,
         setLearnerName,
+        country,
+        setCountry,
         currentUser,
         setCurrentUser,
         authOpen,
@@ -173,6 +195,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setTeamOpen,
         pwOpen,
         setPwOpen,
+        settingsOpen,
+        setSettingsOpen,
         atLanding,
         setAtLanding,
         onboarded,

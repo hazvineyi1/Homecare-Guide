@@ -15,7 +15,9 @@ import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { LEVELS } from "@/lib/course-structure";
 import { COURSE_OUTCOMES } from "@/lib/course-content";
+import { COUNTRIES } from "@/lib/countries";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const TOTAL_STEPS = 5;
 
@@ -31,6 +33,10 @@ export function Onboarding() {
   const {
     learnerName,
     setLearnerName,
+    country,
+    setCountry,
+    level,
+    setLevel,
     setOnboarded,
     setAtLanding,
     setCurrentTopicIndex,
@@ -41,7 +47,7 @@ export function Onboarding() {
   const [name, setName] = useState(learnerName || currentUser?.name?.split(" ")[0] || "");
 
   const firstName = (name.trim().split(" ")[0] || "there");
-  const canProceed = step !== 1 || name.trim().length >= 1;
+  const canProceed = step !== 1 || (name.trim().length >= 1 && country.trim().length >= 1);
 
   const commitName = () => {
     if (name.trim()) setLearnerName(name.trim());
@@ -105,8 +111,22 @@ export function Onboarding() {
                   className="mt-1.5 w-full rounded-lg border border-border bg-card px-4 py-3 text-base text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 />
               </label>
+              <label className="block mt-4">
+                <span className="text-sm font-semibold text-foreground">Where are you caring? (your country)</span>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="mt-1.5 w-full rounded-lg border border-border bg-card px-4 py-3 text-base text-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                >
+                  <option value="" disabled>Select your country…</option>
+                  {COUNTRIES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </label>
               <p className="mt-3 text-xs text-muted-foreground">
-                We use your name only to personalise this course on this device. You can change it any time.
+                Nurse Mooka will set every scenario in your country, using names, places and situations you'll recognise.
+                Your details stay on this device and you can change them any time.
               </p>
             </div>
           )}
@@ -193,10 +213,33 @@ export function Onboarding() {
               <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight mb-3">
                 You're ready, {firstName}
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-7 max-w-lg mx-auto">
-                You'll always see where you are, Topic X of {TOPICS.length} and your module, so you never feel lost. You can
-                restart a lesson or come back any time. Where would you like to begin?
+              <p className="text-muted-foreground leading-relaxed mb-6 max-w-lg mx-auto">
+                You'll always see your module and which topic you're on out of {TOPICS.length}, so you never feel lost. Nurse
+                Mooka also adapts as you go, easing off or pushing harder based on how you're doing. Pick a starting point:
               </p>
+              <div className="mb-7">
+                <div className="inline-flex rounded-lg border border-border p-1 bg-card">
+                  <button
+                    onClick={() => setLevel("new")}
+                    className={cn(
+                      "px-4 py-2 rounded-md text-sm font-semibold transition-colors",
+                      level === "new" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    New caregiver
+                  </button>
+                  <button
+                    onClick={() => setLevel("experienced")}
+                    className={cn(
+                      "px-4 py-2 rounded-md text-sm font-semibold transition-colors",
+                      level === "experienced" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    Experienced
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">You can change this any time, and Nurse Mooka adapts either way.</p>
+              </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Button
                   size="lg"

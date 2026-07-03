@@ -35,6 +35,7 @@ export function ChatArea() {
     setCurrentTopicIndex,
     hydrated,
     learnerName,
+    country,
     currentUser,
   } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
@@ -121,6 +122,7 @@ export function ChatArea() {
         setBusy(false);
       },
       firstName,
+      country,
     );
   };
 
@@ -237,6 +239,7 @@ export function ChatArea() {
           setBusy(false);
         },
         firstName,
+        country,
       );
     } catch (e) {
       console.error(e);
@@ -354,6 +357,12 @@ export function ChatArea() {
               <span className="uppercase tracking-wider">Topic {topicPosition} of {TOPICS.length}</span>
               <span aria-hidden>·</span>
               <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
+              {country && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>{country}</span>
+                </>
+              )}
               {meta && (
                 <>
                   <span aria-hidden>·</span>
