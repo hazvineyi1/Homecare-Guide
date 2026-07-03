@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, Info, ArrowLeft } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -46,6 +46,7 @@ export function ChatArea() {
   const [checkOpen, setCheckOpen] = useState(false);
   const [showObjectives, setShowObjectives] = useState(false);
   const [readingOpen, setReadingOpen] = useState(false);
+  const [showHowto, setShowHowto] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -321,28 +322,23 @@ export function ChatArea() {
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
             </button>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Topic {currentTopic.id.toString().padStart(2, "0")}
-              </span>
-              <span className="inline-flex items-center text-xs font-semibold text-secondary-foreground bg-secondary border border-secondary rounded-full px-2 py-0.5">
-                {(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}
-              </span>
+            <div className="flex items-center gap-x-2 gap-y-1 flex-wrap mb-1 text-xs font-semibold text-muted-foreground">
+              <span className="uppercase tracking-wider">Topic {currentTopic.id.toString().padStart(2, "0")}</span>
+              <span aria-hidden>·</span>
+              <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
+              {meta && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> ~{meta.estMinutes} min</span>
+                </>
+              )}
               {isCompleted && (
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent bg-accent/15 border border-accent/30 rounded-full px-2 py-0.5">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Mastered
-                </span>
+                <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
               )}
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif text-foreground leading-tight mb-1">
+            <h2 className="text-xl sm:text-2xl font-serif text-foreground leading-tight">
               {currentTopic.title}
             </h2>
-            <div className="mt-1.5 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
-              <span className="text-xs font-bold uppercase tracking-[0.15em] text-primary">Scenario</span>
-              <p className="text-sm text-foreground leading-snug">
-                The situation you'll reason through with Nurse Mooka: {currentTopic.launch}.
-              </p>
-            </div>
 
             {[7, 8, 9, 10].includes(currentTopic.id) && (
               <div className="mt-2 space-y-1.5 max-w-3xl">
@@ -389,9 +385,6 @@ export function ChatArea() {
                       <BookOpen className="w-3.5 h-3.5" /> Read the chapter
                     </button>
                   )}
-                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground px-1">
-                    <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
-                  </span>
                 </div>
                 {showObjectives && (
                   <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
@@ -411,16 +404,30 @@ export function ChatArea() {
 
       <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
         {!isCompleted && (
-          <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm">
-            <div className="flex items-center gap-2 font-semibold text-foreground mb-1.5">
-              <Info className="w-4 h-4 text-primary" /> How to work through this topic
-            </div>
-            <ol className="list-decimal pl-5 space-y-1 text-muted-foreground leading-relaxed marker:text-primary marker:font-semibold">
-              <li>Read the scenario above so you know the situation.</li>
-              <li>Nurse Mooka asks you one question at a time. Reply in your own words in the box below. There is no single right answer, she is building your judgement.</li>
-              <li>Stuck? Use <b>Give me a hint</b> or <b>I'm stuck, simplify</b>. Want the source? Open <b>Read the chapter</b>.</li>
-              <li>When you feel ready, use <b>Check my understanding</b> for a recap, then <b>Take knowledge check</b> to master the topic.</li>
-            </ol>
+          <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm max-w-3xl">
+            <p className="text-foreground leading-relaxed">
+              <span className="font-semibold">The situation.</span>{" "}
+              {currentTopic.launch.charAt(0).toUpperCase() + currentTopic.launch.slice(1)}.
+            </p>
+            <p className="mt-2 text-muted-foreground leading-relaxed">
+              <span className="font-semibold text-foreground">How to start.</span> Nurse Mooka asks one question at a time, look just below for her first question. Reply in your own words in the box at the bottom, then press Enter. There is no single right answer.
+            </p>
+            <button
+              onClick={() => setShowHowto((v) => !v)}
+              aria-expanded={showHowto}
+              className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+            >
+              {showHowto ? "Hide" : "Show"} the full steps
+              <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showHowto && "rotate-180")} />
+            </button>
+            {showHowto && (
+              <ol className="mt-2 list-decimal pl-5 space-y-1 text-muted-foreground leading-relaxed marker:text-primary marker:font-semibold">
+                <li>Read the situation above so you know what is going on.</li>
+                <li>Nurse Mooka asks one question at a time. Reply in your own words in the box below.</li>
+                <li>Stuck? Use <b>Give me a hint</b> or <b>I'm stuck, simplify</b>. Want the source? Open <b>Read the chapter</b>.</li>
+                <li>When you feel ready, use <b>Check my understanding</b>, then <b>Take knowledge check</b> to master the topic.</li>
+              </ol>
+            )}
           </div>
         )}
         {currentSession?.messages.map((msg, idx) => (
