@@ -330,31 +330,38 @@ export function ChatArea() {
             <h2 className="text-xl sm:text-2xl font-serif text-foreground leading-tight mb-1">
               {currentTopic.title}
             </h2>
-            <p className="text-sm text-muted-foreground max-w-3xl leading-snug line-clamp-2">
-              Scenario: {currentTopic.launch}
-            </p>
+            <div className="mt-1.5 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
+              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Scenario</span>
+              <p className="text-sm text-foreground leading-snug">{currentTopic.launch}</p>
+            </div>
             {meta && (
               <div className="mt-2">
-                <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
                   <button
                     onClick={() => setShowObjectives((v) => !v)}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                    aria-expanded={showObjectives}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
+                      showObjectives
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-primary/40 text-primary hover:bg-primary/5",
+                    )}
                   >
                     <Target className="w-3.5 h-3.5" />
-                    Learning objectives
+                    {showObjectives ? "Hide" : "Show"} learning objectives ({meta.objectives.length})
                     <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
-                    <span className="text-muted-foreground font-normal ml-1 inline-flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
-                    </span>
                   </button>
                   {READINGS[currentTopic.id] && (
                     <button
                       onClick={() => setReadingOpen(true)}
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
                     >
                       <BookOpen className="w-3.5 h-3.5" /> Read the chapter
                     </button>
                   )}
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground px-1">
+                    <Clock className="w-3 h-3" /> ~{meta.estMinutes} min
+                  </span>
                 </div>
                 {showObjectives && (
                   <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
@@ -372,7 +379,7 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
+      <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} />
         ))}

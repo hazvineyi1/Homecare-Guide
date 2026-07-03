@@ -26,8 +26,8 @@ export function Sidebar() {
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
           A Guide to Homecare
         </h1>
-        <p className="text-sidebar-foreground/70 text-xs tracking-wide">
-          Caregiver preparedness &middot; guided by Nurse Mooka
+        <p className="text-sidebar-foreground/70 text-[11px] tracking-tight whitespace-nowrap">
+          Caregiver preparedness &middot; guided by Dorothy Mooka
         </p>
       </div>
 
@@ -63,7 +63,7 @@ export function Sidebar() {
         </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-1">
+      <div className="hg-scroll flex-1 overflow-y-auto px-4 pb-4 space-y-1">
         {TOPICS.map((topic, index) => {
           const isActive = currentTopicIndex === index;
           const session = sessions[index];

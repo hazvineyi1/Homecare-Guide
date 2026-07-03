@@ -143,3 +143,7 @@
 }
 /* Progress bar has a smooth width transition even without keyframes */
 .hg-bar-track > span { transition: width .9s cubic-bezier(.22,1,.36,1); }
+
+/* Clean, hidden scrollbars (keep scrollability) */
+.hg-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.hg-scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
