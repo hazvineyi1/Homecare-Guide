@@ -7,7 +7,7 @@ import { parseTitle } from "../lib/tutor-session";
 import { TOPICS } from "./tutor/topics";
 
 const router = Router();
-const COURSE = "A Guide to Homecare — Caregiver Preparedness";
+const COURSE = "A Guide to Homecare: Caregiver Preparedness";
 
 // The three stacked credentials and the topics each requires.
 const LEVELS = [
@@ -62,7 +62,7 @@ router.get("/certificates", async (req, res) => {
   res.json({ certificates: rows });
 });
 
-// Public verification — no auth.
+// Public verification (no auth).
 router.get("/verify/:code", async (req, res) => {
   const code = String(req.params.code || "").toUpperCase();
   const [cert] = await db.select().from(certificates).where(eq(certificates.code, code));

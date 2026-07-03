@@ -54,7 +54,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "A paid caregiver",
       ],
       answer: 1,
-      why: "The book says to always get an accurate diagnosis from a medical doctor — the condition, its signs and symptoms, treatments, side effects and level of care needed.",
+      why: "The book says to always get an accurate diagnosis from a medical doctor, the condition, its signs and symptoms, treatments, side effects and level of care needed.",
     },
     {
       type: "case",
@@ -68,7 +68,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "Wait until a crisis forces a decision",
       ],
       answer: 2,
-      why: "The book's first steps are to assess the situation, form a caregiving team, talk to the care receiver and family, and collect personal and medical history — respecting her wishes throughout.",
+      why: "The book's first steps are to assess the situation, form a caregiving team, talk to the care receiver and family, and collect personal and medical history, respecting her wishes throughout.",
     },
   ],
   2: [
@@ -98,7 +98,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
       q: "What does assessing everyday tasks help a caregiver identify?",
       options: [
         "The person's favourite foods",
-        "Self-care deficits — what the person can and cannot do",
+        "Self-care deficits, what the person can and cannot do",
         "The cheapest care option",
         "Whether the person needs a will",
       ],
@@ -123,12 +123,12 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
       q: "What is the most appropriate solution?",
       options: [
         "Dress him completely each morning from now on",
-        "A minor adjustment — clothes with zips at the front that are easy to fasten",
+        "A minor adjustment, clothes with zips at the front that are easy to fasten",
         "Tell him to stop worrying about clothes",
         "Buy him more shirts with back zips",
       ],
       answer: 1,
-      why: "The book notes that often a minor adjustment solves the problem — for example dresses with zips at the front instead of the back — preserving his independence.",
+      why: "The book notes that often a minor adjustment solves the problem, for example dresses with zips at the front instead of the back, preserving his independence.",
     },
   ],
   3: [
@@ -152,7 +152,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "Avoiding health professionals",
       ],
       answer: 1,
-      why: "The book links caregiver readiness with positive emotions — self-confidence, self-esteem, coping skills and well-being.",
+      why: "The book links caregiver readiness with positive emotions, self-confidence, self-esteem, coping skills and well-being.",
     },
     {
       q: "When should you take part in a discharge plan?",
@@ -245,7 +245,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "Daily bathing and dressing",
         "Hands-off tasks such as managing finances and doing research",
         "Preparing and serving every meal",
-        "Nothing — distant family cannot help",
+        "Nothing, distant family cannot help",
       ],
       answer: 1,
       why: "The book notes long-distance family can manage hands-off tasks like finances and research.",
@@ -261,7 +261,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "The number of relatives nearby",
       ],
       answer: 1,
-      why: "The book states the quality of care provided depends on what the caregiver has learnt — knowledge of the disease, its prognosis, care plans and treatment.",
+      why: "The book states the quality of care provided depends on what the caregiver has learnt, knowledge of the disease, its prognosis, care plans and treatment.",
     },
     {
       q: "Communication in caregiving is described as?",
@@ -299,7 +299,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
     {
       type: "case",
       scenario:
-        "The doctor asks you to give injections and change a wound dressing at home — procedures you have never done before.",
+        "The doctor asks you to give injections and change a wound dressing at home, procedures you have never done before.",
       q: "What should you do?",
       options: [
         "Attempt them from memory of watching once",
@@ -491,7 +491,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
       clinical: true,
       q: "For diarrhoea, when should the doctor be seen?",
       options: [
-        "Never — it always passes on its own",
+        "Never, it always passes on its own",
         "If there is fever, vomiting, blood in the stools, or diarrhoea lasting five days",
         "Only after two weeks",
         "Only if the person refuses fluids",
@@ -590,7 +590,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
         "By telling them nothing is wrong",
       ],
       answer: 1,
-      why: "The book advises honesty and care — asking what children already know, using age-appropriate language and examples, and describing death as a normal stage of life.",
+      why: "The book advises honesty and care, asking what children already know, using age-appropriate language and examples, and describing death as a normal stage of life.",
     },
     {
       type: "case",
@@ -634,7 +634,7 @@ export const ASSESSMENT: Record<number, KnowledgeCheckQuestion[]> = {
       q: "How much sleep does the book say is essential for the caregiver?",
       options: ["Four hours", "Six hours", "Eight hours", "As little as possible"],
       answer: 2,
-      why: "The book states caregivers should get adequate sleep — eight hours is essential — to stay healthy enough to look after the care recipient.",
+      why: "The book states caregivers should get adequate sleep, eight hours is essential, to stay healthy enough to look after the care recipient.",
     },
     {
       q: "Who is at greater risk of caregiver stress?",

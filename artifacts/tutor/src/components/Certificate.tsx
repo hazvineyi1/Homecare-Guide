@@ -15,7 +15,7 @@ interface Props {
 }
 
 const COURSE_TITLE = "A Guide to Homecare";
-const SUBTITLE = "Caregiver Preparedness — with Nurse Mooka";
+const SUBTITLE = "Caregiver Preparedness with Nurse Mooka";
 
 function printCertificate(name: string, code: string, verifyUrl: string, dateStr: string, credential: string, topicCount: number) {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>Certificate</title>

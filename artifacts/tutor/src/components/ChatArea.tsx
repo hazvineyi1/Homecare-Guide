@@ -438,7 +438,7 @@ export function ChatArea() {
               disabled={busy || completing || !currentSession?.conversationId}
               onClick={() => {
                 if (!hasSynthesis) {
-                  toast.info('First run "Check my understanding" — it recaps your reasoning, then unlocks the knowledge check.');
+                  toast.info('First run "Check my understanding", it recaps your reasoning, then unlocks the knowledge check.');
                   return;
                 }
                 setCheckOpen(true);

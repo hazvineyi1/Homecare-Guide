@@ -92,7 +92,7 @@ export function WelcomeScreen() {
             Learn family caregiving by <span className="text-primary italic">reasoning it through</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-7">
-            Meet <b>Nurse Mooka</b>, a warm tutor who helps you think like a confident caregiver —
+            Meet <b>Nurse Mooka</b>, a warm tutor who helps you think like a confident caregiver,
             one question at a time, across 12 real-world topics, grounded in
             <em>A Guide to Homecare</em> by Dorothy Mooka.
           </p>
@@ -138,7 +138,7 @@ export function WelcomeScreen() {
           <h2 className="font-serif text-2xl text-foreground text-center mb-6">How it works</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
-              { icon: MessageCircleQuestion, title: "Socratic dialogue", body: "Nurse Mooka never lectures. She poses a real caregiving scenario and asks one focused question at a time, so you build judgement — not just facts." },
+              { icon: MessageCircleQuestion, title: "Socratic dialogue", body: "Nurse Mooka never lectures. She poses a real caregiving scenario and asks one focused question at a time, so you build judgement, not just facts." },
               { icon: Lightbulb, title: "Support when stuck", body: "Ask for a hint or a simpler version any time. Choose New caregiver for gentle scaffolding, or Experienced to be challenged harder." },
               { icon: CheckCircle2, title: "Check & master", body: "Run “Check my understanding” for a formative recap, then pass a short knowledge check to lock in each topic as mastered." },
             ].map((c) => (
@@ -173,7 +173,7 @@ export function WelcomeScreen() {
               <h2 className="font-serif text-xl text-foreground">Who it's for</h2>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-              Anyone caring — or preparing to care — for a family member at home:
+              Anyone caring, or preparing to care, for a family member at home:
             </p>
             <ul className="space-y-2 text-sm text-foreground">
               <li>• <b>New caregivers</b> who want plain-language, step-by-step reasoning.</li>
@@ -185,7 +185,7 @@ export function WelcomeScreen() {
         </section>
 
         {/* Topics grid */}
-        {/* Your journey — calm, competence-tied progress */}
+        {/* Your journey: calm, competence-tied progress */}
         <div className="hg-fade-up mb-10 rounded-2xl border border-border bg-card p-5 sm:p-6">
           {(() => {
             const total = TOPICS.length;
@@ -213,7 +213,7 @@ export function WelcomeScreen() {
                       </>
                     ) : (
                       <div className="inline-flex items-center gap-1 text-sm font-semibold text-accent">
-                        <Award className="w-4 h-4" /> Diploma complete
+                        <Award className="w-4 h-4" /> All certificates earned
                       </div>
                     )}
                   </div>
@@ -228,8 +228,8 @@ export function WelcomeScreen() {
                   {masteredCount === 0
                     ? "Master a topic's knowledge check to begin filling your progress."
                     : masteredCount >= total
-                    ? "Every topic mastered — a remarkable achievement."
-                    : `${pct}% of the way through the full Diploma.`}
+                    ? "Every topic mastered. A remarkable achievement."
+                    : `${pct}% of the way through the full programme.`}
                 </div>
               </>
             );
@@ -238,9 +238,9 @@ export function WelcomeScreen() {
 
         <section id="topics" className="mb-12 scroll-mt-4">
           <div className="mb-6">
-            <h2 className="font-serif text-2xl text-foreground">Three levels to a Diploma</h2>
+            <h2 className="font-serif text-2xl text-foreground">Three stacked certificates</h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Master every topic in a level to earn its credential. The levels stack: Certificate &rarr; Advanced Certificate &rarr; Diploma.
+              Master every topic in a level to earn its credential. The levels stack from Certificate II to Certificate III to Certificate IV.
             </p>
           </div>
 
@@ -311,14 +311,14 @@ export function WelcomeScreen() {
             <h2 className="font-serif text-xl text-foreground">About the book &amp; author</h2>
           </div>
           <p className="text-sm text-foreground leading-relaxed mb-3">
-            This course is adapted from <em>A Guide to Homecare — Caregiver Preparedness</em> by
+            This course is adapted from <em>A Guide to Homecare: Caregiver Preparedness</em> by
             <b> Dorothy Mooka</b>, a practical handbook that prepares family caregivers for the role:
             duties and responsibilities, identifying problems and solving them, acquiring caregiving
             knowledge and skills, and making informed decisions.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Every scenario and knowledge check here stays grounded in that book's guidance. The tutor won't
-            invent medical advice beyond it — it's here to build your reasoning, not replace professional care.
+            invent medical advice beyond it. It's here to build your reasoning, not replace professional care.
           </p>
         </section>
 
@@ -357,8 +357,8 @@ export function WelcomeScreen() {
         {/* Disclaimer */}
         <p className="text-xs text-muted-foreground/80 text-center max-w-2xl mx-auto leading-relaxed pb-4">
           This course is for education and preparation only. It is not medical advice and does not replace
-          professional or emergency care. If someone shows red-flag symptoms — trouble breathing, blood in
-          sputum, or signs of sepsis (confusion, rapid breathing, temperature 37.8&deg;C or higher) — seek
+          professional or emergency care. If someone shows red-flag symptoms such as trouble breathing, blood in
+          sputum, or signs of sepsis (confusion, rapid breathing, temperature 37.8&deg;C or higher), seek
           professional medical help without delay.
         </p>
       </div>

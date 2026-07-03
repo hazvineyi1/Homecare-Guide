@@ -31,9 +31,9 @@ export function visibleMessages<T extends StoredMessage>(messages: T[]): T[] {
   return messages.filter((m) => !(m.role === "user" && isControlUserMessage(m.content)));
 }
 
-/** Conversation titles are stored as `${topicTitle} — ${levelLabel}`. */
+/** Conversation titles are stored as `${topicTitle} · ${levelLabel}` (older rows use a legacy em-dash delimiter). */
 export function parseTitle(title: string): { topicTitle: string; level: Level } {
-  const parts = title.split(" — ");
+  const parts = title.split(/ [\u2014\u00b7] /); // accept legacy em dash or new middot
   const topicTitle = parts[0] ?? "";
   const levelLabel = parts[1] ?? "New caregiver";
   return { topicTitle, level: levelLabel === "Experienced" ? "experienced" : "new" };

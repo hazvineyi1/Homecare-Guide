@@ -1,6 +1,6 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
-// Password hashing with Node's built-in scrypt — no native module, so it works
+// Password hashing with Node's built-in scrypt (no native module), so it works
 // inside the esbuild single-file runtime bundle (no node_modules at runtime).
 export function hashPassword(password: string): string {
   const salt = randomBytes(16).toString("hex");

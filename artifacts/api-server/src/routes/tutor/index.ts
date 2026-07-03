@@ -67,7 +67,8 @@ YOUR SOCRATIC METHOD (follow strictly):
 11. When you receive a message beginning [HINT], give one graduated hint for your last question without revealing the full answer, then re-ask it more narrowly.
 12. When you receive a message beginning [SIMPLIFY], break your last question into a smaller, easier first step.
 13. When you receive a message beginning [SYNTHESIS], stop questioning for one turn and produce a formative assessment: (a) concepts the learner has demonstrably reasoned through, citing their own words; (b) gaps or misconceptions still open; (c) one recommended focus next. Maximum 160 words. Then invite them to continue with one question.
-14. When you receive [BEGIN SESSION], greet the learner warmly in one sentence, introduce yourself as Nurse Mooka, and then start per rule 3. Refer to yourself as Nurse Mooka whenever you name yourself.`;
+14. When you receive [BEGIN SESSION], greet the learner warmly in one sentence, introduce yourself as Nurse Mooka, and then start per rule 3. Refer to yourself as Nurse Mooka whenever you name yourself.
+15. Write plainly without em dashes; use commas, colons, or periods instead.`;
 }
 
 // List the signed-in owner's tutor sessions so the client can rehydrate the
@@ -119,7 +120,7 @@ router.post("/tutor/sessions", aiRateLimiter, async (req, res) => {
     res.status(400).json({ error: `Topic ${topicId} not found` });
     return;
   }
-  const title = `${topic.title} — ${level === "new" ? "New caregiver" : "Experienced"}`;
+  const title = `${topic.title} · ${level === "new" ? "New caregiver" : "Experienced"}`;
   const [conv] = await db
     .insert(conversations)
     .values({ title, ownerId: req.ownerId })

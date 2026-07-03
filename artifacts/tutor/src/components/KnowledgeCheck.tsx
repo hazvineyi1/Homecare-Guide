@@ -60,7 +60,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">Knowledge check</DialogTitle>
           <DialogDescription>
-            {topicTitle} — score {Math.round(ASSESSMENT_PASS_RATIO * 100)}% or more ({passThreshold} of {questions.length}) to lock in this topic as mastered.
+            {topicTitle}: score {Math.round(ASSESSMENT_PASS_RATIO * 100)}% or more ({passThreshold} of {questions.length}) to lock in this topic as mastered.
           </DialogDescription>
         </DialogHeader>
 
@@ -119,7 +119,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
               </svg>
             </div>
             <p className="font-serif text-lg text-foreground">Topic mastered</p>
-            <p className="text-xs text-muted-foreground">You reasoned this through — well done.</p>
+            <p className="text-xs text-muted-foreground">You reasoned this through. Well done.</p>
           </div>
         )}
 
@@ -128,7 +128,7 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
             {submitted && (
               <span className={passed ? "text-primary font-semibold" : "text-muted-foreground"}>
                 {correctCount} / {questions.length} correct
-                {passed ? " — well reasoned!" : ` — you need ${passThreshold} to master. Review and try again.`}
+                {passed ? ", well reasoned!" : `, you need ${passThreshold} to master. Review and try again.`}
               </span>
             )}
           </div>
