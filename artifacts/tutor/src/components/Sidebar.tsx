@@ -20,10 +20,10 @@ export function Sidebar() {
     <div className="w-full md:w-[300px] h-full bg-sidebar md:border-r border-sidebar-accent flex flex-col shrink-0">
       <div className="p-6 pb-4">
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
-          Socratic Homecare Tutor
+          A Guide to Homecare
         </h1>
         <p className="text-sidebar-foreground/70 text-xs tracking-wide">
-          AI-guided inquiry &middot; grounded in A Guide to Homecare
+          Caregiver preparedness &middot; guided by Nurse Mooka
         </p>
       </div>
 

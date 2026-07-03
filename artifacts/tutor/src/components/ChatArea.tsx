@@ -270,7 +270,7 @@ export function ChatArea() {
       ul { margin: 6px 0; padding-left: 20px; } li { margin: 4px 0; }
       .foot { margin-top: 28px; font-size: 11px; color:#7A6152; border-top:1px solid #EADBC8; padding-top:8px; }
     </style></head><body>
-      <div class="eyebrow">Socratic Homecare Course \u2014 Topic summary</div>
+      <div class="eyebrow">A Guide to Homecare \u2014 Topic summary</div>
       <h1>${esc(currentTopic.title)}</h1>
       <div class="meta">Mode: ${lvl} &nbsp;&middot;&nbsp; ${new Date().toLocaleDateString()}</div>
       ${meta ? `<h2>Learning objectives</h2><ul>${li(meta.objectives)}</ul>` : ""}

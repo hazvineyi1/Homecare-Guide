@@ -15,8 +15,8 @@ interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
-const COURSE_TITLE = "The Socratic Homecare Course";
-const SUBTITLE = 'Grounded in "A Guide to Homecare" by Dorothy Mooka';
+const COURSE_TITLE = "A Guide to Homecare";
+const SUBTITLE = 'Caregiver Preparedness \u2014 with Nurse Mooka';
 
 function printCertificate(name: string) {
   const date = new Date().toLocaleDateString(undefined, {
