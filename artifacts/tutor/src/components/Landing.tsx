@@ -47,7 +47,7 @@ export function Landing() {
           Dorothy Mooka. Reason through each one, check your understanding, and earn your Certificate of Completion.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button size="lg" onClick={explored > 0 ? continueLearning : enterRoadmap}
+          <Button size="lg" onClick={continueLearning}
             className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-7 text-base">
             {explored > 0 ? "Continue where you left off" : "Start the course"}
             <ArrowRight className="w-4 h-4 ml-2" />
