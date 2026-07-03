@@ -537,9 +537,11 @@ function MenuIcon() {
  * `**` and `1.`) makes the Socratic questions far more scannable.
  */
 function MarkdownContent({ content }: { content: string }) {
+  // Guarantee no em dashes in displayed text, regardless of model output or older stored messages.
+  const clean = content.replace(/ \u2014 /g, ", ").replace(/\u2014/g, ", ");
   return (
     <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:font-serif prose-headings:mb-2 prose-headings:mt-3 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-strong:text-foreground prose-a:text-primary text-[15px] leading-relaxed dark:prose-invert">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{clean}</ReactMarkdown>
     </div>
   );
 }
