@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, Info } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -332,7 +332,9 @@ export function ChatArea() {
             </h2>
             <div className="mt-1.5 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
               <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">Scenario</span>
-              <p className="text-sm text-foreground leading-snug">{currentTopic.launch}</p>
+              <p className="text-sm text-foreground leading-snug">
+                The situation you'll reason through with Nurse Mooka: {currentTopic.launch}.
+              </p>
             </div>
             {meta && (
               <div className="mt-2">
@@ -380,6 +382,19 @@ export function ChatArea() {
       </div>
 
       <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
+        {!isCompleted && (
+          <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm">
+            <div className="flex items-center gap-2 font-semibold text-foreground mb-1.5">
+              <Info className="w-4 h-4 text-primary" /> How to work through this topic
+            </div>
+            <ol className="list-decimal pl-5 space-y-1 text-muted-foreground leading-relaxed marker:text-primary marker:font-semibold">
+              <li>Read the scenario above so you know the situation.</li>
+              <li>Nurse Mooka asks you one question at a time. Reply in your own words in the box below. There is no single right answer, she is building your judgement.</li>
+              <li>Stuck? Use <b>Give me a hint</b> or <b>I'm stuck, simplify</b>. Want the source? Open <b>Read the chapter</b>.</li>
+              <li>When you feel ready, use <b>Check my understanding</b> for a recap, then <b>Take knowledge check</b> to master the topic.</li>
+            </ol>
+          </div>
+        )}
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} />
         ))}
@@ -403,8 +418,11 @@ export function ChatArea() {
                 </li>
               ))}
             </ul>
+            <p className="text-xs text-muted-foreground mb-2">
+              Save a printable one-page recap of this topic, its objectives and these key takeaways, as a PDF.
+            </p>
             <Button variant="secondary" size="sm" onClick={printSummary}>
-              <Printer className="w-4 h-4 mr-2" /> Download summary
+              <Printer className="w-4 h-4 mr-2" /> Download 1-page summary (PDF)
             </Button>
           </div>
         )}
@@ -479,7 +497,7 @@ export function ChatArea() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             disabled={busy || !currentSession?.conversationId}
-            placeholder="Type your response..."
+            placeholder="Answer Nurse Mooka in your own words, then press Enter..."
             className="min-h-[80px] max-h-[200px] resize-none border-border focus-visible:ring-primary text-base"
           />
           <Button
@@ -492,9 +510,11 @@ export function ChatArea() {
         </div>
 
         <div className="text-center mt-3 text-xs text-muted-foreground">
-          {hasSynthesis && !isCompleted
+          {isCompleted
+            ? "You have mastered this topic. Keep exploring with Nurse Mooka, or pick your next topic from the roadmap."
+            : hasSynthesis
             ? "Ready? Take the knowledge check to master this topic."
-            : "Enter to send · Shift+Enter for new line · The tutor asks one question at a time"}
+            : "Reply to Nurse Mooka's question above. Enter to send · Shift+Enter for a new line."}
         </div>
       </div>
 

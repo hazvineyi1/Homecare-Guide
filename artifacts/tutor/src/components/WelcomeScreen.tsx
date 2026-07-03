@@ -203,7 +203,7 @@ export function WelcomeScreen() {
         {/* Learn more — compact, collapsed by default */}
         <div className="mt-10">
           <h2 className="font-serif text-lg text-foreground mb-3">Learn more</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 items-start">
             <details className="bg-card border border-border rounded-xl p-4 group">
               <summary className="flex items-center gap-2 cursor-pointer font-serif text-base text-foreground list-none">
                 <MessageCircleQuestion className="w-5 h-5 text-primary" /> How it works
