@@ -10,6 +10,8 @@ export interface SessionState {
   exchanges: number;
   conversationId: number | null;
   completed: boolean;
+  // The caregiver level this session was created with (fixed per session).
+  level: Level;
   // Whether the full message history has been loaded from the server. A session
   // rehydrated from the summary list starts `loaded: false` until opened.
   loaded: boolean;
@@ -23,6 +25,7 @@ const emptySession = (): SessionState => ({
   conversationId: null,
   completed: false,
   loaded: false,
+  level: "new",
 });
 
 export interface HydratedSession {
@@ -30,6 +33,7 @@ export interface HydratedSession {
   conversationId: number;
   exchanges: number;
   completed: boolean;
+  level: Level;
 }
 
 interface AppState {
@@ -77,6 +81,7 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
           conversationId: r.conversationId,
           exchanges: r.exchanges,
           completed: r.completed,
+          level: r.level,
           loaded: false,
         };
         total += r.exchanges;

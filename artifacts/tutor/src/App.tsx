@@ -38,6 +38,7 @@ function MainLayout() {
           conversationId: isNewer ? s.conversationId : prev!.conversationId,
           exchanges: isNewer ? s.exchangeCount : prev!.exchanges,
           completed: (prev?.completed ?? false) || s.completed,
+          level: isNewer ? (s.level === "experienced" ? "experienced" : "new") : prev!.level,
           createdAt: isNewer ? s.createdAt : prev!.createdAt,
         });
       }

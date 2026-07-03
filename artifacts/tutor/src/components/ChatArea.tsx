@@ -19,6 +19,7 @@ import {
 export function ChatArea() {
   const {
     level,
+    setLevel,
     currentTopicIndex,
     sessions,
     setSessionState,
@@ -28,6 +29,10 @@ export function ChatArea() {
     setMobileSidebarOpen,
     hydrated,
   } = useAppState();
+
+  // Guards the programmatic level sync in loadSession from being treated as a
+  // user-initiated level switch (which would restart the topic).
+  const levelSyncRef = useRef(false);
 
   const [input, setInput] = useState("");
   const [streamingContent, setStreamingContent] = useState("");
@@ -63,6 +68,22 @@ export function ChatArea() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTopicIndex, hydrated, currentSession?.conversationId, currentSession?.loaded]);
+
+  // When the learner switches the caregiver level while a topic is open, restart
+  // that topic at the new level so the tutor actually adapts. Programmatic syncs
+  // from opening an existing session are skipped via levelSyncRef.
+  useEffect(() => {
+    if (levelSyncRef.current) {
+      levelSyncRef.current = false;
+      return;
+    }
+    if (currentTopicIndex === null || !hydrated || busy) return;
+    const s = sessions[currentTopicIndex];
+    if (s?.conversationId && s.loaded && s.level !== level) {
+      void startSession(currentTopicIndex, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [level]);
 
   // Stream the tutor's opening turn into the given session.
   const streamOpening = (topicIndex: number, conversationId: number) => {
@@ -112,6 +133,7 @@ export function ChatArea() {
         // A restart begins a new conversation; reset exchanges but keep the
         // topic's mastery badge (it was earned on the prior run).
         exchanges: isRestart ? 0 : prev.exchanges,
+        level,
         loaded: false,
       }));
 
@@ -137,11 +159,18 @@ export function ChatArea() {
         role: (m.role === "assistant" ? "assistant" : m.role === "user" ? "user" : "assistant") as Message["role"],
         content: m.content,
       }));
+      const sessionLevel = detail.level === "experienced" ? "experienced" : "new";
+      // Keep the sidebar toggle honest: show the level THIS session runs at.
+      if (sessionLevel !== level) {
+        levelSyncRef.current = true;
+        setLevel(sessionLevel);
+      }
       setSessionState(topicIndex, (p) => ({
         ...p,
         messages: msgs,
         exchanges: detail.exchangeCount,
         completed: p.completed || detail.completed,
+        level: sessionLevel,
         loaded: true,
       }));
       // Recover a session that was created but whose opening never landed.
@@ -245,6 +274,9 @@ export function ChatArea() {
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Topic {currentTopic.id.toString().padStart(2, "0")}
+              </span>
+              <span className="inline-flex items-center text-xs font-semibold text-secondary-foreground bg-secondary border border-secondary rounded-full px-2 py-0.5">
+                {(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}
               </span>
               {isCompleted && (
                 <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent-foreground bg-accent/15 border border-accent/30 rounded-full px-2 py-0.5">
