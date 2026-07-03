@@ -75,16 +75,15 @@ export function WelcomeScreen() {
           <div className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-2">A guided caregiving course</div>
           <h1 className="font-serif text-3xl sm:text-4xl text-foreground mb-2 leading-tight">Your caregiving roadmap</h1>
           <p className="text-muted-foreground leading-relaxed mb-5">
-            Reason through 12 real-world topics with <b>Nurse Mooka</b>, grounded in <em>A Guide to Homecare</em>.
-            Master each stop to light up your path and earn a Certificate of Completion for each module.
+            Work through 12 real-world topics with <b>Nurse Mooka</b>, based on <em>A Guide to Homecare</em>.
+            Finish each one to light up your path and earn your Certificate of Completion.
           </p>
 
           <div className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
                 <span className="truncate">
-                  {masteredCount} of {total} mastered
-                  {currentLevel && !allMastered ? ` · on Module ${currentLevel.level}: ${currentLevel.name}` : ""}
+                  {masteredCount} of {total} topics complete · working toward your Certificate of Completion
                 </span>
                 <span className="shrink-0 ml-2">{pct}%</span>
               </div>
@@ -100,6 +99,12 @@ export function WelcomeScreen() {
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
+
+          <p className="mt-3 text-xs text-muted-foreground/90 leading-relaxed max-w-3xl">
+            This course gives you a <b>Certificate of Completion</b> showing you finished the training. It is a
+            preparation and reference guide, not a licensed or government-accredited qualification, and not a
+            substitute for professional medical training or advice.
+          </p>
         </div>
 
         {/* The roadmap */}
@@ -118,7 +123,7 @@ export function WelcomeScreen() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="font-serif text-lg sm:text-xl text-foreground">Module {lv.level}: {lv.name}</h2>
                       <span className="text-[11px] font-semibold uppercase tracking-wide text-secondary-foreground bg-card border border-border rounded-full px-2 py-0.5">
-                        {lv.credential}
+                        {lv.tag}
                       </span>
                     </div>
                     <p className="text-sm text-muted-foreground leading-snug">{lv.blurb}</p>
@@ -250,6 +255,7 @@ export function WelcomeScreen() {
                 <li>• <b>Experienced caregivers</b> who want to pressure-test their judgement.</li>
                 <li>• Family members coordinating care from near or far.</li>
                 <li>• Anyone supporting an elderly, disabled, or chronically ill loved one.</li>
+                <li>• Care homes and agencies using this as staff orientation or an in-service reference guide.</li>
               </ul>
             </details>
 

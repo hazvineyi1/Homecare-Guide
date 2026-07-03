@@ -336,6 +336,27 @@ export function ChatArea() {
                 The situation you'll reason through with Nurse Mooka: {currentTopic.launch}.
               </p>
             </div>
+
+            {[7, 8, 9, 10].includes(currentTopic.id) && (
+              <div className="mt-2 space-y-1.5 max-w-3xl">
+                <div className="rounded-md border border-accent/40 bg-accent/10 px-3 py-1.5 text-xs text-foreground flex gap-2">
+                  <span aria-hidden>⚠️</span>
+                  <span><b>A quick safety note.</b> This guide helps you prepare and learn, it does not replace a doctor, nurse, or emergency care. If you are unsure about a procedure, or the person seems unwell, contact a health professional. When in doubt, ask.</span>
+                </div>
+                {[7, 9, 10].includes(currentTopic.id) && (
+                  <div className="rounded-md border border-destructive/50 bg-destructive/10 px-3 py-1.5 text-xs text-foreground flex gap-2">
+                    <span aria-hidden>🚨</span>
+                    <span><b className="text-destructive">Get emergency help now</b> if the person has any of these: trouble breathing, ongoing chest pain, blood in their spit, new confusion, a blue tinge to the lips or nails, or signs of sepsis (confusion, fast breathing, shaking, or a temperature of 37.8°C or higher). Do not wait, call for professional medical help straight away.</span>
+                  </div>
+                )}
+                {currentTopic.id === 8 && (
+                  <div className="rounded-md border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground flex gap-2">
+                    <span aria-hidden>👐</span>
+                    <span><b>Before hands-on care:</b> wash your hands and wear gloves. Always tell the person what you are about to do and get their agreement first. If a task feels unsafe for you or them, for example lifting, stop and ask a home-care nurse to show you.</span>
+                  </div>
+                )}
+              </div>
+            )}
             {meta && (
               <div className="mt-2">
                 <div className="flex items-center gap-2 flex-wrap">

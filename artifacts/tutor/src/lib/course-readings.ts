@@ -1,423 +1,412 @@
 export const READINGS: Record<number, string> = {
-  1: `## What is home caregiving?
+  1: `## What home caregiving is
 
-Home caregiving is the art of providing care to individuals in their own homes who cannot fully care for themselves - physically, emotionally, socially or spiritually. The care may be provided on a visiting or a live-in basis, and it is usually delivered by family members, neighbours, friends or community volunteers. Those who most often receive home care are the aged, the disabled, and people who are acutely or chronically ill.
+Home caregiving means helping someone in their own home when they can no longer fully care for themselves. The help can be for their body, their feelings, their social life, or their spirit. You might visit now and then, or you might live with them. Most caregivers are family, friends, neighbours, or volunteers. The people who need this help are often older adults, people with a disability, or people who are sick for a short or long time.
 
-Home care is preferred for good reasons. It becomes the optimal solution for people who need help on a regular basis, and the aged, disabled and chronically ill often recover better at home than in an institution. At home the care receiver stays in control of the situation and keeps a stronger sense of independence.
+## Why people prefer care at home
 
-## Why a caregiver's guide matters
+Many people would rather be cared for at home. It often works best for those who need help every day. Older, disabled, and sick people frequently get better at home than in a hospital or care home. At home, the person stays more in control and keeps their sense of independence.
 
-Most people face caregiving at some point in life, yet a beginner usually lacks the knowledge and skills to provide quality care. A caregiver's guide exists to lighten this difficult path. It begins with the basics, carries a novice through every stage of caregiving, and offers information that is simple and clear. In doing so it helps caregivers make safe decisions with confidence and provide quality care through everyday tasks such as bathing, dressing, toilet care, walking and meal preparation.
+## Why a guide like this helps
+
+Most of us will care for someone one day. But few of us start out knowing how. A guide makes this hard job easier. It starts with the basics and walks you through each step in plain words. This helps you make safe choices with confidence, and give good care during everyday tasks like bathing, dressing, toilet care, walking, and making meals.
 
 ## How caregiving begins
 
-Caregiving can sneak up on you or start suddenly. It often begins when you check on a relative and help with small chores, notice unfinished housework, unpaid bills, or poor personal hygiene, and refill prescriptions - until you feel committed to caring full-time. It may also be triggered by a major event such as a stroke or accident, by the ageing process and memory loss, by chronic illness, or by disability.
+Caregiving can creep up slowly, or start all at once. Often it begins in small ways. You check on a relative and help with a few chores. You notice unfinished housework, unpaid bills, or that they are not keeping clean. You refill a prescription. Little by little, you take on more, until you are caring full-time. Sometimes it starts suddenly, after a stroke, an accident, ageing and memory loss, a long illness, or a disability.
 
-## The basics of the role
+## What the role involves
 
 The everyday basics of home caregiving include:
 
-- Giving support and encouragement to patient and family.
-- Assisting with medications and managing symptoms and side effects.
-- Arranging appointments, performing house chores, and paying bills.
-- Sorting legal issues such as wills, and helping with financial affairs and title deeds.
+- Giving support and encouragement to the person and their family.
+- Helping with medicines, and watching for symptoms and side effects.
+- Booking appointments, doing house chores, and paying bills.
+- Sorting out legal matters like wills, and helping with money and property.
 
-A caregiver often plays many roles at once - spouse, parent, housekeeper, professional, and family member. The role cannot be done in isolation: it needs a caregiving team of close and distant family, neighbours, friends and health professionals.
+A caregiver often plays many roles at once: partner, parent, housekeeper, worker, and family member. You cannot do it alone. You need a team of close and distant family, neighbours, friends, and health workers.
 
-## First steps
+## Your first steps
 
-When care begins, assess the situation carefully:
+When care begins, look at the whole situation:
 
-- Form a caregiving team of the care receiver, family and friends.
-- Talk to the care receiver and family, and collect personal details and medical history.
-- Address present and future needs, and respect the preferences, wishes and values of the care receiver.
-- Review the home environment, all areas of daily living, and health status.
+- Build a care team of the person, their family, and friends.
+- Talk with the person and family. Gather their details and medical history.
+- Think about needs now and in the future. Respect the person's wishes and values.
+- Look at the home, all parts of daily life, and their health.
 
-Always get an accurate diagnosis from a medical doctor - the condition, its signs and symptoms, treatments, side effects and level of care needed. Throughout, preserve the care recipient's dignity: provide privacy, encourage independence, be patient, and advocate for them everywhere, especially in healthcare facilities.`,
-
+Always get a clear diagnosis from a doctor: the condition, its signs, treatments, side effects, and how much care is needed. Throughout, protect the person's dignity. Give them privacy, encourage them to do what they can, be patient, and speak up for them, especially in hospitals and clinics.`,
   2: `## Understanding self-care and everyday tasks
 
-This chapter helps the caregiver understand self-care and the everyday tasks that individuals, families and communities depend on. Self-care is a set of behaviours performed daily to promote health, prevent disease, maintain health, and cope with illness - with or without a care provider. Everyday tasks are the fundamental skills that let a person function independently: routine actions learnt in childhood and usually done without a second thought.
+This chapter helps you understand self-care and the everyday tasks that people rely on. Self-care means the things a person does each day to stay healthy, prevent illness, and cope when they are unwell. Everyday tasks are the basic skills that let a person live on their own. We learn them as children and usually do them without thinking.
 
 ## What everyday tasks include
 
-Basic self-care and daily-living tasks include:
+Basic self-care and daily tasks include:
 
-- Personal hygiene - bathing or showering, grooming, nail care and oral care.
-- Dressing - choosing suitable clothes and dressing and undressing oneself.
-- Eating - bringing food from plate to mouth without spilling, and swallowing.
-- Maintaining continence - using the toilet and cleaning oneself unaided.
-- Transferring and mobility - moving from one point to another without help.
-- Communication and transportation - using the phone, email and internet, and driving or using public transport.
-- Meal preparation, shopping, housework, managing medications, and managing finances.
+- Personal hygiene: bathing or showering, grooming, nail care, and mouth care.
+- Dressing: choosing suitable clothes and putting them on and taking them off.
+- Eating: getting food from the plate to the mouth without spilling, and swallowing.
+- Using the toilet: going to the toilet and cleaning oneself.
+- Moving about: getting from one place to another without help.
+- Communication and getting around: using the phone, email, and internet, and driving or taking public transport.
+- Meal preparation, shopping, housework, managing medicines, and managing money.
 
-## When tasks become difficult
+## When tasks become hard
 
-Difficulty with these tasks may come from injury, ageing, disability, or acute or chronic disease. Caregivers assess everyday tasks to identify self-care deficits - what the person can and cannot do - to distinguish partial ability from total dependence, and to work out what skills and resources are needed to support the care receiver. The assessment then guides the care plan.
+Trouble with these tasks can come from injury, ageing, disability, or illness. Caregivers look at everyday tasks to see what the person can and cannot do. This shows where they need help, and what skills and support they need. It then guides the care plan.
 
-## Signs of a self-care deficit
+## Signs that someone needs help
 
 Watch for these signs:
 
-- Bathing - unable to get in or out of the bath, or to wash unaided.
-- Grooming - unkempt or unwashed hair, untrimmed nails.
-- Dressing - trouble removing and putting on clothes; garments worn too long with bad odour.
-- Toileting - unable to sit and stand from the toilet seat, or to clean oneself.
-- Eating - needs to be fed, cannot bring food to the mouth.
-- Mobility - trouble moving from bed to chair or walking around the house.
-- Unexplained burns, which may point to problems with cooking.
+- Bathing: cannot get in or out of the bath, or wash without help.
+- Grooming: unwashed or untidy hair, and long nails.
+- Dressing: trouble taking clothes off and putting them on; clothes worn too long and smelling.
+- Toileting: cannot sit down and stand up from the toilet, or clean themselves.
+- Eating: needs to be fed, or cannot bring food to the mouth.
+- Moving: trouble getting from bed to chair or walking around the home.
+- Burns they cannot explain, which may point to trouble with cooking.
 
-## Communicating and solving problems
+## Talking it over and finding solutions
 
-Observations should be shared with the care receiver through open, compassionate discussion, and a strategy agreed with the family. Caregiver interventions for self-care deficits include observing the specific task, supporting patient and family, acting for and doing for the patient where needed, and promoting activity and functional independence. Establish the reason for the impairment - for example recovery from surgery or a mental-health issue - and seek appropriate assistance.
+Share what you notice with the person in an open, kind way, and agree a plan with the family. To help with self-care, watch the task, support the person and family, do for them what they cannot do, and encourage them to stay active and independent. Find the reason for the problem, such as recovery from surgery or a mental-health issue, and get the right help.
 
-Encourage the patient to voice their thoughts, fears and frustrations, then rehabilitate, guide and teach self-care. Solutions depend on each person's living conditions, preferences and challenges. Often a minor adjustment solves the problem - dresses with zips at the front instead of the back, or pre-cooked meals delivered when cooking is difficult.`,
-
+Encourage the person to share their thoughts, fears, and frustrations. Then guide and teach self-care. Solutions depend on each person's living conditions, likes, and challenges. Often a small change solves the problem, such as clothes with zips at the front instead of the back, or ready-made meals delivered when cooking is hard.`,
   3: `## Getting ready for the role
 
-Caregiver readiness is linked with positive emotions - self-confidence, self-esteem, coping skills and well-being. The journey begins by identifying the health problems of the relative and deciding how care will be provided now and in the future.
+How ready you feel is tied to how you feel about yourself: your confidence, self-esteem, coping skills, and wellbeing. The journey starts by working out what is wrong with your relative, and deciding how care will be given now and later.
 
 ## Spotting that something is wrong
 
-A caregiver often first notices warning signs in a relative:
+A caregiver often notices the first warning signs:
 
-- Hazards likely to cause falls, and an unkempt house with dirty dishes, unopened mail and undone laundry.
-- Missed appointments and obligations, forgetfulness, or confusion.
-- Difficulty with routine activities, sitting, standing or mobility.
-- Unexplained bruises, wounds or car dents, weight loss, poor medication management, and incontinence.
+- Things that could cause a fall, and a messy home with dirty dishes, unopened mail, and undone laundry.
+- Missed appointments, forgetfulness, or confusion.
+- Trouble with everyday tasks, or with sitting, standing, and moving.
+- Bruises, wounds, or car dents they cannot explain, weight loss, muddled medicines, and loss of bladder or bowel control.
 
 ## What to do next
 
-Once a problem is clear, determine the level of care needed and how many hours it will take, look at the options, and decide whether you want to be a caregiver. Consider hiring a private caregiver if you cannot cope, and weigh the consequences - including whether to leave employment, the monetary cost, and how bills will be paid. The degree of involvement will be shaped by the stage of the disease.
+Once the problem is clear, work out how much care is needed and how many hours it will take. Look at your options, and decide if you want to be the caregiver. If you cannot cope, think about hiring a private caregiver. Weigh up the impact too, such as whether you would leave your job, what it will cost, and how the bills will be paid. How much you take on will depend on the stage of the illness.
 
-## Talking to the care recipient
+## Talking to the person
 
-The care recipient has the biggest say in their own care. Introduce caregiving tactfully, show interest in learning caregiving skills, and collect the personal medical history. Involve the patient in deciding their needs and where care will take place - at home or in a nursing home. Discuss financial issues such as who pays, and legal issues such as who decides when the care receiver becomes mentally unstable. If they are reluctant at first, pursue the topic gently until they agree to plan their care.
+The person has the biggest say in their own care. Bring up caregiving gently, show you want to learn the skills, and gather their medical history. Involve them in deciding what they need and where care will happen: at home or in a nursing home. Talk about money, such as who pays, and legal matters, such as who decides if the person can no longer think clearly. If they are unwilling at first, keep raising it kindly until they agree to plan.
 
 ## Preparing yourself
 
-To succeed, prepare deliberately:
+To do well, prepare on purpose:
 
-- Make lists with the most important tasks first, and build a schedule to cover the day without overloading yourself.
-- Form partnerships with the care receiver, family and healthcare providers.
-- Take part in a discharge plan before the patient leaves hospital; the doctor gives the diagnosis and treatment, and the social worker advises on community resources.
-- Educate yourself and your team - information is power - and get training from health professionals on complex procedures such as injections, dressings and checking blood pressure.
+- Make lists with the most important tasks first, and build a schedule that covers the day without overloading you.
+- Work closely with the person, the family, and the health team.
+- Take part in the discharge plan before the person leaves hospital. The doctor gives the diagnosis and treatment, and the social worker points you to community help.
+- Learn all you can, and have your team learn too. Get training from health workers on harder tasks like injections, dressings, and checking blood pressure.
 
-## Accommodation, home safety and finances
+## Home, safety, and money
 
-Decide where care will happen - the person stays in their home, moves in with the caregiver, or moves elsewhere - weighing affordability, health condition and privacy. If staying in the same house, choose a safe, accessible room, preferably on the ground floor near a kitchen and bathroom, and modify the home with ramps, grab bars, good lighting, regulated water temperature and clear passages. Attend to safety hazards such as sharp objects, poisons, medicines and fire risks, and keep emergency exits, locks and phone numbers ready.
+Decide where care will happen: the person stays home, moves in with you, or moves elsewhere. Weigh up cost, their health, and privacy. If they stay in the same house, pick a safe, easy-to-reach room, ideally on the ground floor near a kitchen and bathroom. Make the home safer with ramps, grab bars, good lighting, safe water temperature, and clear walkways. Deal with dangers like sharp objects, poisons, medicines, and fire risks. Keep exits, locks, and emergency numbers ready.
 
-Finally, understand the client's finances - income, expenditure, insurance, pensions and entitlements - and gather legal documents such as wills, birth and marriage certificates, property papers and power of attorney. Identify community resources such as day-care centres, respite care and Meals on Wheels to make the job easier.`,
+Finally, understand the person's money: income, spending, insurance, pensions, and any benefits. Gather legal papers such as wills, birth and marriage certificates, property papers, and power of attorney. Find community help like day centres, respite care, and meal delivery to make the job easier.`,
+  4: `## Why being organised matters
 
-  4: `## Why organisation matters
+This chapter helps you sort out important papers and medical information. Being organised keeps your life and the person's life calmer. It gives you a sense of control and makes decisions easier to think through. It makes sure legal papers and a money plan are ready, and it helps you keep track of a lot of details about medicines, appointments, and phone numbers. Instead of scattered notes, use simple systems.
 
-This chapter helps the caregiver prepare and organise important documents and medical information. Being organised keeps chaos out of your life and the care recipient's, gives a sense of control, and makes it easier to think decisions through. It ensures legal documents and a financial plan are in place, and helps you keep track of overwhelming details about medication, appointments and telephone numbers. Rather than relying on scattered lists, use systems to organise data.
+## Setting routines
 
-## Establishing routines
-
-A routine means doing the same basic activity at the same time each day. When a routine is set, the caregiver and family follow a familiar pattern - for example the patient wakes, uses the toilet, brushes teeth, bathes, combs hair and dresses. Medication can be tied to breakfast. Scheduling activities daily, weekly or as needed helps things happen naturally and increases the feeling of security and independence.
+A routine means doing the same basic task at the same time each day. Once it is set, you and the family follow a familiar pattern. For example, the person wakes, uses the toilet, brushes their teeth, bathes, combs their hair, and dresses. You can tie medicines to breakfast. Planning tasks by day, week, or as needed helps things run smoothly and adds to the person's sense of safety and independence.
 
 ## A daily schedule
 
-Caregivers set up daily schedules for appointments, prescriptions, bills and shopping. A suggested day:
+Set up daily plans for appointments, prescriptions, bills, and shopping. A sample day:
 
-- **Morning** - the patient wakes at an agreed time when energy is highest; encourage independence and assist only where needed. Bathe once or twice a day, or wipe the face, underarms, groin and folds with a basin and towel. Follow with oral care, moisturising and choosing clothes, then a balanced breakfast.
-- **Afternoon** - prepare lunch with the care recipient's involvement, clean up, then enjoy walks, light exercise, home chores, appointments or leisure such as a movie or games, and rest.
-- **Evening** - eat a light dinner two to three hours before sleep, tidy the home, and wind down with quiet, relaxing activities like music, a warm bath or casual conversation.
+- Morning: the person wakes at an agreed time, when energy is highest. Let them do what they can, and help only where needed. Bathe once or twice a day, or wipe the face, underarms, groin, and skin folds with a basin and towel. Then do mouth care, moisturise, and choose clothes, followed by a balanced breakfast.
+- Afternoon: make lunch with the person's help, clean up, then enjoy walks, light exercise, chores, appointments, or fun like a movie or games, and rest.
+- Evening: eat a light dinner two to three hours before sleep, tidy up, and wind down with quiet, calming things like music, a warm bath, or a chat.
 
 ## Calendars and contacts
 
-Keep a coded planning calendar of all important events, and a second calendar recording specific help from others. Since caregiving cannot be done alone, set up a family caregiving calendar: list every task - rides to appointments, personal care, shopping, meals, medication schedules and chores - send it to the team, and let members choose what they can do. Online tools such as Google Calendar and Care Calendar help, and long-distance family can manage hands-off tasks like finances and research.
+Keep one planning calendar of all key events, and a second one recording help from others. Since you cannot do this alone, set up a family caregiving calendar. List every task, such as rides to appointments, and let people pick what they can do. Online tools like Google Calendar and Care Calendar help. Family far away can handle hands-off tasks like money and research.
 
-Provide essential contact details for family, doctors and health personnel, insurance companies, lawyers, financial advisors, and emergency contacts displayed where they are easy to find. Keep a list of service providers - home health, cleaners, gardeners, handyman.
+Keep key contacts easy to find: family, doctors and health staff, insurance companies, lawyers, financial advisors, and emergency contacts. Keep a list of service providers too, such as home health, cleaners, gardeners, and a handyman.
 
-## Managing medication and documents
+## Managing medicines and papers
 
-Create a system for medication management. Plan when to collect drugs, store them in order and well labelled, and record who ordered each drug, its dosage, frequency and pharmacy. Use a pill organiser, monitor doses, remove expired drugs, set reminders, and keep extra supplies. Keep a notebook for observations on the patient's welfare, and find a relief caregiver for when you are unavailable.
+Set up a system for medicines. Plan when to collect them, store them in order and clearly labelled, and record who ordered each one, its dose, how often, and the pharmacy. Use a pill organiser, watch the doses, throw out expired medicines, set reminders, and keep spares. Keep a notebook for notes on how the person is doing, and find a backup caregiver for when you cannot be there.
 
-Collect important documents - insurance, banking, wills and assets - and store them where they can be retrieved easily.
+Gather important papers such as insurance, banking, wills, and assets, and store them where you can find them easily.
 
 ## Going digital
 
-Various apps help caregivers stay on top of things. Use Google Drive or Dropbox to create a virtual binder of documents, with a file for each family member. Medication apps set reminders and track appointments, group apps keep everyone informed, and monitoring devices offer added support.`,
-
+Many apps help you stay on top of things. Use Google Drive or Dropbox to make a virtual binder of documents, with a file for each family member. Medicine apps set reminders and track appointments, group apps keep everyone informed, and monitoring devices give extra support.`,
   5: `## Why knowledge and skills matter
 
-In this chapter the caregiver becomes better prepared by building the knowledge and skills the role demands, because the quality of care provided depends on what the caregiver has learnt. The family caregiver must acquire knowledge of the disease, its prognosis, care plans and treatment protocols. This foundation makes it possible to teach the complex tasks needed to handle illness at home, and it instils confidence and competence.
+In this chapter you get better prepared by building the knowledge and skills the role needs, because the care you give depends on what you have learnt. You need to understand the illness, what to expect, the care plans, and the treatment. This base makes it possible to learn the harder tasks of caring for illness at home, and it builds confidence.
 
-## What knowledge enables
+## What knowledge lets you do
 
-With the right knowledge the caregiver can:
+With the right knowledge you can:
 
-- Observe the patient's changing condition, monitor signs and symptoms, and interpret what they mean.
-- Make sound decisions to render safe care and take action as needed.
-- Adjust to changing needs and access resources that benefit both care receiver and caregiver.
-- Provide hands-on care that ensures quality of life and navigate the healthcare system.
+- Watch how the person's condition changes, track signs and symptoms, and understand what they mean.
+- Make good decisions, give safe care, and act when needed.
+- Adjust as needs change, and find help that benefits both of you.
+- Give hands-on care that supports a good quality of life, and find your way around the health system.
 
-## Acquiring knowledge
+## How to build knowledge
 
-First determine your area of care - household duties, general hygiene, managing medical care, scheduling appointments, liaising with providers, arranging transport, and advocating for the client. Then empower yourself: talk to health professionals about what concerns you, read about the disease and its caregiving, and research using the internet, libraries, e-books, YouTube videos, conferences, workshops and short courses. Keep the information in a folder, and use a smartphone, tablet or e-reader to access it anywhere. Knowledge is powerful - it increases confidence and self-esteem while reducing anxiety and fear of the unknown.
+First, work out your area of care: chores, hygiene, managing medicines, dealing with providers, arranging transport, or speaking up for the person. Then build yourself up: talk to health workers about what worries you, and read about the illness and how to care for it. Do research using the internet, libraries, e-books, videos, talks, workshops, and short courses. Keep what you find in a folder, and use a phone, tablet, or e-reader to reach it anywhere. Knowledge is powerful. It lifts your confidence and lowers your fear of the unknown.
 
 ## Communication skills
 
-Communication is essential to every caregiving relationship - it is not only what you say but how you say it that determines how the message is received. Excellent verbal and written skills let the caregiver listen, interpret and express themselves clearly among patient, family and team. Be polite, considerate, forgiving and understanding, sensitive to others' feelings, and willing to serve without expecting anything in return.
+Good communication is key to every caregiving relationship. It is not only what you say but how you say it that shapes how the message lands. Strong speaking and writing skills let you listen, understand, and express yourself clearly with the person, the family, and the team. Be polite, kind, forgiving, and understanding. Be aware of others' feelings, and be willing to help without expecting anything back.
 
-## Qualities of an effective caregiver
+## Qualities of a good caregiver
 
 Many personal qualities support good care:
 
-- **Empathy and compassion** - understanding what the person is going through and tuning into their distress.
-- **Keen observation** - spotting when something is not right and reporting it to health personnel.
-- **Interpersonal skills** - building rapport and trust to dispel isolation and loneliness.
-- **Time management and organisation** - prioritising tasks and knowing where everything is.
-- **Cleanliness, patience and flexibility** - keeping the environment clean, staying calm, and changing the plan when the condition dictates.
-- **Initiative, positivity and reliability** - making informed decisions, approaching care with a helpful attitude, and being consistent and dependable.
+- Empathy and compassion: understanding what the person is going through and tuning in to their distress.
+- Keen observation: noticing when something is not right and telling the health staff.
+- People skills: building trust so the person does not feel alone.
+- Time management and being organised: sorting tasks by priority and knowing where things are.
+- Cleanliness, patience, and flexibility: keeping things clean, staying calm, and changing the plan when needed.
+- Initiative, a positive outlook, and reliability: making informed choices, keeping a helpful attitude, and being steady and dependable.
 
-## Technical skills and self-limits
+## Technical skills and your own limits
 
-Caregivers should be proficient with basic medical equipment such as a blood-pressure machine, heart-rate monitor, first-aid tools and mobility aids like wheelchairs, crutches and walkers. Equally important is respecting your own limits: find time for yourself and your hobbies, keep in contact with peers, and treat the care recipient with mutual respect, never talking down to them.
+You should be comfortable with basic equipment such as a blood-pressure machine, a heart-rate monitor, first-aid tools, and mobility aids like wheelchairs, crutches, and walkers. Just as important, respect your own limits. Make time for yourself and your hobbies, keep in touch with friends, and treat the person with respect, never talking down to them.
 
-Balance your physical, emotional, mental, spiritual and social needs without guilt, set boundaries, and learn to say no - where there are no boundaries the caregiver falls into serious emotional burnout. Finally, apply planning and problem-solving skills: set realistic goals, define the problem clearly, consider different opinions, identify and evaluate solutions, and create short and long-term strategies if the condition worsens.`,
-
+Balance your physical, emotional, mental, spiritual, and social needs without guilt. Set boundaries, and learn to say no. Without boundaries, a caregiver can burn out. Finally, use planning and problem-solving: set realistic goals, name the problem clearly, weigh different views, look at possible solutions, and make short-term and long-term plans in case the condition gets worse.`,
   6: `## What a home caregiving plan is
 
-A home caregiving plan is a schedule of routine services organised at home to meet the care recipient's pressing needs - such as feeding, dressing, toileting, medication management, shopping and transportation. A good care plan describes the patient's needs and problems, their views and preferences, the available resources and goals, who will provide services, how often, and how care will be managed and reassessed.
+A home caregiving plan is a schedule of regular services set up at home to meet the person's most pressing needs, such as feeding, dressing, toileting, medicines, shopping, and transport. A good plan describes the person's needs and problems, their views and wishes, the resources and goals, who will provide each service, how often, and how care will be managed and reviewed.
 
-## Determining needs
+## Working out the needs
 
-To determine caregiving needs, first assess the current situation. Collect data - medical history, personal history, legal and financial documents - from the care receiver, and review the home environment, everyday tasks and health status.
+To work out the needs, first look at the current situation. Gather information, such as medical history, personal history, and legal and money papers, from the person. Review the home, everyday tasks, and their health.
 
-Assess all areas of everyday life:
+Check every area of daily life:
 
-- **Personal care** - can the person bathe, dress, shave, brush teeth, eat, use the toilet and phone unaided?
-- **House care and medication** - can they cook, book appointments, and manage their medicines?
-- **Emotional care and lifestyle** - do they have companionship, conversation, hobbies and visitors, and are they free from isolation?
-- **Home safety, finances and legal issues** - are there hazards, what is the income and expenditure, and is there a valid will or health insurance?
+- Personal care: can the person bathe, dress, shave, brush their teeth, eat, use the toilet, and use the phone on their own?
+- Home care and medicines: can they cook, book appointments, and manage their medicines?
+- Feelings and lifestyle: do they have visitors, and are they free from loneliness?
+- Home safety, money, and legal matters: are there hazards, what is their income and spending, and is there a valid will or health insurance?
 
-## Medical assessment and goals
+## Medical check and goals
 
-Arrange a detailed medical assessment: make an appointment, take the patient to the doctor, introduce yourself as the primary caregiver, and ask for a briefing on disease progress. Involve the patient throughout, research the disease, and act as their advocate with health professionals. Then identify needs and set goals - ask what is lacking in the client's routine, what objectives to achieve, and list shortcomings, concerns and preferences in order of priority.
+Arrange a full medical check. Book the appointment, take the person to the doctor, introduce yourself as the main caregiver, and ask for an update on how the illness is progressing. Involve the person throughout, learn about the illness, and speak up for them with health staff. Then name the needs and set goals. Ask what is missing from the person's routine, what you want to achieve, and list the gaps, worries, and wishes in order of importance.
 
-## Forming the caregiving team
+## Building the care team
 
-A caregiving team should include the care recipient, immediate family and significant others, close friends, neighbours and volunteers, community and faith groups, and professionals such as home-care staff, accountants and lawyers. Examine the team for expertise, interests, strengths and weaknesses, and group members by whether they are hands-on (comfortable giving direct care) or hands-off (better suited to finances or errands).
+A care team should include the person, close family and loved ones, close friends, neighbours and volunteers, community and faith groups, and professionals like home-care staff, accountants, and lawyers. Look at the team's skills, interests, strengths, and weaknesses. Group people by whether they are hands-on (happy to give direct care) or hands-off (better suited to money matters or errands).
 
-Make a list of viable solutions for each problem - for example, if the client is losing weight, a family member volunteers to bring meals at set times. Build schedules everyone can follow, distribute the plan, and choose a person to coordinate and report back. Create an online communication platform so everyone knows what is happening.
+Make a list of workable solutions for each problem. For example, if the person is losing weight, a family member could bring meals at set times. Build schedules everyone can follow, share the plan, and choose one person to coordinate and report back. Set up an online space so everyone knows what is happening.
 
-## Implementing and evaluating
+## Putting the plan in place and reviewing it
 
-The team works together on a comprehensive strategy: write the plan, execute it as written, ensure everyone has a copy, assign a coordinator for each area of care, and check in regularly. Review the plan as needs change and roles are clarified, show appreciation to keep the team motivated, and watch for signals that new medical or hospice care, a change of accommodation, or extra financial support may be needed.
+The team works together on a full plan: write it down, follow it as written, make sure everyone has a copy, give each area of care a coordinator, and check in often. Review the plan as needs change and roles become clearer. Show appreciation to keep the team motivated. Watch for signs that new medical or hospice care, a move, or extra money support may be needed.
 
-## Emergency readiness
+## Being ready for emergencies
 
-Caregiving always brings surprises - a fall requiring hospitalisation, fire, power failure, financial difficulty or natural disasters. Prepare in advance: keep the phone numbers of everyone who matters, identify who is responsible for legal decisions, and document how the team will be notified and who steps in if you are not there. Communicate the backup plan and update it regularly.`,
-
+Caregiving always brings surprises: a fall that needs hospital, a fire, a power cut, money trouble, or natural disasters. Prepare ahead. Keep the phone numbers of everyone who matters, know who is responsible for legal decisions, and write down how the team will be told and who steps in if you are away. Share the backup plan and update it often.`,
   7: `## Why infection control matters
 
-Infection control is one of the most serious issues in home caregiving. Because caregivers often take on the role without prior experience, a lack of training can be a real concern. Reducing hospitalisations saves lives, and home-care clients already have compromised immunity, with the elderly more prone to infection when ill.
+Infection control is one of the most serious parts of home caregiving. Many caregivers start the role with no training, and that can be a real risk. Keeping someone out of hospital can save their life. People cared for at home often have a weaker immune system already, and older people catch infections more easily when they are unwell.
 
 ## Common infections and their signs
 
-The main concerns among the elderly are skin infections, urinary tract infections, influenza and pneumonia. Sepsis - an overreaction of the body to an infection - advances quickly, is life-threatening, and the elderly often do not survive it. Signs of infection include agitation, confusion, rapid breathing, shaking, and a temperature of 37.8 degrees Celsius or more.
+The main infections to watch for in older people are skin infections, urine infections, flu, and pneumonia. Sepsis is when the body overreacts to an infection. It comes on fast, it is life-threatening, and older people often do not survive it. Signs of infection include being restless or confused, fast breathing, shaking, and a temperature of 37.8 degrees Celsius or higher.
 
-## Preventing infection
+## Simple ways to prevent infection
 
-Simple, consistent measures reduce the risk:
+A few steps, done every time, lower the risk:
 
-- Wash hands thoroughly at all times.
-- Wear a mask and gloves when in contact with anyone who has a cold or communicable disease.
-- Wash bedding frequently and sterilise medical supplies such as thermometers.
-- Cover all wounds, and inspect and dress wounds on people with diabetes, who are prone to infection.
+- Wash your hands well, and often.
+- Wear a mask and gloves near anyone with a cold or an illness that spreads.
+- Wash bedding often, and clean medical items like thermometers.
+- Cover all wounds. Check and dress wounds carefully on people with diabetes, who catch infections easily.
 
-Vaccinations against pneumonia, flu and shingles can lower the risk of illness for those prone to them, and antiviral drugs can reduce the severity of flu and aid pneumonia recovery.
+Vaccines against pneumonia, flu, and shingles can lower the risk for people who are prone to them. Antiviral medicines can make flu milder and help someone recover from pneumonia.
 
-## Home care for Covid-19
+## Caring for someone with a spreading illness
 
-With infectious diseases such as Covid-19 and overstretched health facilities, home care becomes the next best alternative. Create a caregiving team of healthy members who are not high risk - avoiding those with high blood pressure, diabetes or cancer - and include friends, neighbours and community services such as Meals on Wheels.
+When health services are stretched, home care may be the next best choice. Build a care team of helpers who are healthy and not high risk. Avoid asking people with high blood pressure, diabetes, or cancer to help. You can also bring in friends, neighbours, and community services like meal delivery.
 
-Take an inventory of essential items: food, medications and supplies, water, cleaning materials, and over-the-counter medicines such as paracetamol and cough mixtures. Stay connected while isolating - keep a distance of one to two metres and use technology such as phone calls, Skype and Zoom.
+Stock up on the basics: food, medicines, water, cleaning supplies, and simple medicines like paracetamol and cough syrup. Stay in touch while keeping apart. Keep one to two metres away, and use phone or video calls to stay connected.
 
-## Recognising and isolating Covid-19
+## Spotting the illness and keeping the person apart
 
-Common symptoms of Covid-19 include a fever of 37.8 degrees Celsius or more, a dry cough, and raised respiration and heart rate. Less common symptoms include chills, shortness of breath, body aches, loss of smell and taste, headache, nausea and diarrhoea. Seek emergency attention for trouble breathing, continuous chest pain, new confusion, or a bluish colour on the lips and nail beds - and test for Covid-19.
+Common signs of a respiratory illness like COVID-19 include a fever of 37.8 degrees Celsius or more, a dry cough, and faster breathing and heart rate. Other signs can include chills, shortness of breath, body aches, loss of smell or taste, headache, feeling sick, and diarrhoea. Get emergency help right away for trouble breathing, ongoing chest pain, new confusion, or a blue tinge to the lips or nails.
 
-To isolate a positive patient, prepare a room, preferably with its own toilet, and disinfect seats and door knobs if it is shared. Provide 14 days of supplies - soap, toothpaste, body lotion, deodorant - plus masks, gloves and hand sanitiser, extra bedding and drinking water. Keep the room well ventilated, line a waste bin with plastic, do not share items with the household, and disinfect the room after the person recovers, usually in 10 to 14 days.
+To keep an unwell person apart from others, set up a room, ideally with its own toilet. If the toilet is shared, wipe down seats and door handles. Give them two weeks of supplies: soap, toothpaste, lotion, deodorant, masks, gloves, hand sanitiser, spare bedding, and drinking water. Keep the room airy. Line the bin with a plastic bag. Do not share items with the rest of the home. Clean the room again once the person is better, usually after 10 to 14 days.
 
-## Caring safely
+## Caring safely, and protecting yourself
 
-When caring for a patient at home, provide support, protect yourself, limit contact, help with basic needs, offer plenty of water and watch for warning signs. Reduce your own risk: be vaccinated when eligible, wear a mask over nose and mouth, keep one to two metres from others, avoid crowded or poorly ventilated rooms, and wash hands often with soap and water or sanitiser that is at least 60 percent alcohol - especially before preparing meals, before eating, and after leaving the client.`,
+While caring for someone unwell, give support, protect yourself, keep contact short, help with basic needs, offer plenty of water, and watch for warning signs. To lower your own risk: get vaccinated when you can, wear a mask over your nose and mouth, keep one to two metres from others, and stay out of crowded or stuffy rooms. Wash your hands often with soap and water, or a sanitiser that is at least 60 percent alcohol. Do this before making meals, before eating, and after you leave the person.`,
+  8: `## Getting ready for personal care
 
-  8: `## Providing personal hygiene care
+This chapter covers the basic hands-on tasks of home care. Help with everyday tasks only as needed. Set small goals, and let the person do what they can, using helpful aids where possible. Set a regular time for daily washing and grooming. Pick calm moments with no interruptions. Always agree with the person before you help with bathing, shaving, or cutting nails, and keep them safe.
 
-This chapter covers the basic procedures of home care. The caregiver assists with everyday tasks as needed, sets short-term goals, and encourages independence and the use of assistive devices. Establish a routine schedule for daily grooming, choose calm moments free of disturbance, and always agree with the care recipient when to assist with bathing, shaving and nail cutting while ensuring safety.
+## How to give a bed bath
 
-## The bed bath
+A bed bath is for washing someone who cannot get out of bed. Put your supplies within reach first: two basins, two towels, two washcloths, gloves, soap, lotion, deodorant, and clean clothes. Get the room ready: keep it warm, close the windows, give privacy, and stop any draughts. If you are unsure, ask a home-care nurse.
 
-A bed bath washes someone who cannot get out of bed. Gather supplies within reach: two basins, two towels, two washcloths, gloves, soap, lotion, deodorant and clean clothes. Prepare the room by keeping it warm, closing windows, ensuring privacy and removing draughts. If unsure, consult a home-care nurse.
+To give a bed bath:
 
-Steps to give a bed bath:
+- Fill one basin to wash and one to rinse. Place a large towel under the person.
+- Wipe each eyelid from the inner corner, with no soap. Then wash the face, neck, and ears, and pat dry.
+- Wash the far arm and foot, then the near arm and foot. Turn the person to wash the back.
+- Put on lotion, care for pressure areas, and throw away the gloves.
 
-- Fill one basin for washing and one for rinsing, and place a large towel under the person.
-- Wipe each eyelid from the inner corner without soap, then wash the face, neck and ears and pat dry.
-- Wash the far arm, then the near arm, then chest and abdomen, keeping the rest of the body covered.
-- Wash the legs and feet, then turn the person to wash the back.
-- Apply lotion, treat pressure areas, and discard gloves.
+For genital and bottom care, change the water and put on fresh gloves. Wash women from front to back. Wash men around the testicles and between the buttocks.
 
-For perineal care, change the water, wear fresh gloves, and wash women from front to back and men around the testicles and between the buttocks.
+## Skin, pressure sores, and grooming
 
-## Skin, pressure sores and grooming
+After a bed bath, treat any pressure sores. Clean small sores with salty water. Let deeper sores get air, and give paracetamol for pain. Cover deep sores with a light dressing. For someone who needs some help, keep a full wash to once or twice a week. Use a bath chair and a handheld shower, fit safety bars, and avoid oils that make surfaces slippery. Move the person's position every two hours. Lift rather than drag, so you do not break the skin. Watch the back, hips, and shoulders for any change in colour.
 
-After a bed bath, treat any bed sores: clean small areas with salty water, expose moderately deep sores to air with paracetamol for pain, and cover deep areas with a light dressing. For partially dependent people, limit a full wash to once or twice a week, use a bath chair and handheld shower, install bars for safety, and avoid oils that cause slipping. Change position every two hours, lift rather than drag to avoid breaking the skin, and watch the back, hips and shoulders for colour change.
+Grooming includes combing and washing hair, and cutting nails. Use an electric razor for anyone who bleeds easily. Do mouth care every day: clean the teeth or dentures, and rinse the mouth after meals.
 
-Grooming includes combing and washing hair, using an electric razor for those prone to bleeding, trimming nails, and daily oral care - cleaning teeth or dentures and rinsing the mouth after meals.
+## Dressing, feeding, and moving about
 
-## Dressing, feeding and mobility
-
-Lay out clothes and let the person do as much as they can. Avoid pullover shirts and back zips, and buy garments that are easy to fasten. For eating, provide a balanced diet with plenty of fluids, help the person sit up to avoid choking, serve small portions and finger foods, and use assistive utensils - never force an adult to eat. For mobility, encourage the person to sit and dangle their legs before standing to prevent dizziness and falls, and assist gently, as movement doubles as exercise.
+Lay out the clothes and let the person do as much as they can. Avoid pullover shirts and back zips. Choose clothes that are easy to fasten. For meals, give a balanced diet with plenty of fluids. Help the person sit up so they do not choke. Serve small portions and finger foods, and use easy-grip cutlery. Never force an adult to eat. To help someone move, ask them to sit and dangle their legs before they stand, so they do not get dizzy or fall. Help gently. Moving around is also good exercise.
 
 ## Toileting and other duties
 
-Modify the bathroom with grab bars and a raised toilet seat, provide a bedside commode or urinal, schedule routine visits, and preserve dignity. Keep a supply of disposable sanitary wear, protect the rectal area with barrier cream, and consult the doctor about any loss of bladder or bowel control. When changing diapers for a bedridden adult, wear gloves, roll the patient to remove the soiled diaper, clean front to back, check for pressure sores, and turn the patient every two hours. Beyond personal care, the caregiver also manages medication, household chores, finances, appointments, transport, shopping, companionship and communication.`,
+Make the bathroom safer with grab bars and a raised toilet seat. Provide a bedside commode or urinal. Set regular toilet times, and always protect the person's dignity. Keep a supply of disposable pads, and protect the skin around the bottom with a barrier cream. Tell the doctor about any loss of bladder or bowel control. To change an adult's diaper in bed: put on gloves, roll the person to remove the soiled diaper, clean front to back, check for pressure sores, and turn the person every two hours. Beyond personal care, a caregiver also handles medicines, chores, money, appointments, transport, shopping, company, and staying in touch.`,
+  9: `## Handling common problems at home
 
-  9: `## Managing common problems at home
+Caregiving brings many everyday problems that simple, practical steps can ease. This chapter gives home solutions for the most common complaints, and always says when to take the person to a doctor. The rule is comfort first, and professional help whenever a problem lasts or gets worse.
 
-Caregiving brings many everyday problems that can be eased with simple, practical measures. This chapter offers home solutions for the most common complaints, while always stressing when to refer the patient to a doctor. The guiding principle is comfort first, and professional help whenever a condition persists or worsens.
+## Pain, mouth, and breathing problems
 
-## Pain, mouth and breathing problems
+- Headache: give an adult paracetamol for mild pain, and tell the doctor if it does not go away.
+- Feeling sick or vomiting: let the person's tastes and illness guide food choices, offer small, dry, non-oily meals often, and get help if it gets worse.
+- Painful mouth ulcers or trouble swallowing: avoid very hot, cold, or spicy food, clean the mouth with a soft brush or cloth, and offer soft foods like potatoes, milk, honey, or porridge. Get help if there are lasting sores, a smelly mouth, or trouble swallowing.
+- Dry mouth: give frequent sips of water and use lip balm on the lips.
+- Coughing and trouble breathing: soothe a simple cough with honey and lemon, use steam with menthol and eucalyptus, help the person sit up with extra pillows, open windows, and gently pat the back and chest to loosen phlegm. Get help if there is blood in the phlegm. Handle phlegm with gloves, as it can spread infection easily, and throw it away safely.
 
-- **Headache** - give paracetamol to adults for mild pain, and report to the doctor if it persists.
-- **Nausea and vomiting** - let the patient's tastes and illness guide food choices, offer frequent dry, non-oily meals, and seek help if the condition worsens.
-- **Painful mouth ulcers or trouble swallowing** - avoid extremes of hot, cold or spicy food, clean the mouth with a soft brush or cloth, and offer soft foods such as potatoes, milk, honey or porridge. Refer if there are persistent sores, a smelly mouth or difficulty swallowing.
-- **Dry mouth** - give frequent sips of water and moisten the lips with lip balm.
-- **Coughing and difficulty breathing** - soothe a simple cough with honey and lemon, steam with menthol and eucalyptus, help the patient sit up with extra pillows, open windows, and gently pat the back and chest to loosen sputum. Refer if there is blood in the sputum. Handle sputum with gloves, as it can be highly infectious, and dispose of it safely.
+## Comfort and mental wellbeing
 
-## Comfort and mental well-being
+For hiccups, try cold water, two heaped teaspoons of sugar, breathing into a paper bag, or pulling the knees to the chest. Stop if it feels uncomfortable. Help a worried person by listening closely, talking things over in private, and using soft music or massage to relax. Refer them for counselling if needed. For sleep problems, deal with the fears that keep the person awake, keep things quiet, avoid tea and coffee, ease any pain, and offer a soothing warm drink at night.
 
-For hiccups, drink cold water, eat two heaped teaspoons of sugar, breathe into a paper bag, or pull the knees to the chest - stopping when uncomfortable. Help patients with worries by listening attentively, discussing the problem confidentially, using soft music or massage to relax the muscles, and referring for professional counselling where needed. For sleeping problems, address the fears that keep the patient awake, keep a quiet atmosphere, avoid stimulants like tea and coffee, attend to pain, and offer a soothing warm drink at night.
+## Caring for confused people
 
-## Caring for confused patients
+Confusion may show as forgetfulness, poor focus, trouble speaking, mood swings, or difficult behaviour. To help:
 
-Confusion may show as forgetfulness, poor concentration, trouble speaking, mood swings, or unacceptable behaviour. To help:
-
-- Keep a constant, predictable environment and daily activities at a regular place and time.
+- Keep a steady, predictable setting and daily routine at a regular place and time.
 - Keep everyday items within easy reach and remove dangerous objects.
-- Communicate very clearly, keep the setting quiet, and avoid changing the caregiver or surroundings.
-- Give medication as prescribed, provide quality care, stay respectful, and refer any concerns to the doctor.
+- Speak very clearly, keep things quiet, and avoid changing the caregiver or the surroundings.
+- Give medicines as prescribed, give good care, stay respectful, and tell the doctor about any concerns.
 
-## Digestive and continence problems
+## Digestive and bladder or bowel problems
 
-For diarrhoea, increase fluids such as water, rice water and soup, and give oral rehydration solution frequently; see the doctor if there is fever, vomiting, blood in the stools, or diarrhoea lasting five days. For constipation, examine for rectal impaction with gloves, encourage exercise and a regular toilet routine, add roughage such as fruit and vegetables, and try remedies like a teaspoon of vegetable oil before breakfast or a small soap enema - seeking help if there is no improvement.
+For diarrhoea, give more fluids such as water, rice water, and soup, and give oral rehydration solution often. See the doctor if there is fever, vomiting, blood in the stools, or diarrhoea lasting five days. For constipation, check for a blockage in the rectum with gloves, encourage exercise and a regular toilet routine, add roughage like fruit and vegetables, and try a teaspoon of vegetable oil before breakfast or a small soap enema. Get help if there is no improvement.
 
-For incontinence, control stains and odours: include cranberry juice to reduce urine odour, protect the mattress with a waterproof cover, remove and wash soiled linen quickly, and clean soiled areas with water mildly diluted with vinegar. Protect furniture with disposable or waterproof pads to keep the home clean and comfortable.`,
-
+For loss of bladder or bowel control, keep stains and smells down. Cranberry juice can reduce urine odour. Protect the mattress with a waterproof cover, remove and wash soiled bedding quickly, and clean soiled areas with water mixed with a little vinegar. Protect furniture with disposable or waterproof pads to keep the home clean and comfortable.`,
   10: `## What palliative care is
 
-Palliative care is care given at home to improve quality of life when someone is terminally ill. Palliative caregivers are often overwhelmed by the emotions and responsibilities that come with the end-of-life stages, while the family supports the ill person and makes appropriate decisions about their care. The focus is not on cure but on comfort, dignity and quality of life.
+Palliative care is care given at home to improve quality of life when someone has a terminal illness. It can feel overwhelming, because of the emotions and responsibilities of the end-of-life stage, while the family supports the person and helps make decisions. The focus is not on a cure but on comfort, dignity, and quality of life.
 
-## Preparing the patient and family for death
+## Preparing the person and family
 
-When providing emotional care near the end of life, expect the patient to move through fear, anger, sadness and eventually acceptance. The caregiver should listen and show understanding, and address their concerns - such as the custody of children and funeral costs - with compassion and a willingness to talk openly.
+Near the end of life, expect the person to move through fear, anger, sadness, and finally acceptance. Listen and show you understand, and deal with their worries, such as who will care for their children and how the funeral will be paid for, with compassion and openness.
 
 Practical care at this stage includes:
 
-- Addressing spiritual needs and calling religious leaders as the patient requests.
-- Working with the healthcare provider to stop some medicines and control symptoms such as diarrhoea to relieve discomfort.
-- Continuing treatment where the disease is infectious, moistening the lips, mouth and eyes.
-- Keeping the patient clean and turning them every two hours.
+- Meeting spiritual needs and calling faith leaders as the person wishes, to ease their discomfort.
+- Continuing treatment where the illness can spread, and keeping the lips, mouth, and eyes moist.
+- Keeping the person clean and turning them every two hours.
 
 ## The palliative team
 
-The role of the palliative team is to collect the history of the sick person to determine the problem, conduct a comprehensive assessment of the client and their family, coordinate the care provided, and supervise the giving of medication. The team consists of family, friends and health professionals. The primary caregiver is the best person to speak to health professionals on behalf of the sick person, and to communicate the preferences, needs and goals of any children involved.
+The team gathers the person's history to understand the problem, does a full assessment of the person and family, coordinates the care, and oversees the medicines. It is made up of family, friends, and health workers. The main caregiver is the best person to speak to health staff for the person, and to pass on the wishes, needs, and goals of any children involved.
 
 ## Palliative care for children
 
-Discussing death with children calls for honesty and care. Ask children what they already know about death, or gently explain how an illness deteriorates until a person dies, and describe death as a normal stage of life that everyone goes through. Use age-appropriate language and examples, and stay honest, because the child will ask more questions.
+Talking about death with children needs honesty and care. Ask what they already know, or gently explain how an illness gets worse until a person dies. Describe death as a normal part of life that everyone goes through. Use words suited to their age, and stay honest, because they will ask more questions.
 
-When caring for the children of a dying parent, talk about the loss rather than avoiding it and make them feel loved. When caring for a dying child, answer questions in simple terms, ensure the child has company, and let family members play with the child whenever possible.
+When caring for the children of a dying parent, talk about the loss rather than avoiding it, and make them feel loved. When caring for a dying child, answer questions simply, make sure the child has company, and let family play with the child whenever possible.
 
 ## Adapting the home and equipment
 
-Decide where care will be provided - sometimes a hospital is chosen. If care is at home, keep floors clear of rugs, place the bed near a window, decorate the room with favourite items, and provide a bedside table, armchair, and a bell for calling for help. Equipment for end-of-life care includes a hospital bed, commode, raised toilet seat, walker, wheelchair, bath seat, and disposable briefs and bedding - much of which can be rented or hired.
+Decide where care will happen. Sometimes a hospital is chosen. If care is at home, keep floors clear of rugs, place the bed near a window, decorate the room with favourite things, and provide a bedside table, an armchair, and a bell for calling for help. Equipment can include a hospital bed, a commode, a raised toilet seat, a walker, a wheelchair, a bath seat, and disposable briefs and bedding. Much of this can be rented.
 
 ## Living with grief
 
-Grief may bring physical symptoms - lack of appetite, an upset stomach, loss of sleep, tiredness, worry, and even depression or suicidal thoughts. Mourning is natural and may last months or years, often marked by religious rituals or time with friends and family. To cope, look for people who care such as relatives and support groups, express feelings by talking to others, avoid relying on drugs and alcohol, and aim to accept what has happened as a part of life.`,
-
+Grief can bring physical signs: poor appetite, an upset stomach, trouble sleeping, tiredness, worry, and even depression or thoughts of suicide. Mourning is natural and may last months or years, often with faith rituals or time with friends and family. To cope, turn to people who care, such as relatives and support groups. Share your feelings by talking to others, avoid leaning on drugs and alcohol, and aim to accept what has happened as part of life.`,
   11: `## Understanding caregiver strain
 
-Strain is experienced when a caregiver feels overwhelmed and can no longer perform to the best of their ability, followed by stress and anxiety. Many caregivers experience this role strain. It can be caused by doing more for the care receiver while ignoring your own health, rising expenditure and financial burden, sleep difficulties brought on by the care recipient not sleeping, and constant distress.
+Strain is when a caregiver feels overwhelmed and can no longer do their best, followed by stress and worry. Many caregivers feel this. It can come from doing more for the person while ignoring your own health, from rising costs and money pressure, from poor sleep when the person does not sleep, and from constant distress.
 
-## Recognising the signs
+## Spotting the signs
 
-The signs and symptoms of role stress include sleep problems, irritability, social withdrawal, a change in appetite, tiredness and crying easily. If these are not addressed, the caregiver can become depressed and need medical help. Recognising the signs early makes it possible to act before strain deepens into burnout.
+The signs of strain include sleep problems, being easily irritated, pulling away from others, a change in appetite, tiredness, and crying easily. If these are not dealt with, a caregiver can become depressed and need medical help. Spotting the signs early lets you act before strain turns into burnout.
 
-## Preventing and treating strain
+## Preventing and easing strain
 
-The caregiver must do all they can to stay healthy in order to look after the care recipient:
+You must do all you can to stay healthy so you can care for the person:
 
-- Get adequate sleep - eight hours is essential.
-- Eat a balanced diet with plenty of vegetables, whole grains and fruit.
+- Get enough sleep. Eight hours is essential.
+- Eat a balanced diet with plenty of fruit and vegetables.
 - Exercise for at least 30 minutes a day, do things that excite you, and laugh a lot.
-- Do not isolate yourself - keep in touch with friends - and stay in control of negative emotions.
+- Do not cut yourself off. Keep in touch with friends, and stay on top of negative feelings.
 
-To treat strain, find resources in the community, ask for and accept help, set routines, get organised, and look after yourself. To manage stress, devise a timetable matching tasks to people, delegate duties, set realistic goals by dividing tasks into small achievable bits, and network to find local resources such as training, laundry, transport and meal delivery.
+To ease strain, find help in the community, ask for and accept help, set routines, get organised, and look after yourself. To manage stress, make a timetable that matches tasks to people, share out duties, set realistic goals by breaking tasks into small steps, and network to find local help such as training, laundry, transport, and meal delivery.
 
 ## Support groups and health goals
 
-Support groups for caregivers offer problem-solving strategies and a place to share experiences and build relationships. Set personal health goals too - a time to retire to bed, daily exercise, a balanced diet, and a doctor's visit for any problem that persists.
+Support groups for caregivers offer ways to solve problems and a place to share and build relationships. Set personal health goals too: a set bedtime, daily exercise, a balanced diet, and a doctor's visit for anything that does not clear up.
 
-Respite care gives the breaks every caregiver needs, whether in-home respite with aides and nursing, adult care centres, or short-term nursing homes that take in clients briefly. Caregivers at greater risk of stress are those who live with the care recipient, socialise little, are already depressed, face financial problems, give care for long hours, or lack coping skills.
+Respite care gives the breaks every caregiver needs, whether in-home respite with aides and nursing, adult care centres, or short-term nursing homes that take people in for a while. Caregivers most at risk of stress are those who live with the person, socialise little, are already depressed, have money problems, care for long hours, or lack coping skills.
 
 ## The emotional side of caregiving
 
-Many emotions, positive and negative, arise during caregiving. They should be acknowledged rather than suppressed, and the caregiver should seek coping strategies. Common emotions and their solutions include:
+Many feelings, good and bad, come up during caregiving. They should be faced, not buried, and you should look for ways to cope. Common feelings and what helps:
 
-- **Ambivalence** - being undecided; accept that some days you are not in the mood, which is normal but temporary, then move on.
-- **Anger and frustration** - when the care recipient is uncooperative; cool down, find a reasonable way to express what happened, and talk to someone.
-- **Guilt, doubt and anxiety** - when there is no improvement; take a break to recharge, forgive yourself, and seek counselling.
-- **Feeling trapped and resentful** - when the condition declines; take breaks to refresh, and seek counselling.
+- Feeling unsure: accept that some days you are not in the mood. That is normal and passing, so move on.
+- Anger and frustration, when the person will not cooperate: cool down, find a fair way to say what happened, and talk to someone.
+- Guilt, doubt, and worry, when there is no improvement: take a break to recharge, forgive yourself, and seek counselling.
+- Feeling trapped and resentful, when the condition declines: take breaks to refresh, and seek counselling.
 
 ## Emotional wellness
 
-Emotional wellness has to do with our thoughts, feelings and behaviour, and lets us accept our feelings, adapt to stress and cope with life changes. Improve it by being optimistic, building strong relationships, practising mindfulness, laughing often, sleeping enough, and seeking professional support when needed. This matters because how you feel affects your whole life - controlled emotions build relationships that positively influence everything else.`,
+Emotional wellness is about our thoughts, feelings, and behaviour, and it lets us accept our feelings, adapt to stress, and cope with change. Build it by staying hopeful, keeping strong relationships, practising mindfulness, laughing often, sleeping enough, and getting professional support when needed. This matters because how you feel affects your whole life. When your emotions are steady, your relationships are stronger, and that lifts everything else.`,
+  12: `## Getting support to meet caregiving challenges
 
-  12: `## Support to overcome caregiving challenges
+You often need support to meet caregiving challenges and make the work more rewarding. No caregiver should try to manage alone. Many people, services, and groups exist to lighten the load, and knowing how to find and use them is part of preparing well.
 
-Support is often needed to overcome caregiving challenges and make the process more rewarding. No caregiver should try to manage alone; a range of people, services and groups exist to lighten the load, and knowing how to find and use them is part of preparing well for the role.
+## Professional and community help
 
-## Professional and community resources
-
-A community nurse, occupational therapist or social worker can help in several ways: making recommendations to modify the caregiver's house to make it more suitable for caregiving, assisting in choosing equipment, assistive devices and aids, and arranging assistant caregivers and respite care. Some hospitals offer classes that teach caregiving skills suited to your situation - ask your doctor for referrals or call a local agency for guidance.
+A community nurse, occupational therapist, or social worker can help in several ways: suggesting changes to your home to make care easier, helping you choose equipment and aids, and arranging extra caregivers and respite care. Some hospitals run classes that teach skills suited to your situation. Ask your doctor for referrals, or call a local agency for guidance.
 
 The best community services include:
 
 - Counselling and caregiver services.
-- Respite programmes and disease associations, such as cancer and diabetes associations.
-- Adult day-care, hospices and elder care.
+- Respite programmes and disease groups, such as cancer and diabetes associations.
+- Adult day care, hospices, and elder care.
 - Nutrition programmes.
 
-Find resources in your community such as adult day-care centres or respite services to give the primary caregiver a break, ask for and accept help, make a list of what volunteers can do, and join a support group.
+Find help in your community, such as adult day centres or respite services, to give you a break. Ask for and accept help, make a list of what volunteers can do, and join a support group.
 
 ## Caregiving services and support groups
 
-Services found in the community include meal delivery, private home-care agencies, and non-medical home care such as housekeeping, meal preparation, companionship, transport to appointments, and home modifications like rails, ramps and bath fixtures. Respite care relieves the burden the caregiver carries, and paid assistance can be considered when family is not available.
+Community services include meal delivery, private home-care agencies, and non-medical help such as housekeeping, meal preparation, company, transport to appointments, and home changes like rails, ramps, and bath fixtures. Respite care eases the load you carry, and you can consider paid help when family is not available.
 
-Caregiving is overwhelming, and support groups make life easier. Their benefits are considerable:
+Caregiving is overwhelming, and support groups make life easier. Their benefits are real:
 
-- You do not suffer alone, and stress, anxiety and depression are reduced.
-- You gain a sense of empowerment and control, improving your coping skills.
-- You get a clear understanding of what to expect and practical advice on treatment options.
-- Caregiving ability improves, enhancing the care recipient's quality of life and helping them stay at home.
+- You do not suffer alone, and stress, worry, and depression go down.
+- You gain a sense of control, which improves your coping skills.
+- You understand what to expect and get practical advice on treatment options.
+- Your caregiving improves, which lifts the person's quality of life and helps them stay at home.
 
-To find local groups, ask at hospitals and community centres, and for specific conditions check websites such as the Alzheimer's Association, National Stroke Association, and cancer and diabetic associations.
+To find local groups, ask at hospitals and community centres. For specific conditions, check websites such as the Alzheimer's Association, National Stroke Association, and cancer and diabetes associations.
 
 ## Building your support network
 
-The caregiver needs a team and cannot work alone - the entire village is needed to help. Where people are unwilling, search the internet for caregiving organisations or hired help. Expanding your network means clarifying your needs and finding the best resources to meet them. Needs can be organised into three groups:
+You need a team and cannot work alone. It takes a whole village to help. Where people are unwilling, search online for caregiving organisations or hired help. Growing your network means being clear about your needs and finding the best resources to meet them. Needs fall into three groups:
 
-- **Emotional needs** - someone who will listen without judgement, respite care so you can rest, and a safe space to vent, such as a group of caregivers who have been there before.
-- **Technical assistance** - people with information, knowledge and resources on finance and legal matters, and health professionals who understand the disease and can suggest community resources.
-- **Physical needs** - formal and informal contacts who help with daily tasks such as lawn mowing, house repairs, grocery shopping, transport and housekeeping.
+- Emotional needs: someone who will listen without judging, respite care so you can rest, and a safe space to vent, such as a group of caregivers who have been there.
+- Technical help: people with information on money and legal matters, and health workers who understand the illness and can point to community resources.
+- Physical needs: formal and informal contacts who help with daily tasks like mowing the lawn, home repairs, grocery shopping, transport, and housekeeping.
 
-Informal contacts include family, friends and acquaintances, while formal contacts include local community organisations, church or faith-based groups, tradespeople, and grocery stores offering delivery. It is beneficial to evaluate and revise your support arrangements periodically as needs change.`,
+Informal contacts include family, friends, and acquaintances. Formal contacts include local community groups, faith groups, tradespeople, and shops that deliver. It helps to review and update your support arrangements from time to time as needs change.`,
 };
