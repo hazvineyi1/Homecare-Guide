@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, Info } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, Info, ArrowLeft } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -31,6 +31,7 @@ export function ChatArea() {
     setBusy,
     incrementTotalExchanges,
     setMobileSidebarOpen,
+    setCurrentTopicIndex,
     hydrated,
   } = useAppState();
 
@@ -314,6 +315,12 @@ export function ChatArea() {
             <MenuIcon />
           </Button>
           <div className="min-w-0">
+            <button
+              onClick={() => setCurrentTopicIndex(null)}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline mb-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
+            </button>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Topic {currentTopic.id.toString().padStart(2, "0")}

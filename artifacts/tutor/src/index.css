@@ -77,23 +77,23 @@
   /* Bright, clean palette: crisp white cards on a bright near-white ground,
      near-black text for clarity, and richer, cleaner browns + amber (not greyed).
      (Token names like --pine/--teal/--marigold are kept for stability.) */
-  --paper: #F8FAF8;          /* clean near-white, faint sage whisper */
+  --paper: #F7F9FC;          /* clean cool near-white */
   --card: #FFFFFF;           /* crisp white card */
-  --ink: #202420;            /* near-black text (~15:1 on white) */
-  --ink-soft: #4C524B;       /* sharper secondary text (~7.4:1 on white) */
-  --pine: #37432F;           /* deep sage for chip/secondary text */
-  --teal: #3E5E3F;           /* deep sage green (primary): white text 7.3:1 (AAA) */
-  --teal-tint: #E9EFE7;      /* light sage (secondary surfaces + light sidebar) */
-  --marigold: #47694A;       /* accessible green (accent): both directions 5.6:1 (AA) */
-  --marigold-tint: #E7F1E4;  /* pale green */
-  --rose: #B23A2C;           /* red (errors/destructive), white text 4.9:1 */
-  --rose-tint: #F8E6E1;
-  --line: #DCE3DA;           /* clearer light border */
+  --ink: #0F172A;            /* slate near-black (~17:1 on white) */
+  --ink-soft: #475569;       /* slate secondary text (~7:1 on white) */
+  --pine: #1E293B;           /* deep slate for chip/secondary text */
+  --teal: #1D4ED8;           /* clinical blue (primary): white text 6.6:1 (AAA) */
+  --teal-tint: #EDF1F8;      /* light cool (secondary surfaces + light sidebar) */
+  --marigold: #2563EB;       /* clinical blue accent: both directions 5.1:1 (AA) */
+  --marigold-tint: #E7EEFB;  /* pale blue */
+  --rose: #DC2626;           /* clinical red (errors/destructive) */
+  --rose-tint: #FCE8E8;
+  --line: #E2E8F0;           /* crisp cool border */
 
   --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
   --app-font-serif: 'Fraunces', serif;
   --app-font-mono: Menlo, monospace;
-  --radius: .5rem;
+  --radius: .125rem;
 }
 
 @layer base {
@@ -147,8 +147,8 @@
   .hg-pop       { animation: hg-pop .5s cubic-bezier(.34,1.56,.64,1) both; }
   .hg-draw      { stroke-dasharray: 26; stroke-dashoffset: 26; animation: hg-draw .5s .15s ease-out forwards; }
   @keyframes hg-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(62, 94, 63, .30); }
-    50%      { box-shadow: 0 0 0 7px rgba(62, 94, 63, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, .30); }
+    50%      { box-shadow: 0 0 0 7px rgba(29, 78, 216, 0); }
   }
   .hg-pulse { animation: hg-pulse 2.2s ease-in-out infinite; }
 }
@@ -158,3 +158,6 @@
 /* Clean, hidden scrollbars (keep scrollability) */
 .hg-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 .hg-scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* Squared, clinical appearance: flatten large radii */
+.rounded-full, .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg { border-radius: 3px; }

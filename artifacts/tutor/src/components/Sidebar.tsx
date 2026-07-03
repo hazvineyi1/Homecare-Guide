@@ -73,14 +73,18 @@ export function Sidebar() {
 
   return (
     <div className="w-full md:w-[300px] h-full bg-sidebar md:border-r border-border flex flex-col shrink-0">
-      <div className="p-6 pb-4">
+      <button
+        onClick={() => { setCurrentTopicIndex(null); setMobileSidebarOpen(false); }}
+        className="p-6 pb-4 text-left w-full hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        title="Back to the roadmap"
+      >
         <h1 className="text-sidebar-foreground text-2xl font-serif mb-1 leading-tight">
           A Guide to Homecare
         </h1>
         <p className="text-sidebar-foreground/80 text-[11px] tracking-tight whitespace-nowrap">
           Caregiver preparedness &middot; guided by Dorothy Mooka
         </p>
-      </div>
+      </button>
 
       <div className="px-6 mb-6">
         <div className="flex bg-black/[0.05] rounded-md p-1">
