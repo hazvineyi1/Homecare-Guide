@@ -111,6 +111,18 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
           ))}
         </div>
 
+        {submitted && passed && (
+          <div className="hg-pop flex flex-col items-center gap-1 py-3 text-center">
+            <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="var(--marigold)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path className="hg-draw" d="M20 6 9 17l-5-5" />
+              </svg>
+            </div>
+            <p className="font-serif text-lg text-foreground">Topic mastered</p>
+            <p className="text-xs text-muted-foreground">You reasoned this through — well done.</p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between gap-3 pt-2 border-t border-border">
           <div className="text-sm">
             {submitted && (

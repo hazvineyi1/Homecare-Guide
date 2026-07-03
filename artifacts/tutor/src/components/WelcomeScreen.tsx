@@ -32,15 +32,16 @@ export function WelcomeScreen() {
     );
   }, [currentUser, certOpen]);
 
-  const renderCard = (topic: (typeof TOPICS)[number], index: number) => {
+  const renderCard = (topic: (typeof TOPICS)[number], index: number, pos = 0) => {
     const meta = TOPIC_META[topic.id];
     const mastered = !!sessions[index]?.completed;
     return (
       <button
         key={topic.id}
         onClick={() => setCurrentTopicIndex(index)}
+        style={{ animationDelay: `${pos * 70}ms` }}
         className={cn(
-          "bg-card text-left p-5 rounded-xl border shadow-sm hover:shadow-md transition-all flex flex-col group h-full",
+          "hg-fade-up bg-card text-left p-5 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col group h-full",
           mastered ? "border-accent/50" : "border-border hover:border-primary/40",
         )}
       >
@@ -184,6 +185,57 @@ export function WelcomeScreen() {
         </section>
 
         {/* Topics grid */}
+        {/* Your journey — calm, competence-tied progress */}
+        <div className="hg-fade-up mb-10 rounded-2xl border border-border bg-card p-5 sm:p-6">
+          {(() => {
+            const total = TOPICS.length;
+            const pct = Math.round((masteredCount / total) * 100);
+            const currentLevel = LEVELS.find((lv) => lv.topicIds.some((id) => {
+              const idx = TOPICS.findIndex((t) => t.id === id);
+              return !sessions[idx]?.completed;
+            }));
+            return (
+              <>
+                <div className="flex items-end justify-between gap-3 mb-3 flex-wrap">
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-1">Your journey</div>
+                    <div className="font-serif text-xl text-foreground">
+                      {masteredCount} of {total} topics mastered
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    {currentLevel ? (
+                      <>
+                        <div className="text-[11px] text-muted-foreground">Working toward</div>
+                        <div className="text-sm font-semibold text-secondary-foreground">
+                          {currentLevel.credential} · Level {currentLevel.level}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                        <Award className="w-4 h-4" /> Diploma complete
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="hg-bar-track h-2.5 w-full rounded-full bg-secondary overflow-hidden">
+                  <span
+                    className="hg-bar-fill block h-full rounded-full bg-gradient-to-r from-primary to-accent"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <div className="mt-2 text-xs text-muted-foreground">
+                  {masteredCount === 0
+                    ? "Master a topic's knowledge check to begin filling your progress."
+                    : masteredCount >= total
+                    ? "Every topic mastered — a remarkable achievement."
+                    : `${pct}% of the way through the full Diploma.`}
+                </div>
+              </>
+            );
+          })()}
+        </div>
+
         <section id="topics" className="mb-12 scroll-mt-4">
           <div className="mb-6">
             <h2 className="font-serif text-2xl text-foreground">Three levels to a Diploma</h2>
@@ -203,8 +255,22 @@ export function WelcomeScreen() {
               return (
                 <div key={lv.level} className="rounded-2xl border border-border overflow-hidden">
                   <div className="bg-secondary/60 px-5 py-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-serif shrink-0">
-                      {lv.level}
+                    <span className="relative inline-flex items-center justify-center w-11 h-11 shrink-0" title={`${masteredInLevel} of ${levelTopics.length} mastered`}>
+                      <svg viewBox="0 0 40 40" className="w-11 h-11 -rotate-90">
+                        <circle cx="20" cy="20" r="16" fill="none" stroke="var(--line)" strokeWidth="3.5" />
+                        <circle
+                          cx="20" cy="20" r="16" fill="none"
+                          stroke={levelComplete ? "var(--marigold)" : "var(--teal)"}
+                          strokeWidth="3.5" strokeLinecap="round"
+                          className="hg-ring-fill"
+                          style={{
+                            strokeDasharray: 100.5,
+                            strokeDashoffset: 100.5 * (1 - masteredInLevel / Math.max(1, levelTopics.length)),
+                            ["--ring-len" as string]: "100.5px",
+                          } as React.CSSProperties}
+                        />
+                      </svg>
+                      <span className="absolute font-serif text-primary text-base">{lv.level}</span>
                     </span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -230,7 +296,7 @@ export function WelcomeScreen() {
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-5">
-                    {levelTopics.map(({ topic, index }) => renderCard(topic, index))}
+                    {levelTopics.map(({ topic, index }, pos) => renderCard(topic, index, pos))}
                   </div>
                 </div>
               );
