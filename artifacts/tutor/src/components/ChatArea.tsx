@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -50,6 +50,7 @@ export function ChatArea() {
   const [checkOpen, setCheckOpen] = useState(false);
   const [showObjectives, setShowObjectives] = useState(false);
   const [readingOpen, setReadingOpen] = useState(false);
+  const [showScenario, setShowScenario] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -323,12 +324,27 @@ export function ChatArea() {
             <MenuIcon />
           </Button>
           <div className="min-w-0">
-            <button
-              onClick={() => setCurrentTopicIndex(null)}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline mb-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
-            </button>
+            <div className="flex items-center justify-between gap-3 mb-2">
+              <button
+                onClick={() => setCurrentTopicIndex(null)}
+                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
+              </button>
+              <button
+                onClick={() => {
+                  if (currentTopicIndex === null) return;
+                  if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
+                    startSession(currentTopicIndex, true);
+                  }
+                }}
+                disabled={busy}
+                title="Start this lesson over from the beginning"
+                className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
+              >
+                <RotateCcw className="w-3.5 h-3.5" /> Restart lesson
+              </button>
+            </div>
             {currentModule && (
               <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
                 Module {currentModule.level} · {currentModule.name}
@@ -372,57 +388,66 @@ export function ChatArea() {
                 )}
               </div>
             )}
-            {meta && (
-              <div className="mt-2">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={() => setShowObjectives((v) => !v)}
-                    aria-expanded={showObjectives}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
-                      showObjectives
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-primary/40 text-primary hover:bg-primary/5",
-                    )}
-                  >
-                    <Target className="w-3.5 h-3.5" />
-                    {showObjectives ? "Hide" : "Show"} learning objectives ({meta.objectives.length})
-                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
-                  </button>
-                  {READINGS[currentTopic.id] && (
-                    <button
-                      onClick={() => setReadingOpen(true)}
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
-                    >
-                      <BookOpen className="w-3.5 h-3.5" /> Read the chapter
-                    </button>
-                  )}
-                </div>
-                {showObjectives && (
-                  <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
-                    {meta.objectives.map((o, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                        <span className="text-primary mt-0.5">•</span>
-                        <span>{o}</span>
-                      </li>
-                    ))}
-                  </ul>
+            <div className="mt-2 flex items-center gap-2 flex-wrap">
+              <button
+                onClick={() => setShowScenario((v) => !v)}
+                aria-expanded={showScenario}
+                className={cn(
+                  "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
+                  showScenario ? "border-primary bg-primary/10 text-primary" : "border-primary/40 text-primary hover:bg-primary/5",
                 )}
+              >
+                {showScenario ? "Hide" : "Show"} scenario
+                <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showScenario && "rotate-180")} />
+              </button>
+              {meta && (
+                <button
+                  onClick={() => setShowObjectives((v) => !v)}
+                  aria-expanded={showObjectives}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
+                    showObjectives
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-primary/40 text-primary hover:bg-primary/5",
+                  )}
+                >
+                  <Target className="w-3.5 h-3.5" />
+                  Objectives ({meta.objectives.length})
+                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
+                </button>
+              )}
+              {READINGS[currentTopic.id] && (
+                <button
+                  onClick={() => setReadingOpen(true)}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5" /> Read the chapter
+                </button>
+              )}
+            </div>
+            {showScenario && (
+              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
+                <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">Scenario</div>
+                <p className="text-sm text-foreground leading-snug">
+                  {currentTopic.launch.charAt(0).toUpperCase() + currentTopic.launch.slice(1)}.
+                </p>
               </div>
+            )}
+            {showObjectives && meta && (
+              <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
+                {meta.objectives.map((o, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{o}</span>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </div>
       </div>
 
       <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
-        {!isCompleted && (
-          <div className="rounded-lg border-l-4 border-primary bg-secondary/40 px-4 py-2.5 text-sm max-w-3xl leading-snug">
-            <span className="font-semibold text-foreground">The situation: </span>
-            <span className="text-foreground">
-              {currentTopic.launch.charAt(0).toUpperCase() + currentTopic.launch.slice(1)}.
-            </span>
-          </div>
-        )}
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
         ))}
@@ -456,83 +481,32 @@ export function ChatArea() {
         )}
       </div>
 
-      <div className="px-4 sm:px-8 py-4 bg-background border-t border-border">
-        <div className="flex flex-wrap gap-2 mb-4">
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={busy || !currentSession?.conversationId}
-            onClick={() => handleSend("[HINT]", "hint")}
-            className="text-secondary-foreground hover:bg-secondary/80"
-          >
-            Give me a hint
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={busy || !currentSession?.conversationId}
-            onClick={() => handleSend("[SIMPLIFY]", "stuck")}
-            className="text-secondary-foreground hover:bg-secondary/80"
-          >
-            I'm stuck, simplify
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={busy || !currentSession?.conversationId}
-            onClick={() => handleSend("[SYNTHESIS]", "synthesis")}
-            className="border-accent text-foreground bg-accent/10 hover:bg-accent/20"
-          >
-            Check my understanding
-          </Button>
-          {!isCompleted && (
+      <div className="px-4 sm:px-8 py-3 bg-background border-t border-border">
+        {/* Contextual next step: the knowledge check only appears once the learner
+            has done an understanding check, so it never clutters the first attempt. */}
+        {!isCompleted && hasSynthesis && (
+          <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2">
+            <span className="text-sm text-foreground">Nice reasoning. Ready to lock this topic in?</span>
             <Button
-              variant="default"
               size="sm"
               disabled={busy || completing || !currentSession?.conversationId}
-              onClick={() => {
-                if (!hasSynthesis) {
-                  toast.info('First run "Check my understanding", it recaps your reasoning, then unlocks the knowledge check.');
-                  return;
-                }
-                setCheckOpen(true);
-              }}
-              title="Take the knowledge check to master this topic"
-              className={cn(
-                "bg-accent text-accent-foreground hover:bg-accent/90",
-                !hasSynthesis && "opacity-60",
-              )}
+              onClick={() => setCheckOpen(true)}
+              className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
-              <CheckCircle2 className="w-4 h-4 mr-1" />
-              Take knowledge check
+              <CheckCircle2 className="w-4 h-4 mr-1" /> Take the knowledge check
             </Button>
-          )}
-          <div className="flex-1" />
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={busy}
-            onClick={() => {
-              if (currentTopicIndex === null) return;
-              if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
-                startSession(currentTopicIndex, true);
-              }
-            }}
-            className="text-muted-foreground"
-            title="Start this lesson over from the beginning"
-          >
-            Restart lesson
-          </Button>
-        </div>
+          </div>
+        )}
 
-        <div className="relative flex items-end gap-3">
+        {/* The composer is the primary action */}
+        <div className="flex items-end gap-3">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             disabled={busy || !currentSession?.conversationId}
-            placeholder="Answer Nurse Mooka in your own words, then press Enter..."
-            className="min-h-[80px] max-h-[200px] resize-none border-border focus-visible:ring-primary text-base"
+            placeholder="Type your answer to Nurse Mooka here, then press Enter..."
+            className="min-h-[72px] max-h-[200px] resize-none border-border focus-visible:ring-primary text-base"
           />
           <Button
             onClick={() => handleSend(input, "normal")}
@@ -543,13 +517,42 @@ export function ChatArea() {
           </Button>
         </div>
 
-        <div className="text-center mt-3 text-xs text-muted-foreground">
-          {isCompleted
-            ? "You have mastered this topic. Keep exploring with Nurse Mooka, or pick your next topic from the roadmap."
-            : hasSynthesis
-            ? "Ready? Take the knowledge check to master this topic."
-            : "Reply to Nurse Mooka's question above. Enter to send · Shift+Enter for a new line."}
-        </div>
+        {/* Quiet assist affordances, subordinate to the composer */}
+        {isCompleted ? (
+          <div className="mt-2 text-xs text-muted-foreground text-center">
+            You have mastered this topic. Keep exploring with Nurse Mooka, or pick your next topic from the roadmap.
+          </div>
+        ) : (
+          <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-muted-foreground">
+            <span className="hidden sm:inline">Enter to send, Shift+Enter for a new line.</span>
+            <span className="hidden sm:inline text-border" aria-hidden>·</span>
+            <span>Stuck?</span>
+            <button
+              disabled={busy || !currentSession?.conversationId}
+              onClick={() => handleSend("[HINT]", "hint")}
+              className="font-semibold text-primary hover:underline disabled:opacity-40"
+            >
+              Give a hint
+            </button>
+            <span className="text-border" aria-hidden>·</span>
+            <button
+              disabled={busy || !currentSession?.conversationId}
+              onClick={() => handleSend("[SIMPLIFY]", "stuck")}
+              className="font-semibold text-primary hover:underline disabled:opacity-40"
+            >
+              Simplify
+            </button>
+            <span className="text-border" aria-hidden>·</span>
+            <button
+              disabled={busy || !currentSession?.conversationId}
+              onClick={() => handleSend("[SYNTHESIS]", "synthesis")}
+              className="font-semibold text-primary hover:underline disabled:opacity-40"
+              title="Get a recap of your reasoning so far, then unlock the knowledge check"
+            >
+              Check my understanding
+            </button>
+          </div>
+        )}
       </div>
 
       <Sheet open={readingOpen} onOpenChange={setReadingOpen}>

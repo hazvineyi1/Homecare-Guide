@@ -214,28 +214,28 @@ export function Sidebar() {
               className="w-full mb-3 bg-primary text-primary-foreground hover:bg-primary/90"
               size="sm"
             >
-              {guestFirstName ? "Sign in to save progress" : "Sign in to save progress"}
+              Sign in to save progress
             </Button>
           </>
         )}
-        <div className="text-xs text-sidebar-foreground/75 flex flex-col gap-1">
-          <div>Exchanges this topic: {sessions[currentTopicIndex ?? -1]?.exchanges || 0}</div>
-          <div>Mastered {masteredCount} &middot; Explored {startedTopicsCount} of {TOPICS.length}</div>
-        </div>
-        <button
-          onClick={() => printTrainingRecord(currentUser?.name ?? "Caregiver", sessions)}
-          className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
-        >
-          <FileText className="w-3.5 h-3.5" /> Print training record
-        </button>
-        {currentUser && (
+        <div className="flex gap-2">
           <button
-            onClick={() => setTeamOpen(true)}
-            className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+            onClick={() => printTrainingRecord(currentUser?.name ?? (guestFirstName || "Caregiver"), sessions)}
+            title="Print your training record"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-card px-2 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
           >
-            <Users className="w-3.5 h-3.5" /> Team dashboard
+            <FileText className="w-3.5 h-3.5" /> Print record
           </button>
-        )}
+          {currentUser && (
+            <button
+              onClick={() => setTeamOpen(true)}
+              title="Open the team dashboard"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-card px-2 py-2 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+            >
+              <Users className="w-3.5 h-3.5" /> Team
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
