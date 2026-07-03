@@ -71,15 +71,12 @@ function MainLayout() {
       >
         Skip to main content
       </a>
-      {/* Desktop: persistent sidebar column */}
-      <nav aria-label="Course topics" className="hidden md:flex">
-        <Sidebar />
-      </nav>
-
-      {/* Mobile: sidebar in a slide-in drawer */}
+      {/* Navigation, progress and account live in a slide-in drawer on all
+          screen sizes, so the lesson itself stays a single focused column with
+          nothing competing for attention. */}
       <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-[85vw] max-w-[320px] bg-sidebar border-sidebar-accent">
-          <SheetTitle className="sr-only">Dialogue topics</SheetTitle>
+        <SheetContent side="left" className="p-0 w-[88vw] max-w-[340px] bg-sidebar border-sidebar-accent overflow-y-auto">
+          <SheetTitle className="sr-only">Menu</SheetTitle>
           <Sidebar />
         </SheetContent>
       </Sheet>

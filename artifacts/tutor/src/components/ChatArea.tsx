@@ -315,14 +315,14 @@ export function ChatArea() {
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
-      <div className="px-4 sm:px-8 py-3 sm:py-4 border-b border-border bg-background z-10 shrink-0">
-        <div className="flex items-start gap-3">
+      <div className="px-4 sm:px-8 py-3 border-b border-border bg-background z-10 shrink-0">
+        <div className="flex items-start gap-3 max-w-3xl mx-auto w-full">
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden shrink-0 -ml-2 mt-0.5"
+            className="shrink-0 -ml-2 mt-0.5"
             onClick={() => setMobileSidebarOpen(true)}
-            aria-label="Open topics menu"
+            aria-label="Open menu"
           >
             <MenuIcon />
           </Button>
@@ -456,7 +456,8 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
+      <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5">
+       <div className="max-w-3xl mx-auto w-full space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
         ))}
@@ -488,9 +489,11 @@ export function ChatArea() {
             </Button>
           </div>
         )}
+       </div>
       </div>
 
       <div className="px-4 sm:px-8 py-3 bg-background border-t border-border">
+       <div className="max-w-3xl mx-auto w-full">
         {/* Contextual next step: the knowledge check only appears once the learner
             has done an understanding check, so it never clutters the first attempt. */}
         {!isCompleted && hasSynthesis && (
@@ -562,6 +565,7 @@ export function ChatArea() {
             </button>
           </div>
         )}
+       </div>
       </div>
 
       <Sheet open={readingOpen} onOpenChange={setReadingOpen}>

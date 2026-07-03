@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   ArrowRight,
   Search,
+  Menu,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { fetchCertificates } from "@/lib/tutor-api";
@@ -23,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Certificate } from "./Certificate";
 
 export function WelcomeScreen() {
-  const { setCurrentTopicIndex, sessions, currentUser, learnerName } = useAppState();
+  const { setCurrentTopicIndex, sessions, currentUser, learnerName, setMobileSidebarOpen } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
   const [certOpen, setCertOpen] = useState(false);
   const [certLevel, setCertLevel] = useState(1);
@@ -87,6 +88,14 @@ export function WelcomeScreen() {
   return (
     <div className="flex-1 overflow-y-auto bg-background">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 py-9 sm:py-12">
+
+        {/* Menu opens the drawer (topics, progress, account, settings) */}
+        <button
+          onClick={() => setMobileSidebarOpen(true)}
+          className="mb-6 inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+        >
+          <Menu className="w-4 h-4" /> Menu
+        </button>
 
         {/* Compact header */}
         <div className="mb-8">
