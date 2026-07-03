@@ -59,4 +59,21 @@ router.get("/auth/me", async (req, res) => {
   res.json({ user: u ? publicUser(u) : null });
 });
 
+// Let a signed-in learner change their own password (requires the current one).
+// A self-service email reset needs email infrastructure, which is a later phase.
+router.post("/auth/change-password", async (req, res) => {
+  if (!req.userId) { res.status(401).json({ error: "You must be logged in to change your password." }); return; }
+  const { currentPassword, newPassword } = req.body ?? {};
+  if (typeof currentPassword !== "string" || typeof newPassword !== "string") {
+    res.status(400).json({ error: "Current and new password are required." }); return;
+  }
+  if (newPassword.length < 8) { res.status(400).json({ error: "New password must be at least 8 characters." }); return; }
+  const [u] = await db.select().from(users).where(eq(users.id, req.userId));
+  if (!u || !verifyPassword(currentPassword, u.passwordHash)) {
+    res.status(401).json({ error: "Your current password is incorrect." }); return;
+  }
+  await db.update(users).set({ passwordHash: hashPassword(newPassword) }).where(eq(users.id, u.id));
+  res.json({ ok: true });
+});
+
 export default router;

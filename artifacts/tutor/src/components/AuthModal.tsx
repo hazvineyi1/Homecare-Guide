@@ -57,6 +57,11 @@ export function AuthModal() {
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
             {busy ? "Please wait…" : mode === "signup" ? "Create account" : "Log in"}
           </Button>
+          {mode === "login" && (
+            <p className="text-xs text-muted-foreground text-center">
+              Forgot your password? Once signed in you can change it from the menu. If you cannot sign in, contact your course administrator to reset it.
+            </p>
+          )}
         </div>
 
         <p className="text-sm text-muted-foreground text-center">

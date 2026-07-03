@@ -35,7 +35,7 @@ router.post("/tutor/attempts", async (req, res) => {
   res.status(201).json({ ok: true });
 });
 
-function buildSystemPrompt(topicId: number, level: string): string {
+function buildSystemPrompt(topicId: number, level: string, learnerName = ""): string {
   const topic = TOPICS.find((t) => t.id === topicId);
   if (!topic) throw new Error(`Topic ${topicId} not found`);
 
@@ -43,6 +43,10 @@ function buildSystemPrompt(topicId: number, level: string): string {
     level === "new"
       ? "The learner is a NEW family caregiver. Start from concrete, everyday reasoning. Keep vocabulary plain, define any term you must use, and scaffold generously."
       : "The learner is an EXPERIENCED caregiver. You may move faster, probe edge cases, challenge assumptions harder, and ask them to justify trade-offs and prioritisation.";
+
+  const nameNote = learnerName
+    ? `\n\nThe learner's name is ${learnerName}. Greet them by their first name in your opening, and address them by name occasionally and naturally through the dialogue to keep it warm and personal. Do not overuse it.`
+    : "";
 
   return `You are Nurse Mooka, a warm, experienced home-care nurse who teaches family caregiving through the Socratic method (guiding questions, never lecturing). Your knowledge base is the chapter content below, adapted from "A Guide to Homecare" by Dorothy Mooka. Stay grounded in this content; do not invent medical guidance beyond it. If asked about something outside the chapter, briefly say it is beyond this topic and steer back with a question.
 
@@ -68,7 +72,7 @@ YOUR SOCRATIC METHOD (follow strictly):
 12. When you receive a message beginning [SIMPLIFY], break your last question into a smaller, easier first step.
 13. When you receive a message beginning [SYNTHESIS], stop questioning for one turn and produce a formative assessment: (a) concepts the learner has demonstrably reasoned through, citing their own words; (b) gaps or misconceptions still open; (c) one recommended focus next. Maximum 160 words. Then invite them to continue with one question.
 14. When you receive [BEGIN SESSION], greet the learner warmly in one sentence, introduce yourself as Nurse Mooka, and then start per rule 3. Refer to yourself as Nurse Mooka whenever you name yourself.
-15. Write plainly without em dashes; use commas, colons, or periods instead.`;
+15. Write plainly without em dashes; use commas, colons, or periods instead.${nameNote}`;
 }
 
 // List the signed-in owner's tutor sessions so the client can rehydrate the
@@ -149,6 +153,10 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
   }
   const convId = paramsParsed.data.conversationId;
   const { content, messageType } = bodyParsed.data;
+  const learnerName =
+    typeof req.body?.learnerName === "string"
+      ? req.body.learnerName.trim().replace(/[\r\n]+/g, " ").slice(0, 40)
+      : "";
 
   const [conv] = await db
     .select()
@@ -185,7 +193,7 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
     .where(eq(messages.conversationId, convId))
     .orderBy(messages.createdAt);
 
-  const systemPrompt = buildSystemPrompt(topic.id, level);
+  const systemPrompt = buildSystemPrompt(topic.id, level, learnerName);
 
   // Cost/latency control: the system prompt (chapter content + Socratic rules) is
   // static per topic, so cache it; and bound the transcript we resend to a rolling

@@ -3,12 +3,13 @@ export const streamTutorResponse = async (
   content: string,
   messageType: string,
   onChunk: (text: string) => void,
-  onDone: () => void
+  onDone: () => void,
+  learnerName?: string,
 ) => {
   const response = await fetch(`/api/tutor/sessions/${conversationId}/message`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content, messageType }),
+    body: JSON.stringify({ content, messageType, learnerName }),
   });
   
   if (!response.body) {
@@ -141,6 +142,8 @@ export const signup = (email: string, name: string, password: string) =>
 export const login = (email: string, password: string) =>
   postJson("/api/auth/login", { email, password });
 export const logout = () => postJson("/api/auth/logout");
+export const changePassword = (currentPassword: string, newPassword: string) =>
+  postJson("/api/auth/change-password", { currentPassword, newPassword });
 
 export const recordAttempt = (a: {
   topicId: number; score: number; total: number; passed: boolean; durationSeconds: number;

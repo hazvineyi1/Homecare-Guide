@@ -5,7 +5,8 @@ import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 
 export function Landing() {
-  const { setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen } = useAppState();
+  const { setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName } = useAppState();
+  const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
   const values = Object.values(sessions);
   const mastered = values.filter((s) => s.completed).length;
   const explored = values.filter((s) => s.conversationId).length;
@@ -38,7 +39,9 @@ export function Landing() {
       </header>
 
       <section className="max-w-3xl mx-auto px-6 py-14 sm:py-20 text-center">
-        <div className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-4">A guided caregiving course</div>
+        <div className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-4">
+          {firstName ? `Welcome back, ${firstName}` : "A guided caregiving course"}
+        </div>
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground mb-5 leading-tight">
           Learn home caregiving, one real situation at a time
         </h1>

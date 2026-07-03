@@ -60,8 +60,12 @@ interface AppState {
   setAuthOpen: (open: boolean) => void;
   teamOpen: boolean;
   setTeamOpen: (open: boolean) => void;
+  pwOpen: boolean;
+  setPwOpen: (open: boolean) => void;
   atLanding: boolean;
   setAtLanding: (v: boolean) => void;
+  onboarded: boolean;
+  setOnboarded: (v: boolean) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -77,6 +81,7 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [teamOpen, setTeamOpen] = useState(false);
+  const [pwOpen, setPwOpen] = useState(false);
   const [atLanding, setAtLanding] = useState(true);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {
@@ -89,6 +94,21 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
     setLearnerNameState(name);
     try {
       localStorage.setItem("hg_learner_name", name);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+  const [onboarded, setOnboardedState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("hg_onboarded") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const setOnboarded = useCallback((v: boolean) => {
+    setOnboardedState(v);
+    try {
+      localStorage.setItem("hg_onboarded", v ? "1" : "0");
     } catch {
       /* ignore */
     }
@@ -151,8 +171,12 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setAuthOpen,
         teamOpen,
         setTeamOpen,
+        pwOpen,
+        setPwOpen,
         atLanding,
         setAtLanding,
+        onboarded,
+        setOnboarded,
       }}
     >
       {children}

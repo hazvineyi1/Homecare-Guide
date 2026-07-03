@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, LogOut, UserCircle2, FileText, Users } from "lucide-react";
+import { CheckCircle2, LogOut, UserCircle2, FileText, Users, KeyRound } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { LEVELS } from "@/lib/course-structure";
@@ -66,7 +66,10 @@ export function Sidebar() {
     setAuthOpen,
     setTeamOpen,
     setAtLanding,
+    setPwOpen,
+    learnerName,
   } = useAppState();
+  const guestFirstName = (learnerName || "").trim().split(" ")[0];
 
   const sessionValues = Object.values(sessions);
   const startedTopicsCount = sessionValues.filter((s) => s.conversationId).length;
@@ -181,6 +184,13 @@ export function Sidebar() {
               <div className="text-xs text-sidebar-foreground/70 truncate">{currentUser.email}</div>
             </div>
             <button
+              onClick={() => setPwOpen(true)}
+              className="text-sidebar-foreground/60 hover:text-sidebar-foreground"
+              title="Change password"
+            >
+              <KeyRound className="w-4 h-4" />
+            </button>
+            <button
               onClick={async () => { await logout(); window.location.reload(); }}
               className="text-sidebar-foreground/60 hover:text-sidebar-foreground"
               title="Log out"
@@ -189,13 +199,24 @@ export function Sidebar() {
             </button>
           </div>
         ) : (
-          <Button
-            onClick={() => setAuthOpen(true)}
-            className="w-full mb-3 bg-primary text-primary-foreground hover:bg-primary/90"
-            size="sm"
-          >
-            Sign in to save progress
-          </Button>
+          <>
+            {guestFirstName && (
+              <div className="flex items-center gap-2 mb-2">
+                <UserCircle2 className="w-5 h-5 text-sidebar-foreground/70 shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-sidebar-foreground truncate">Learning as {guestFirstName}</div>
+                  <div className="text-xs text-sidebar-foreground/70 truncate">Sign in to save your progress</div>
+                </div>
+              </div>
+            )}
+            <Button
+              onClick={() => setAuthOpen(true)}
+              className="w-full mb-3 bg-primary text-primary-foreground hover:bg-primary/90"
+              size="sm"
+            >
+              {guestFirstName ? "Sign in to save progress" : "Sign in to save progress"}
+            </Button>
+          </>
         )}
         <div className="text-xs text-sidebar-foreground/75 flex flex-col gap-1">
           <div>Exchanges this topic: {sessions[currentTopicIndex ?? -1]?.exchanges || 0}</div>

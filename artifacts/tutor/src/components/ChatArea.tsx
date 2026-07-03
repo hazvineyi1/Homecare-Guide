@@ -17,6 +17,7 @@ import {
   completeTutorSession,
 } from "@/lib/tutor-api";
 import { TOPIC_META } from "@/lib/course-content";
+import { LEVELS } from "@/lib/course-structure";
 import { READINGS } from "@/lib/course-readings";
 import { KnowledgeCheck } from "./KnowledgeCheck";
 
@@ -33,7 +34,10 @@ export function ChatArea() {
     setMobileSidebarOpen,
     setCurrentTopicIndex,
     hydrated,
+    learnerName,
+    currentUser,
   } = useAppState();
+  const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
 
   // Guards the programmatic level sync in loadSession from being treated as a
   // user-initiated level switch (which would restart the topic).
@@ -46,7 +50,6 @@ export function ChatArea() {
   const [checkOpen, setCheckOpen] = useState(false);
   const [showObjectives, setShowObjectives] = useState(false);
   const [readingOpen, setReadingOpen] = useState(false);
-  const [showHowto, setShowHowto] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -115,7 +118,8 @@ export function ChatArea() {
           return "";
         });
         setBusy(false);
-      }
+      },
+      firstName,
     );
   };
 
@@ -230,7 +234,8 @@ export function ChatArea() {
             return "";
           });
           setBusy(false);
-        }
+        },
+        firstName,
       );
     } catch (e) {
       console.error(e);
@@ -301,6 +306,8 @@ export function ChatArea() {
 
   const isCompleted = !!currentSession?.completed;
   const meta = TOPIC_META[currentTopic.id];
+  const topicPosition = (currentTopicIndex ?? 0) + 1;
+  const currentModule = LEVELS.find((lv) => lv.topicIds.includes(currentTopic.id));
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
@@ -322,8 +329,13 @@ export function ChatArea() {
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
             </button>
+            {currentModule && (
+              <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
+                Module {currentModule.level} · {currentModule.name}
+              </div>
+            )}
             <div className="flex items-center gap-x-2 gap-y-1 flex-wrap mb-1 text-xs font-semibold text-muted-foreground">
-              <span className="uppercase tracking-wider">Topic {currentTopic.id.toString().padStart(2, "0")}</span>
+              <span className="uppercase tracking-wider">Topic {topicPosition} of {TOPICS.length}</span>
               <span aria-hidden>·</span>
               <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
               {meta && (
@@ -404,34 +416,15 @@ export function ChatArea() {
 
       <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5 space-y-4">
         {!isCompleted && (
-          <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm max-w-3xl">
-            <p className="text-foreground leading-relaxed">
-              <span className="font-semibold">The situation.</span>{" "}
+          <div className="rounded-lg border-l-4 border-primary bg-secondary/40 px-4 py-2.5 text-sm max-w-3xl leading-snug">
+            <span className="font-semibold text-foreground">The situation: </span>
+            <span className="text-foreground">
               {currentTopic.launch.charAt(0).toUpperCase() + currentTopic.launch.slice(1)}.
-            </p>
-            <p className="mt-2 text-muted-foreground leading-relaxed">
-              <span className="font-semibold text-foreground">How to start.</span> Nurse Mooka asks one question at a time, look just below for her first question. Reply in your own words in the box at the bottom, then press Enter. There is no single right answer.
-            </p>
-            <button
-              onClick={() => setShowHowto((v) => !v)}
-              aria-expanded={showHowto}
-              className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
-            >
-              {showHowto ? "Hide" : "Show"} the full steps
-              <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showHowto && "rotate-180")} />
-            </button>
-            {showHowto && (
-              <ol className="mt-2 list-decimal pl-5 space-y-1 text-muted-foreground leading-relaxed marker:text-primary marker:font-semibold">
-                <li>Read the situation above so you know what is going on.</li>
-                <li>Nurse Mooka asks one question at a time. Reply in your own words in the box below.</li>
-                <li>Stuck? Use <b>Give me a hint</b> or <b>I'm stuck, simplify</b>. Want the source? Open <b>Read the chapter</b>.</li>
-                <li>When you feel ready, use <b>Check my understanding</b>, then <b>Take knowledge check</b> to master the topic.</li>
-              </ol>
-            )}
+            </span>
           </div>
         )}
         {currentSession?.messages.map((msg, idx) => (
-          <MessageBubble key={idx} message={msg} />
+          <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
         ))}
         {isStreaming && (
           <MessageBubble
@@ -519,10 +512,16 @@ export function ChatArea() {
             variant="ghost"
             size="sm"
             disabled={busy}
-            onClick={() => currentTopicIndex !== null && startSession(currentTopicIndex, true)}
+            onClick={() => {
+              if (currentTopicIndex === null) return;
+              if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
+                startSession(currentTopicIndex, true);
+              }
+            }}
             className="text-muted-foreground"
+            title="Start this lesson over from the beginning"
           >
-            Restart topic
+            Restart lesson
           </Button>
         </div>
 
@@ -601,7 +600,7 @@ function MarkdownContent({ content }: { content: string }) {
   );
 }
 
-function MessageBubble({ message, isStreamingActive }: { message: Message; isStreamingActive?: boolean }) {
+function MessageBubble({ message, isStreamingActive, youLabel = "You" }: { message: Message; isStreamingActive?: boolean; youLabel?: string }) {
   if (message.role === "system") {
     return (
       <div className="flex justify-center my-4">
@@ -618,7 +617,7 @@ function MessageBubble({ message, isStreamingActive }: { message: Message; isStr
   return (
     <div className={cn("flex flex-col max-w-[85%]", isUser ? "ml-auto items-end" : "mr-auto items-start")}>
       <span className="text-xs font-medium text-muted-foreground mb-1 px-1">
-        {isUser ? "You" : isSynthesis ? "Understanding check" : "Nurse Mooka"}
+        {isUser ? youLabel : isSynthesis ? "Understanding check" : "Nurse Mooka"}
       </span>
       <div
         className={cn(

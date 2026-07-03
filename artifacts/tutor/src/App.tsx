@@ -8,10 +8,12 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { AppStateProvider, useAppState, HydratedSession } from "@/hooks/use-app-state";
 import { AuthModal } from "@/components/AuthModal";
 import { TeamDashboard } from "@/components/TeamDashboard";
+import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
 import { Landing } from "@/components/Landing";
+import { Onboarding } from "@/components/Onboarding";
 import { TOPICS } from "@/lib/constants";
 import { fetchTutorSessions, fetchMe } from "@/lib/tutor-api";
 import NotFound from "@/pages/not-found";
@@ -19,7 +21,7 @@ import NotFound from "@/pages/not-found";
 const queryClient = new QueryClient();
 
 function MainLayout() {
-  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser, atLanding } = useAppState();
+  const { mobileSidebarOpen, setMobileSidebarOpen, hydrateSessions, setCurrentUser, atLanding, onboarded } = useAppState();
 
   useEffect(() => {
     fetchMe().then(setCurrentUser);
@@ -57,6 +59,7 @@ function MainLayout() {
     };
   }, [hydrateSessions]);
 
+  if (!onboarded) return <Onboarding />;
   if (atLanding) return <Landing />;
 
   return (
@@ -107,6 +110,7 @@ function App() {
           </WouterRouter>
           <AuthModal />
           <TeamDashboard />
+          <ChangePasswordModal />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>
