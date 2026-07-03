@@ -24,6 +24,11 @@ export const LEVELS: CourseLevel[] = [
     blurb: "Provide palliative care, protect your own wellbeing, and bring in support systems.",
     topicIds: [10, 11, 12],
   },
+  {
+    level: 4, name: "Care-home orientation", credential: "Certificate of Completion", tag: "In-service",
+    blurb: "Care-home in-service topics: safe moving and handling, falls prevention, safeguarding, incident reporting, and record-keeping.",
+    topicIds: [13, 14, 15, 16, 17],
+  },
 ];
 
 export const levelForTopicId = (id: number) => LEVELS.find((l) => l.topicIds.includes(id));

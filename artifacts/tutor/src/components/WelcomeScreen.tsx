@@ -92,7 +92,7 @@ export function WelcomeScreen() {
           <div className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-2">A guided caregiving course</div>
           <h1 className="font-serif text-3xl sm:text-4xl text-foreground mb-2 leading-tight">Your caregiving roadmap</h1>
           <p className="text-muted-foreground leading-relaxed mb-5">
-            Work through 12 real-world topics with <b>Nurse Mooka</b>, based on <em>A Guide to Homecare</em>.
+            Work through {TOPICS.length} real-world topics with <b>Nurse Mooka</b>, based on <em>A Guide to Homecare</em>.
             Finish each one to light up your path and earn your Certificate of Completion.
           </p>
 

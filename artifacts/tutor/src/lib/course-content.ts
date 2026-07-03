@@ -486,6 +486,266 @@ export const TOPIC_META: Record<number, TopicMeta> = {
       },
     ],
   },
+  13: {
+    objectives: [
+      "Explain why safe moving and handling protects both you and the person.",
+      "Use good body mechanics to lower the risk of back injury.",
+      "Know when to use equipment or ask for a second person.",
+    ],
+    estMinutes: 9,
+    takeaways: [
+      "Safe moving and handling protects both the caregiver and the person.",
+      "Assess the task, the person, the space, and yourself before you move anyone.",
+      "Bend your knees, keep your back straight, hold the load close, and never twist.",
+      "Use equipment and a second person when the plan says so or a move feels unsafe.",
+    ],
+    check: [
+      {
+        q: "What is the safest way to protect your back when helping someone up?",
+        options: [
+          "Bend at the waist and pull",
+          "Bend your knees and lift with your legs, keeping your back straight",
+          "Twist to the side as you lift",
+          "Lift quickly with a jerk",
+        ],
+        answer: 1,
+        why: "Keep your back straight and lift with your strong leg muscles, never bending or twisting at the waist.",
+      },
+      {
+        q: "A move feels too heavy for you to do alone. What should you do?",
+        options: [
+          "Do it quickly to get it over with",
+          "Stop and get a second person or the right equipment",
+          "Drag the person instead",
+          "Skip the move",
+        ],
+        answer: 1,
+        why: "When a move is unsafe alone, use a two-person technique or equipment; asking for help is the professional choice.",
+      },
+      {
+        q: "Before moving someone, you should first:",
+        options: [
+          "Lift without warning to avoid worry",
+          "Tell them what you plan to do and agree it, and check the plan and space",
+          "Move the furniture only",
+          "Ask them to hold their breath",
+        ],
+        answer: 1,
+        why: "Always agree the move with the person and check the plan, the space, and that the task is safe for one person.",
+      },
+    ],
+  },
+  14: {
+    objectives: [
+      "Recognise who is at higher risk of falling.",
+      "Make the home or room safer to prevent falls.",
+      "Know what to do if someone falls.",
+    ],
+    estMinutes: 10,
+    takeaways: [
+      "Falls are common but mostly preventable.",
+      "People with poor balance, several medicines, dizziness on standing, or poor eyesight are at higher risk.",
+      "Clear walkways, good lighting, grab bars, and non-slip footwear prevent many falls.",
+      "After any fall, check for injury, do not rush to lift, get help if needed, and always report and record it.",
+    ],
+    check: [
+      {
+        q: "Which person is at higher risk of falling?",
+        options: [
+          "Someone who exercises daily and sees well",
+          "Someone who takes several medicines and feels dizzy when standing",
+          "Someone with no health problems",
+          "Someone who never leaves their chair",
+        ],
+        answer: 1,
+        why: "Several medicines and dizziness on standing are major falls risk factors.",
+      },
+      {
+        q: "A simple way to prevent falls at home is:",
+        options: [
+          "Add loose rugs for comfort",
+          "Clear walkways, secure loose rugs, and add good lighting",
+          "Keep the lights off at night",
+          "Store items on high shelves",
+        ],
+        answer: 1,
+        why: "Clear, well-lit walkways and secured rugs remove common trip hazards.",
+      },
+      {
+        q: "After someone falls but has no obvious injury, you should:",
+        options: [
+          "Say nothing since they seem fine",
+          "Still report and record it, and tell the nurse or supervisor",
+          "Lift them quickly and carry on",
+          "Wait a week to see if pain appears",
+        ],
+        answer: 1,
+        why: "Every fall is reported and recorded, even when there is no obvious injury.",
+      },
+      {
+        type: "case",
+        scenario: "An older person falls and has severe hip pain and cannot move the leg.",
+        q: "What should you do?",
+        options: [
+          "Help them stand right away",
+          "Do not move them; get medical help straight away",
+          "Give them painkillers and move on",
+          "Wait for them to get up on their own",
+        ],
+        answer: 1,
+        why: "If a serious injury is possible, do not move the person and get medical help straight away.",
+      },
+    ],
+  },
+  15: {
+    objectives: [
+      "Name the main types of abuse and neglect.",
+      "Recognise possible signs of abuse.",
+      "Respond safely and report to the right person.",
+    ],
+    estMinutes: 10,
+    takeaways: [
+      "Safeguarding protects people from abuse and neglect, and it is everyone's duty.",
+      "Abuse can be physical, emotional, sexual, financial, neglect, discriminatory, organisational, or self-neglect.",
+      "You do not need proof, only a concern.",
+      "Keep the person safe, record the facts, do not investigate, and report to the safeguarding lead straight away.",
+    ],
+    check: [
+      {
+        q: "Which is an example of financial abuse?",
+        options: [
+          "Helping someone budget at their request",
+          "Pressuring a person over their bank card or taking their money",
+          "Reminding someone to pay a bill",
+          "Shopping for someone with their agreement",
+        ],
+        answer: 1,
+        why: "Financial abuse includes stealing or pressuring a person over their money, cards, or property.",
+      },
+      {
+        q: "You have a concern but are not certain abuse is happening. You should:",
+        options: [
+          "Wait until you are sure",
+          "Report it anyway to the safeguarding lead",
+          "Investigate it yourself first",
+          "Ignore it unless it happens again",
+        ],
+        answer: 1,
+        why: "You do not need proof, only a concern; report it to your safeguarding lead.",
+      },
+      {
+        type: "case",
+        scenario: "A person quietly tells you that a relative hurts them.",
+        q: "What should you do?",
+        options: [
+          "Promise to keep it a secret",
+          "Listen, note the facts, do not promise secrecy, and report to your supervisor",
+          "Confront the relative",
+          "Tell other residents",
+        ],
+        answer: 1,
+        why: "Listen, record the facts, never promise secrecy, and report without delay.",
+      },
+    ],
+  },
+  16: {
+    objectives: [
+      "Know what counts as an incident to report.",
+      "Record an incident clearly and factually.",
+      "Escalate to the right person in good time.",
+    ],
+    estMinutes: 8,
+    takeaways: [
+      "Report every incident and near miss. It is about safety and learning, not blame.",
+      "Record the date, time, place, who was involved, what happened factually, actions taken, and who was told.",
+      "Be factual, do not blame or guess the cause, complete every section, and sign and date it.",
+      "Escalate serious incidents to a senior the same day.",
+    ],
+    check: [
+      {
+        q: "Incident reporting is mainly about:",
+        options: [
+          "Blaming the staff involved",
+          "Keeping people safe and learning, not blaming staff",
+          "Extra paperwork for its own sake",
+          "Hiding mistakes",
+        ],
+        answer: 1,
+        why: "Reporting exists to keep people safe and to learn, not to assign blame.",
+      },
+      {
+        q: "When writing an incident record you should:",
+        options: [
+          "Give your opinion on who is at fault",
+          "Stick to the facts and avoid opinions or guessing the cause",
+          "Leave blank any section you are unsure about",
+          "Write it a week later",
+        ],
+        answer: 1,
+        why: "Records must be factual and complete, with no blame or speculation.",
+      },
+      {
+        q: "A near miss (something that could have harmed someone but did not) should be:",
+        options: [
+          "Ignored, since no one was hurt",
+          "Reported, the same as an actual incident",
+          "Mentioned only if someone asks",
+          "Recorded without a date",
+        ],
+        answer: 1,
+        why: "Near misses are reported like any incident, so the same risk can be prevented.",
+      },
+    ],
+  },
+  17: {
+    objectives: [
+      "Explain why good records matter in care.",
+      "Write records that are clear, factual, and person-centred.",
+      "Keep records safe and confidential.",
+    ],
+    estMinutes: 8,
+    takeaways: [
+      "Records keep care safe, joined-up, and accountable. If it is not written down, it can be missed.",
+      "Good records are person-centred, factual, clear, timely, and signed and dated.",
+      "Correct a mistake with a single line, a correction, and your signature, never by hiding it.",
+      "Keep personal information confidential and stored securely.",
+    ],
+    check: [
+      {
+        q: "A good care record is:",
+        options: [
+          "Full of opinions and labels",
+          "Factual, person-centred, and signed and dated",
+          "Written from memory days later",
+          "Shared with everyone",
+        ],
+        answer: 1,
+        why: "Good records are factual, person-centred, timely, and signed and dated.",
+      },
+      {
+        q: "You realise you wrote something incorrect. You should:",
+        options: [
+          "Erase it so no one sees",
+          "Cross it out with a single line, write the correction, and sign and date it",
+          "Leave it and hope no one notices",
+          "Rewrite the whole record",
+        ],
+        answer: 1,
+        why: "Correct an error openly with a single line, the correction, and your signature, never by hiding it.",
+      },
+      {
+        q: "Personal information in records should be:",
+        options: [
+          "Shared freely with anyone",
+          "Kept confidential and shared only with those who need it for care",
+          "Posted where staff can see it",
+          "Discussed with other residents",
+        ],
+        answer: 1,
+        why: "Records are confidential and shared only with those who need them for the person's care.",
+      },
+    ],
+  },
 };
 
 export const COURSE_OUTCOMES: string[] = [

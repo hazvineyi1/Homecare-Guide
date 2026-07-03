@@ -409,4 +409,150 @@ You need a team and cannot work alone. It takes a whole village to help. Where p
 - Physical needs: formal and informal contacts who help with daily tasks like mowing the lawn, home repairs, grocery shopping, transport, and housekeeping.
 
 Informal contacts include family, friends, and acquaintances. Formal contacts include local community groups, faith groups, tradespeople, and shops that deliver. It helps to review and update your support arrangements from time to time as needs change.`,
+  13: `## Why safe moving and handling matters
+
+Helping someone move is one of the most common tasks in care, and one of the most common causes of injury to caregivers. A hurt back can put you out of work and put the person at risk. Good technique protects both of you. The safest lift is often the one you do not do by hand at all, using equipment or a second person instead.
+
+## Before you move someone
+
+Stop and think first:
+
+- Check the plan. If the person has a moving-and-handling plan that says how to help them, follow it.
+- Check the person. Can they help? Tell them what you are going to do and agree it first.
+- Check the space. Clear obstacles, lock the wheels on beds and chairs, and make sure you have room.
+- Check yourself. Do not attempt a lift that is too heavy or awkward for one person.
+
+## Good body mechanics
+
+Protect your back every time:
+
+- Keep your back straight, with its natural curves. Do not bend or twist your spine.
+- Stand close to the person, with your feet about shoulder-width apart for a stable base.
+- Bend your knees and hips, not your waist. Squat down and let your strong leg muscles do the work.
+- Hold the person or load close to your body.
+- Move your feet to turn. Never twist your spine while carrying a load.
+- Move smoothly, not with a sudden jerk.
+
+## Use help and equipment
+
+- Use aids such as a slide sheet, transfer belt, hoist, or handling board when they are provided and you are trained to use them.
+- Use a two-person technique whenever the plan says so, or whenever a move feels unsafe alone.
+- If a task feels unsafe, stop and ask a nurse or supervisor to show you. Asking for help is the professional choice.`,
+  14: `## Why falls matter
+
+A fall can seriously harm an older person, from bruises to broken bones, and can lead to a loss of confidence and independence. Many care admissions follow a fall. The good news is that most falls can be prevented with simple steps.
+
+## Who is more likely to fall
+
+Watch more closely for people who:
+
+- Have trouble with balance or walking, or have fallen before.
+- Take several medicines, or take sedatives, blood-pressure, or mood medicines that can cause dizziness or drowsiness.
+- Feel dizzy when they stand up quickly.
+- Have poor eyesight or hearing.
+- Are unwell, confused, or not eating and drinking well.
+
+## Making the space safer
+
+Small changes prevent many falls:
+
+- Keep walkways clear. Remove clutter and trailing cords, and secure or remove loose rugs.
+- Add good lighting, including at night and on the way to the toilet.
+- Fit grab bars by the toilet and bath, and use a raised toilet seat or shower chair if needed.
+- Keep everyday items within easy reach so the person does not stretch or climb.
+- Make sure the person wears well-fitting, non-slip footwear, not loose slippers or socks alone.
+- Encourage the person to stand up slowly, and to steady themselves before walking.
+
+## Wider prevention
+
+- Ask the doctor or pharmacist to review medicines that may cause dizziness.
+- Support regular eye checks and the right glasses.
+- Encourage gentle activity and good food and fluids to keep muscles and balance strong.
+- Keep walking aids such as a stick or frame in good repair and within reach.
+
+## If someone falls
+
+- Stay calm and do not rush to lift them. First check whether they are hurt.
+- If they may be seriously hurt (severe pain, a head injury, cannot move a limb, or are not fully alert), do not move them and get medical help straight away.
+- Report and record every fall, even with no obvious injury, and tell the nurse or supervisor.`,
+  15: `## What safeguarding means
+
+Safeguarding means protecting a person's right to live in safety, free from abuse and neglect. Everyone who gives care has a duty to notice concerns and act on them. You do not have to be certain. You only have to be concerned.
+
+## Types of abuse and neglect
+
+Abuse can take many forms:
+
+- Physical: hitting, pushing, rough handling, or misuse of medicines.
+- Emotional or psychological: shouting, threats, blaming, humiliating, or ignoring a person.
+- Sexual: any sexual contact or act without consent.
+- Financial: stealing, or pressuring a person over money, bank cards, or property.
+- Neglect: failing to meet basic needs such as food, warmth, hygiene, or medical care.
+- Discriminatory: unfair treatment or harassment because of race, religion, disability, age, sex, or sexual orientation.
+- Organisational: poor care or routines in a service that harm people.
+- Self-neglect: when a person cannot or will not care for themselves and comes to harm.
+
+## Signs to notice
+
+No single sign proves abuse, but be alert to:
+
+- Unexplained bruises or burns, or a pattern of injuries.
+- Fear, withdrawal, low mood, or a change in behaviour, especially around certain people.
+- Poor hygiene, weight loss, pressure sores, or missed medicines.
+- Money or belongings going missing.
+
+## Respond and report
+
+- Keep the person safe. If they are in immediate danger, get emergency help.
+- Listen calmly if they tell you something. Do not promise to keep it secret, and do not confront the person you suspect.
+- Do not investigate yourself, and do not disturb anything if a crime may have happened.
+- Write down what you saw or were told, in the person's own words where you can, with the date and time, sticking to facts.
+- Report your concern to your safeguarding lead, nurse, or supervisor without delay. Always follow your home's own safeguarding policy.`,
+  16: `## Why incident reporting matters
+
+An incident is anything that harms someone or could have harmed them, such as a fall, a medicine error, an injury, a near miss, or aggressive behaviour. Reporting is not about blame. It is about keeping the person safe, getting them the help they need, and learning so it does not happen again. Good records also reassure families and inspectors.
+
+## What to record
+
+Write down, as soon as you safely can:
+
+- The date, time, and place.
+- Who was involved and who saw it.
+- What happened, in the order it happened, sticking to facts.
+- What you checked and did to make the person safe.
+- Who you told and when.
+
+## How to write it well
+
+- Be factual. Write what you saw and did, not opinions or guesses about the cause.
+- Do not blame anyone and do not speculate.
+- Write clearly and in plain words. Fill in every section. If a section does not apply, write N/A rather than leaving it blank.
+- Sign and date the record, and ask others involved to do the same.
+
+## Escalate in good time
+
+- Tell your nurse or supervisor straight away, especially for anything serious.
+- Higher-risk incidents should be reviewed by a senior the same day, and all incidents within 24 hours.
+- Follow your service's own reporting process and forms.`,
+  17: `## Why records matter
+
+Good records keep care safe and joined-up. They tell the next caregiver what happened and what to do, provide a legal record, help spot changes early, and show the quality of care to families and inspectors. If it is not written down, it can be missed.
+
+## What good records look like
+
+- Person-centred: about the individual by name, their needs, choices, and preferences.
+- Factual and objective: what you saw and did, not opinions or labels.
+- Clear and complete: plain words, no confusing short forms, and every section filled in.
+- Timely: written as soon as possible after the event, while it is fresh.
+- Signed and dated: with your name, so it is clear who wrote it and when.
+
+## Everyday records in care
+
+You may keep records of daily care and tasks, food and fluids, medicines given, changes in the person's condition, appointments, and any incidents. Follow your service's forms and routines.
+
+## Keeping records safe
+
+- Keep records accurate and up to date. Do not leave gaps.
+- Never change a record to hide a mistake. If you make an error, cross it out with a single line, write the correction, and sign and date it.
+- Keep records confidential. Share personal information only with those who need it for the person's care, and store records securely.`,
 };

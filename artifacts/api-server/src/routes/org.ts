@@ -10,8 +10,9 @@ const MODULES = [
   { level: 1, topicIds: [1, 2, 3, 5] },
   { level: 2, topicIds: [4, 6, 7, 8, 9] },
   { level: 3, topicIds: [10, 11, 12] },
+  { level: 4, topicIds: [13, 14, 15, 16, 17] },
 ];
-const TOTAL = 12;
+const TOTAL = 17;
 
 function genCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no ambiguous 0/O/1/I

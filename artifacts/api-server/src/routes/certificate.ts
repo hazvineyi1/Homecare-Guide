@@ -14,6 +14,7 @@ const LEVELS = [
   { level: 1, credential: "Certificate of Completion", topicIds: [1, 2, 3, 5] },
   { level: 2, credential: "Certificate of Completion", topicIds: [4, 6, 7, 8, 9] },
   { level: 3, credential: "Certificate of Completion", topicIds: [10, 11, 12] },
+  { level: 4, credential: "Certificate of Completion", topicIds: [13, 14, 15, 16, 17] },
 ];
 
 async function masteredTopicIds(userId: string): Promise<Set<number>> {

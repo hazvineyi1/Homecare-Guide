@@ -114,7 +114,7 @@ export function Sidebar() {
           Dialogue topics
         </h2>
         <span className="text-xs text-sidebar-foreground/70 font-medium">
-          {masteredCount}/12 mastered
+          {masteredCount}/{TOPICS.length} mastered
         </span>
       </div>
 
@@ -198,7 +198,7 @@ export function Sidebar() {
         )}
         <div className="text-xs text-sidebar-foreground/75 flex flex-col gap-1">
           <div>Exchanges this topic: {sessions[currentTopicIndex ?? -1]?.exchanges || 0}</div>
-          <div>Mastered {masteredCount} &middot; Explored {startedTopicsCount} of 12</div>
+          <div>Mastered {masteredCount} &middot; Explored {startedTopicsCount} of {TOPICS.length}</div>
         </div>
         <button
           onClick={() => printTrainingRecord(currentUser?.name ?? "Caregiver", sessions)}
