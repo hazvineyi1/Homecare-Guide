@@ -9,12 +9,15 @@ import {
   HeartHandshake,
   ShieldCheck,
   ArrowRight,
+  Search,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { fetchCertificates } from "@/lib/tutor-api";
 import { TOPICS } from "@/lib/constants";
 import { TOPIC_META, COURSE_OUTCOMES, GLOSSARY, RESOURCES } from "@/lib/course-content";
 import { LEVELS } from "@/lib/course-structure";
+import { READINGS } from "@/lib/course-readings";
+import { QuickReference } from "./QuickReference";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Certificate } from "./Certificate";
@@ -24,6 +27,9 @@ export function WelcomeScreen() {
   const [certOpen, setCertOpen] = useState(false);
   const [certLevel, setCertLevel] = useState(1);
   const [earnedLevels, setEarnedLevels] = useState<Set<number>>(new Set());
+  const [q, setQ] = useState("");
+  const [refTopicId, setRefTopicId] = useState<number | null>(null);
+  const [refOpen, setRefOpen] = useState(false);
 
   useEffect(() => {
     if (!currentUser) { setEarnedLevels(new Set()); return; }
@@ -66,6 +72,16 @@ export function WelcomeScreen() {
     </span>
   );
 
+  const query = q.trim().toLowerCase();
+  const results = query.length >= 2
+    ? TOPICS.map((topic) => {
+        const m = TOPIC_META[topic.id];
+        const hay = [topic.title, topic.launch, ...(m?.objectives ?? []), ...(m?.takeaways ?? []), READINGS[topic.id] ?? ""].join(" ").toLowerCase();
+        return { topic, match: hay.includes(query) };
+      }).filter((r) => r.match).slice(0, 6)
+    : [];
+  const openRef = (id: number) => { setRefTopicId(id); setRefOpen(true); };
+
   return (
     <div className="flex-1 overflow-y-auto bg-background">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 py-9 sm:py-12">
@@ -104,6 +120,49 @@ export function WelcomeScreen() {
             This course gives you a <b>Certificate of Completion</b> showing you finished the training. It is a
             preparation and reference guide, not a licensed or government-accredited qualification, and not a
             substitute for professional medical training or advice.
+          </p>
+        </div>
+
+        {/* Quick reference search */}
+        <div className="mb-8">
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary mb-2">Need a quick answer?</div>
+          <label className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary/30">
+            <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search topics, e.g. bed bath, infection, falls, medicines..."
+              className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground"
+            />
+            {q && (
+              <button onClick={() => setQ("")} className="text-xs text-muted-foreground hover:text-foreground shrink-0">Clear</button>
+            )}
+          </label>
+          {query.length >= 2 && (
+            <div className="mt-2 rounded-xl border border-border bg-card divide-y divide-border overflow-hidden">
+              {results.length === 0 ? (
+                <div className="px-4 py-3 text-sm text-muted-foreground">No topics match that. Try a simpler word.</div>
+              ) : (
+                results.map(({ topic }) => (
+                  <button
+                    key={topic.id}
+                    onClick={() => openRef(topic.id)}
+                    className="w-full text-left px-4 py-3 hover:bg-secondary flex items-center justify-between gap-3 transition-colors"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                        Topic {topic.id.toString().padStart(2, "0")}
+                      </div>
+                      <div className="font-serif text-base text-foreground leading-snug">{topic.title}</div>
+                    </div>
+                    <span className="text-xs font-semibold text-primary shrink-0">Quick reference &rarr;</span>
+                  </button>
+                ))
+              )}
+            </div>
+          )}
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Quick reference gives you the chapter and a printable one-page summary, no dialogue needed.
           </p>
         </div>
 
@@ -314,6 +373,7 @@ export function WelcomeScreen() {
       </div>
 
       <Certificate level={certLevel} open={certOpen} onOpenChange={setCertOpen} />
+      <QuickReference topicId={refTopicId} open={refOpen} onOpenChange={setRefOpen} />
     </div>
   );
 }
