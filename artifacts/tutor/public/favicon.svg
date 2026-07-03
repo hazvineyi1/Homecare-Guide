@@ -1,3 +1,13 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="A Guide to Homecare">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C97A34"/>
+      <stop offset="0.55" stop-color="#B4531D"/>
+      <stop offset="1" stop-color="#3E2318"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <!-- heart cradled in an open hand (cream) -->
+  <path d="M32 42 C 15 31 19 17 27.5 19.2 C 31 20.1 32 23.6 32 23.6 C 32 23.6 33 20.1 36.5 19.2 C 45 17 49 31 32 42 Z" fill="#FAF2E7"/>
+  <path d="M18 40 A 15 15 0 0 0 46 40" fill="none" stroke="#FAF2E7" stroke-width="3.4" stroke-linecap="round" opacity="0.92"/>
 </svg>
