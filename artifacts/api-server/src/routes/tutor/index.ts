@@ -170,9 +170,17 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
 
   const systemPrompt = buildSystemPrompt(topic.id, level);
 
-  const chatMessages = existingMessages
+  // Cost/latency control: the system prompt (chapter content + Socratic rules) is
+  // static per topic, so cache it; and bound the transcript we resend to a rolling
+  // window instead of the whole (unbounded, quadratic-cost) history. The window is
+  // trimmed to start on a user turn so the Messages API stays valid.
+  const HISTORY_WINDOW = 20;
+  const allTurns = existingMessages
     .filter((m) => m.role === "user" || m.role === "assistant")
     .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
+  const windowed = allTurns.slice(-HISTORY_WINDOW);
+  while (windowed.length && windowed[0].role !== "user") windowed.shift();
+  const chatMessages = windowed.length ? windowed : allTurns.slice(-1);
 
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
@@ -182,8 +190,8 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
 
   const stream = anthropic.messages.stream({
     model: DEFAULT_MODEL,
-    max_tokens: 8192,
-    system: systemPrompt,
+    max_tokens: 1024,
+    system: [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
     messages: chatMessages,
   });
 
