@@ -175,3 +175,24 @@ export const verifyCertificate = async (code: string): Promise<VerifyResult> => 
     return { valid: false };
   }
 };
+
+export interface OrgModuleProgress { level: number; done: number; total: number; complete: boolean; }
+export interface OrgMemberRow {
+  userId: string; name: string; email: string; role: string; joinedAt: string;
+  topicsCompleted: number; total: number; modules: OrgModuleProgress[];
+}
+export interface OrgRow {
+  id: string; name: string; role: string; joinCode?: string; members?: OrgMemberRow[];
+}
+export const fetchMyOrgs = async (): Promise<OrgRow[]> => {
+  try {
+    const res = await fetch("/api/org/mine", { headers: { Accept: "application/json" } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.orgs) ? data.orgs : [];
+  } catch {
+    return [];
+  }
+};
+export const createOrg = (name: string) => postJson("/api/org/create", { name });
+export const joinOrg = (code: string) => postJson("/api/org/join", { code });

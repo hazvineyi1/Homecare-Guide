@@ -58,6 +58,8 @@ interface AppState {
   setCurrentUser: (u: AuthUser | null) => void;
   authOpen: boolean;
   setAuthOpen: (open: boolean) => void;
+  teamOpen: boolean;
+  setTeamOpen: (open: boolean) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -72,6 +74,7 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [hydrated, setHydrated] = useState(false);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [teamOpen, setTeamOpen] = useState(false);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {
       return localStorage.getItem("hg_learner_name") ?? "";
@@ -143,6 +146,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setCurrentUser,
         authOpen,
         setAuthOpen,
+        teamOpen,
+        setTeamOpen,
       }}
     >
       {children}

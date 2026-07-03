@@ -71,5 +71,21 @@ export async function ensureSchema(): Promise<void> {
     ALTER TABLE certificates ADD COLUMN IF NOT EXISTS level integer;
     ALTER TABLE certificates ADD COLUMN IF NOT EXISTS credential text;
     CREATE INDEX IF NOT EXISTS certificates_user_id_idx ON certificates (user_id);
+    CREATE TABLE IF NOT EXISTS organizations (
+      id text PRIMARY KEY,
+      name text NOT NULL,
+      join_code text NOT NULL UNIQUE,
+      created_by text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS org_members (
+      id text PRIMARY KEY,
+      org_id text NOT NULL,
+      user_id text NOT NULL,
+      role text NOT NULL,
+      joined_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS org_members_org_user_idx ON org_members (org_id, user_id);
+    CREATE INDEX IF NOT EXISTS org_members_user_idx ON org_members (user_id);
   `);
 }

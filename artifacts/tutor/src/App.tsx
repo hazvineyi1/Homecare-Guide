@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { AppStateProvider, useAppState, HydratedSession } from "@/hooks/use-app-state";
 import { AuthModal } from "@/components/AuthModal";
+import { TeamDashboard } from "@/components/TeamDashboard";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
@@ -102,6 +103,7 @@ function App() {
             <Router />
           </WouterRouter>
           <AuthModal />
+          <TeamDashboard />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>
