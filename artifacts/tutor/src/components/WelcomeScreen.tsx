@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MessageCircleQuestion,
   Lightbulb,
@@ -11,15 +11,65 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
+import { fetchCertificates } from "@/lib/tutor-api";
 import { TOPICS } from "@/lib/constants";
 import { TOPIC_META, COURSE_OUTCOMES, GLOSSARY, RESOURCES } from "@/lib/course-content";
+import { LEVELS } from "@/lib/course-structure";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Certificate } from "./Certificate";
 
 export function WelcomeScreen() {
-  const { setCurrentTopicIndex, sessions } = useAppState();
+  const { setCurrentTopicIndex, sessions, currentUser } = useAppState();
   const [certOpen, setCertOpen] = useState(false);
+  const [certLevel, setCertLevel] = useState(1);
+  const [earnedLevels, setEarnedLevels] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    if (!currentUser) { setEarnedLevels(new Set()); return; }
+    fetchCertificates().then((certs) =>
+      setEarnedLevels(new Set(certs.map((c) => c.level ?? 0).filter(Boolean))),
+    );
+  }, [currentUser, certOpen]);
+
+  const renderCard = (topic: (typeof TOPICS)[number], index: number) => {
+    const meta = TOPIC_META[topic.id];
+    const mastered = !!sessions[index]?.completed;
+    return (
+      <button
+        key={topic.id}
+        onClick={() => setCurrentTopicIndex(index)}
+        className={cn(
+          "bg-card text-left p-5 rounded-xl border shadow-sm hover:shadow-md transition-all flex flex-col group h-full",
+          mastered ? "border-accent/50" : "border-border hover:border-primary/40",
+        )}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors">
+            TOPIC {topic.id.toString().padStart(2, "0")}
+          </span>
+          {mastered ? (
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-accent">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Mastered
+            </span>
+          ) : (
+            meta && (
+              <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                <Clock className="w-3.5 h-3.5" /> ~{meta.estMinutes} min
+              </span>
+            )
+          )}
+        </div>
+        <h3 className="font-serif text-lg text-foreground mb-2 leading-snug">{topic.title}</h3>
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{topic.launch}</p>
+        {meta && (
+          <div className="mt-auto text-[11px] text-muted-foreground/80 flex items-center gap-1">
+            <Target className="w-3 h-3" /> {meta.objectives.length} learning objectives
+          </div>
+        )}
+      </button>
+    );
+  };
 
   const values = Object.values(sessions);
   const masteredCount = values.filter((s) => s.completed).length;
@@ -73,12 +123,11 @@ export function WelcomeScreen() {
               />
             </div>
             {allMastered && (
-              <Button
-                onClick={() => setCertOpen(true)}
-                className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                <Award className="w-4 h-4 mr-2" /> View your certificate
-              </Button>
+              <a href="#topics">
+                <Button className="mt-4 bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Award className="w-4 h-4 mr-2" /> Claim your credentials
+                </Button>
+              </a>
             )}
           </div>
         </div>
@@ -136,47 +185,54 @@ export function WelcomeScreen() {
 
         {/* Topics grid */}
         <section id="topics" className="mb-12 scroll-mt-4">
-          <div className="flex items-baseline justify-between mb-5">
-            <h2 className="font-serif text-2xl text-foreground">The 12 topics</h2>
-            <span className="text-sm text-muted-foreground">{exploredCount} started &middot; {masteredCount} mastered</span>
+          <div className="mb-6">
+            <h2 className="font-serif text-2xl text-foreground">Three levels to a Diploma</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Master every topic in a level to earn its credential. The levels stack: Certificate &rarr; Advanced Certificate &rarr; Diploma.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {TOPICS.map((topic, index) => {
-              const meta = TOPIC_META[topic.id];
-              const mastered = !!sessions[index]?.completed;
+
+          <div className="space-y-8">
+            {LEVELS.map((lv) => {
+              const levelTopics = lv.topicIds
+                .map((id) => ({ topic: TOPICS.find((t) => t.id === id)!, index: TOPICS.findIndex((t) => t.id === id) }))
+                .filter((x) => x.topic);
+              const masteredInLevel = levelTopics.filter((x) => sessions[x.index]?.completed).length;
+              const levelComplete = levelTopics.length > 0 && masteredInLevel === levelTopics.length;
+              const earned = earnedLevels.has(lv.level);
               return (
-                <button
-                  key={topic.id}
-                  onClick={() => setCurrentTopicIndex(index)}
-                  className={cn(
-                    "bg-card text-left p-5 rounded-xl border shadow-sm hover:shadow-md transition-all flex flex-col group h-full",
-                    mastered ? "border-accent/50" : "border-border hover:border-primary/40",
-                  )}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-muted-foreground group-hover:text-primary transition-colors">
-                      TOPIC {topic.id.toString().padStart(2, "0")}
+                <div key={lv.level} className="rounded-2xl border border-border overflow-hidden">
+                  <div className="bg-secondary/60 px-5 py-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary text-primary-foreground font-serif shrink-0">
+                      {lv.level}
                     </span>
-                    {mastered ? (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-accent">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Mastered
-                      </span>
-                    ) : (
-                      meta && (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
-                          <Clock className="w-3.5 h-3.5" /> ~{meta.estMinutes} min
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-serif text-xl text-foreground">Level {lv.level}: {lv.name}</h3>
+                        <span className="text-[11px] font-semibold uppercase tracking-wide text-secondary-foreground bg-card border border-border rounded-full px-2 py-0.5">
+                          {lv.credential} &middot; NCQF {lv.ncqf}
                         </span>
-                      )
-                    )}
-                  </div>
-                  <h3 className="font-serif text-lg text-foreground mb-2 leading-snug">{topic.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{topic.launch}</p>
-                  {meta && (
-                    <div className="mt-auto text-[11px] text-muted-foreground/80 flex items-center gap-1">
-                      <Target className="w-3 h-3" /> {meta.objectives.length} learning objectives
+                      </div>
+                      <p className="text-sm text-muted-foreground">{lv.blurb}</p>
                     </div>
-                  )}
-                </button>
+                    <div className="ml-auto text-right shrink-0">
+                      <div className="text-xs text-muted-foreground mb-1">{masteredInLevel}/{levelTopics.length} mastered</div>
+                      {earned ? (
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent">
+                          <Award className="w-4 h-4" /> {lv.credential} earned
+                        </span>
+                      ) : levelComplete ? (
+                        <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90"
+                          onClick={() => { setCertLevel(lv.level); setCertOpen(true); }}>
+                          <Award className="w-4 h-4 mr-1" /> Claim {lv.credential}
+                        </Button>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-5">
+                    {levelTopics.map(({ topic, index }) => renderCard(topic, index))}
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -241,7 +297,7 @@ export function WelcomeScreen() {
         </p>
       </div>
 
-      <Certificate open={certOpen} onOpenChange={setCertOpen} />
+      <Certificate level={certLevel} open={certOpen} onOpenChange={setCertOpen} />
     </div>
   );
 }

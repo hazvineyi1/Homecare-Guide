@@ -68,6 +68,8 @@ export async function ensureSchema(): Promise<void> {
     CREATE INDEX IF NOT EXISTS messages_conversation_id_idx ON messages (conversation_id);
     CREATE INDEX IF NOT EXISTS attempts_owner_id_idx ON attempts (owner_id);
     CREATE INDEX IF NOT EXISTS attempts_user_id_idx ON attempts (user_id);
+    ALTER TABLE certificates ADD COLUMN IF NOT EXISTS level integer;
+    ALTER TABLE certificates ADD COLUMN IF NOT EXISTS credential text;
     CREATE INDEX IF NOT EXISTS certificates_user_id_idx ON certificates (user_id);
   `);
 }

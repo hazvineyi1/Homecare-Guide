@@ -147,13 +147,24 @@ export const recordAttempt = (a: {
 }) => postJson("/api/tutor/attempts", a);
 
 export interface CertificateRecord {
-  id: string; code: string; learnerName: string; masteredCount: number; issuedAt: string;
+  id: string; code: string; learnerName: string; masteredCount: number;
+  level?: number | null; credential?: string | null; issuedAt: string;
 }
-export const issueCertificate = () => postJson("/api/certificate");
+export const issueCertificate = (level: number) => postJson("/api/certificate", { level });
+export const fetchCertificates = async (): Promise<CertificateRecord[]> => {
+  try {
+    const res = await fetch("/api/certificates", { headers: { Accept: "application/json" } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.certificates) ? data.certificates : [];
+  } catch {
+    return [];
+  }
+};
 
 export interface VerifyResult {
   valid: boolean; code?: string; learnerName?: string; course?: string;
-  masteredCount?: number; issuedAt?: string;
+  credential?: string; level?: number | null; masteredCount?: number; issuedAt?: string;
 }
 export const verifyCertificate = async (code: string): Promise<VerifyResult> => {
   try {

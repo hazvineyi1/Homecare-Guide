@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,7 @@ import {
   completeTutorSession,
 } from "@/lib/tutor-api";
 import { TOPIC_META } from "@/lib/course-content";
+import { READINGS } from "@/lib/course-readings";
 import { KnowledgeCheck } from "./KnowledgeCheck";
 
 export function ChatArea() {
@@ -360,6 +361,17 @@ export function ChatArea() {
       </div>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
+        {READINGS[currentTopic.id] && (
+          <details className="bg-card border border-border rounded-2xl px-5 py-4">
+            <summary className="flex items-center gap-2 cursor-pointer font-serif text-lg text-foreground list-none select-none">
+              <BookOpen className="w-5 h-5 text-primary" /> Read the chapter
+              <span className="ml-auto text-xs text-muted-foreground italic">from A Guide to Homecare</span>
+            </summary>
+            <div className="mt-3 border-t border-border pt-3">
+              <MarkdownContent content={READINGS[currentTopic.id]} />
+            </div>
+          </details>
+        )}
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} />
         ))}

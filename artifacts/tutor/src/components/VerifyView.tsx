@@ -21,9 +21,10 @@ export function VerifyView({ code }: { code: string }) {
             <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">This is a genuine certificate.</p>
             <p className="font-serif text-2xl text-foreground mb-1">{result.learnerName}</p>
-            <p className="text-sm text-foreground mb-4">completed <b>{result.course}</b></p>
+            <p className="text-sm text-foreground mb-1">earned the <b>{result.credential ?? "Certificate"}</b></p>
+            <p className="text-sm text-muted-foreground mb-4">in <b>{result.course}</b>{result.level ? ` (Level ${result.level})` : ""}</p>
             <div className="text-xs text-muted-foreground">
-              Code {result.code} · Issued {result.issuedAt ? new Date(result.issuedAt).toLocaleDateString() : ""} · {result.masteredCount}/12 topics mastered
+              Code {result.code} · Issued {result.issuedAt ? new Date(result.issuedAt).toLocaleDateString() : ""} · {result.masteredCount} topics mastered
             </div>
           </>
         ) : (

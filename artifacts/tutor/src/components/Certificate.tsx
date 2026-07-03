@@ -6,8 +6,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
 import { issueCertificate, CertificateRecord } from "@/lib/tutor-api";
+import { LEVELS } from "@/lib/course-structure";
 
 interface Props {
+  level: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -15,7 +17,7 @@ interface Props {
 const COURSE_TITLE = "A Guide to Homecare";
 const SUBTITLE = "Caregiver Preparedness — with Nurse Mooka";
 
-function printCertificate(name: string, code: string, verifyUrl: string, dateStr: string) {
+function printCertificate(name: string, code: string, verifyUrl: string, dateStr: string, credential: string, topicCount: number) {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>Certificate</title>
   <style>
     @page { size: landscape; margin: 0; }
@@ -36,17 +38,16 @@ function printCertificate(name: string, code: string, verifyUrl: string, dateStr
     .verify b { color:#38221A; }
   </style></head><body>
     <div class="cert">
-      <div class="eyebrow">Certificate of Completion</div>
+      <div class="eyebrow">${credential}</div>
       <h1>${COURSE_TITLE}</h1>
       <div class="sub">${SUBTITLE}</div>
       <div class="awarded">This certifies that</div>
       <div class="name">${(name || "Caregiver").replace(/</g, "")}</div>
-      <div class="body">has completed all 12 topics of the caregiver-preparedness course —
-      reasoning through preparation, everyday care, infection control, common problems, palliative care
-      and caregiver wellbeing — and demonstrated understanding through the topic knowledge checks.</div>
+      <div class="body">has completed all ${topicCount} topics of this level of the caregiver-preparedness
+      course and demonstrated understanding through the topic knowledge checks.</div>
       <div class="meta">
         <div>Date<b>${dateStr}</b></div>
-        <div>Topics mastered<b>12 of 12</b></div>
+        <div>Topics mastered<b>${topicCount} of ${topicCount}</b></div>
       </div>
       <div class="verify">Verify at <b>${verifyUrl}</b> &nbsp;·&nbsp; Certificate code <b>${code}</b></div>
     </div>
@@ -56,7 +57,9 @@ function printCertificate(name: string, code: string, verifyUrl: string, dateStr
   if (w) { w.document.write(html); w.document.close(); }
 }
 
-export function Certificate({ open, onOpenChange }: Props) {
+export function Certificate({ level, open, onOpenChange }: Props) {
+  const levelMeta = LEVELS.find((l) => l.level === level) ?? LEVELS[0];
+  const topicCount = levelMeta.topicIds.length;
   const { currentUser, setAuthOpen } = useAppState();
   const [cert, setCert] = useState<CertificateRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -66,12 +69,12 @@ export function Certificate({ open, onOpenChange }: Props) {
     if (!open || !currentUser) return;
     setLoading(true);
     setError(null);
-    issueCertificate().then((res) => {
+    issueCertificate(level).then((res) => {
       setLoading(false);
       if (res.ok) setCert(res.data.certificate as CertificateRecord);
       else setError(res.data?.error ?? "Could not issue certificate.");
     });
-  }, [open, currentUser]);
+  }, [open, currentUser, level]);
 
   const date = cert ? new Date(cert.issuedAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) : "";
   const verifyUrl = cert ? `${window.location.origin}/verify/${cert.code}` : "";
@@ -81,7 +84,7 @@ export function Certificate({ open, onOpenChange }: Props) {
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl flex items-center gap-2">
-            <Award className="w-6 h-6 text-accent" /> Your certificate
+            <Award className="w-6 h-6 text-accent" /> Your {levelMeta.credential}
           </DialogTitle>
         </DialogHeader>
 
@@ -101,7 +104,7 @@ export function Certificate({ open, onOpenChange }: Props) {
           <>
             <div className="rounded-xl border-2 border-sidebar p-6 sm:p-8 text-center bg-background"
               style={{ outline: "2px solid var(--marigold)", outlineOffset: "-14px" }}>
-              <div className="text-[11px] tracking-[0.3em] uppercase text-primary mb-3">Certificate of Completion</div>
+              <div className="text-[11px] tracking-[0.3em] uppercase text-primary mb-3">{levelMeta.credential} · Level {levelMeta.level}</div>
               <h3 className="font-serif text-2xl text-sidebar mb-1">{COURSE_TITLE}</h3>
               <p className="italic text-sm text-muted-foreground mb-6">{SUBTITLE}</p>
               <p className="text-sm text-muted-foreground mb-1">This certifies that</p>
@@ -109,11 +112,12 @@ export function Certificate({ open, onOpenChange }: Props) {
                 {cert.learnerName}
               </p>
               <p className="text-sm text-foreground max-w-md mx-auto leading-relaxed mb-6">
-                has completed all 12 topics and demonstrated understanding through the knowledge checks.
+                has completed all {topicCount} topics of Level {levelMeta.level} ({levelMeta.name}) and
+                demonstrated understanding through the knowledge checks.
               </p>
               <div className="flex justify-center gap-12 text-xs text-muted-foreground mb-4">
                 <div>Date<div className="text-foreground font-medium mt-0.5">{date}</div></div>
-                <div>Mastered<div className="text-foreground font-medium mt-0.5">12 of 12</div></div>
+                <div>Mastered<div className="text-foreground font-medium mt-0.5">{topicCount} of {topicCount}</div></div>
               </div>
               <div className="text-[11px] text-muted-foreground flex items-center justify-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
@@ -122,7 +126,7 @@ export function Certificate({ open, onOpenChange }: Props) {
             </div>
 
             <div className="flex justify-end pt-2">
-              <Button onClick={() => printCertificate(cert.learnerName, cert.code, verifyUrl, date)}
+              <Button onClick={() => printCertificate(cert.learnerName, cert.code, verifyUrl, date, levelMeta.credential, topicCount)}
                 className="bg-primary text-primary-foreground hover:bg-primary/90">
                 <Printer className="w-4 h-4 mr-2" /> Print / Save as PDF
               </Button>
