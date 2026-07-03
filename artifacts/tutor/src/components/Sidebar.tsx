@@ -32,12 +32,12 @@ export function Sidebar() {
       </div>
 
       <div className="px-6 mb-6">
-        <div className="flex bg-sidebar-accent/20 rounded-md p-1">
+        <div className="flex bg-black/[0.05] rounded-md p-1">
           <button
             onClick={() => setLevel("new")}
             className={cn(
               "flex-1 py-1.5 text-sm rounded-sm font-medium transition-colors",
-              level === "new" ? "bg-accent text-accent-foreground" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
+              level === "new" ? "bg-primary text-primary-foreground shadow-sm" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
             )}
           >
             New caregiver
@@ -46,7 +46,7 @@ export function Sidebar() {
             onClick={() => setLevel("experienced")}
             className={cn(
               "flex-1 py-1.5 text-sm rounded-sm font-medium transition-colors",
-              level === "experienced" ? "bg-accent text-accent-foreground" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
+              level === "experienced" ? "bg-primary text-primary-foreground shadow-sm" : "text-sidebar-foreground/60 hover:text-sidebar-foreground"
             )}
           >
             Experienced
@@ -135,7 +135,7 @@ export function Sidebar() {
         ) : (
           <Button
             onClick={() => setAuthOpen(true)}
-            className="w-full mb-3 bg-accent text-accent-foreground hover:bg-accent/90"
+            className="w-full mb-3 bg-primary text-primary-foreground hover:bg-primary/90"
             size="sm"
           >
             Sign in to save progress
