@@ -62,7 +62,7 @@ export function ChatArea() {
   const [checkOpen, setCheckOpen] = useState(false);
   const [showObjectives, setShowObjectives] = useState(false);
   const [readingOpen, setReadingOpen] = useState(false);
-  const [showScenario, setShowScenario] = useState(true);
+  const [showScenario, setShowScenario] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -313,6 +313,7 @@ export function ChatArea() {
     </body></html>`;
     const w = window.open("", "_blank");
     if (w) { w.document.write(html); w.document.close(); }
+    else { window.alert("Please allow pop-ups for this site to open and download the summary."); }
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -362,7 +363,7 @@ export function ChatArea() {
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
-      <div className="px-4 sm:px-8 py-3 border-b border-border bg-background z-10 shrink-0">
+      <div className="px-4 sm:px-8 py-2 border-b border-border bg-background z-10 shrink-0">
         <div className="flex items-start gap-3 max-w-3xl mx-auto w-full">
           <Button
             variant="ghost"
@@ -407,12 +408,13 @@ export function ChatArea() {
                 </button>
               </div>
             </div>
-            {currentModule && (
-              <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
-                Module {currentModule.level} · {currentModule.name}
-              </div>
-            )}
-            <div className="flex items-center gap-x-2 gap-y-1 flex-wrap mb-1 text-xs font-semibold text-muted-foreground">
+            <div className="flex items-center gap-x-2 gap-y-0.5 flex-wrap mb-1 text-xs font-semibold text-muted-foreground">
+              {currentModule && (
+                <>
+                  <span className="uppercase tracking-wider text-primary">Module {currentModule.level} · {currentModule.name}</span>
+                  <span aria-hidden>·</span>
+                </>
+              )}
               <span className="uppercase tracking-wider">Topic {topicPosition} of {TOPICS.length}</span>
               <span aria-hidden>·</span>
               <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
@@ -432,7 +434,7 @@ export function ChatArea() {
                 <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
               )}
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif text-foreground leading-tight">
+            <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight">
               {currentTopic.title}
             </h2>
 
@@ -456,18 +458,24 @@ export function ChatArea() {
                 )}
               </div>
             )}
+            {/* Compact, always-visible scenario. Collapsed shows one line; click to expand the full text. */}
+            <button
+              onClick={() => setShowScenario((v) => !v)}
+              aria-expanded={showScenario}
+              className="mt-2 w-full max-w-3xl text-left rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-1.5 flex items-center gap-2 hover:bg-accent/15 transition-colors"
+            >
+              {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" />}
+              <span className="min-w-0 flex-1">
+                <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+                  Scenario{chosenScenario ? ` · ${chosenScenario.title}` : ""}
+                </span>
+                <span className={cn("block text-sm text-foreground leading-snug", !showScenario && "truncate")}>
+                  {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
+                </span>
+              </span>
+              <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-transform", showScenario && "rotate-180")} />
+            </button>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
-              <button
-                onClick={() => setShowScenario((v) => !v)}
-                aria-expanded={showScenario}
-                className={cn(
-                  "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
-                  showScenario ? "border-primary bg-primary/10 text-primary" : "border-primary/40 text-primary hover:bg-primary/5",
-                )}
-              >
-                {showScenario ? "Hide" : "Show"} scenario
-                <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showScenario && "rotate-180")} />
-              </button>
               {meta && (
                 <button
                   onClick={() => setShowObjectives((v) => !v)}
@@ -493,19 +501,6 @@ export function ChatArea() {
                 </button>
               )}
             </div>
-            {showScenario && (
-              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2 flex items-start gap-3">
-                {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" className="mt-0.5" />}
-                <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
-                    Scenario{chosenScenario ? `: ${chosenScenario.title}` : ""}
-                  </div>
-                  <p className="text-sm text-foreground leading-snug">
-                    {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
-                  </p>
-                </div>
-              </div>
-            )}
             {showObjectives && meta && (
               <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
                 {meta.objectives.map((o, i) => (
@@ -520,7 +515,7 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="hg-scroll flex-1 overflow-y-auto px-4 sm:px-8 py-5">
+      <div ref={scrollRef} className="hg-scroll flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-5">
        <div className="max-w-3xl mx-auto w-full space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />

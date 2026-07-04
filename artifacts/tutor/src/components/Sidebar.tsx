@@ -54,6 +54,7 @@ function printTrainingRecord(name: string, sessions: Record<number, HydratedSess
   </body></html>`;
   const w = window.open("", "_blank");
   if (w) { w.document.write(html); w.document.close(); }
+  else { window.alert("Please allow pop-ups for this site to open and print your training record."); }
 }
 
 export function Sidebar() {
