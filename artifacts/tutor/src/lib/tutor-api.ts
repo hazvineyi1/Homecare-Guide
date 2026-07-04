@@ -8,47 +8,64 @@ export const streamTutorResponse = async (
   country?: string,
   scenario?: string,
 ) => {
-  const response = await fetch(`/api/tutor/sessions/${conversationId}/message`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content, messageType, learnerName, country, scenario }),
-  });
-  
-  if (!response.body) {
+  // Watchdog: guarantee onDone fires exactly once, and never leave the UI stuck
+  // in a "loading" state if the stream stalls or the network hangs. If no data
+  // arrives for a while, we abort and finalise gracefully.
+  const controller = new AbortController();
+  let finished = false;
+  let watchdog: ReturnType<typeof setTimeout>;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(watchdog);
     onDone();
-    return;
-  }
+  };
+  const armWatchdog = () => {
+    clearTimeout(watchdog);
+    watchdog = setTimeout(() => { try { controller.abort(); } catch { /* ignore */ } finish(); }, 45000);
+  };
+  armWatchdog();
 
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-  
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() || "";
-    
-    for (const line of lines) {
-      if (line.startsWith("data: ")) {
-        try {
-          const data = JSON.parse(line.slice(6));
-          if (data.done) {
-            onDone();
-            return;
+  try {
+    const response = await fetch(`/api/tutor/sessions/${conversationId}/message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, messageType, learnerName, country, scenario }),
+      signal: controller.signal,
+    });
+
+    if (!response.body) { finish(); return; }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      armWatchdog();
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (line.startsWith("data: ")) {
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.done) { finish(); return; }
+            if (data.content) onChunk(data.content);
+          } catch (e) {
+            console.error("Error parsing SSE JSON", e);
           }
-          if (data.content) {
-            onChunk(data.content);
-          }
-        } catch (e) {
-          console.error("Error parsing SSE JSON", e);
         }
       }
     }
+    finish();
+  } catch (e) {
+    console.error("streamTutorResponse error", e);
+    finish();
   }
-  onDone();
 };
 
 export interface TutorSessionSummary {

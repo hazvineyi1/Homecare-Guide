@@ -19,6 +19,7 @@ import { Onboarding } from "@/components/Onboarding";
 import { TOPICS } from "@/lib/constants";
 import { fetchTutorSessions, fetchMe, fetchAccess } from "@/lib/tutor-api";
 import NotFound from "@/pages/not-found";
+import { Privacy, Terms } from "@/pages/legal";
 
 const queryClient = new QueryClient();
 
@@ -97,6 +98,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={MainLayout} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
       <Route path="/verify/:code">{(params) => <VerifyView code={params.code} />}</Route>
       <Route component={NotFound} />
     </Switch>

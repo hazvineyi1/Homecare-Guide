@@ -3,6 +3,7 @@ import { MessageCircleQuestion, Search, Award, ArrowRight, HeartHandshake } from
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
+import { Footer } from "./Footer";
 
 export function Landing() {
   const { setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName } = useAppState();
@@ -49,6 +50,9 @@ export function Landing() {
           Work through {TOPICS.length} real-world topics with <b>Nurse Mooka</b>, based on <em>A Guide to Homecare</em> by
           Dorothy Mooka. Reason through each one, check your understanding, and earn your Certificate of Completion.
         </p>
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary">
+          Free &middot; No payment &middot; No account needed to start
+        </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" onClick={continueLearning}
             className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-7 text-base">
@@ -92,6 +96,8 @@ export function Landing() {
           </p>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
