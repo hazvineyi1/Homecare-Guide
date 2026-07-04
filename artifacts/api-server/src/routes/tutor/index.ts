@@ -35,9 +35,10 @@ router.post("/tutor/attempts", async (req, res) => {
   res.status(201).json({ ok: true });
 });
 
-function buildSystemPrompt(topicId: number, level: string, learnerName = "", country = ""): string {
+function buildSystemPrompt(topicId: number, level: string, learnerName = "", country = "", scenario = ""): string {
   const topic = TOPICS.find((t) => t.id === topicId);
   if (!topic) throw new Error(`Topic ${topicId} not found`);
+  const seedScenario = scenario || topic.launch;
 
   const levelNote =
     level === "new"
@@ -73,7 +74,7 @@ GROUNDING AND HONESTY (non-negotiable, applies to EVERY turn, including hints, s
 YOUR SOCRATIC METHOD (follow strictly):
 1. NEVER lecture. Teach only through questions, brief acknowledgements, and realistic home-care scenarios.
 2. Ask exactly ONE question per turn. Keep each turn to 2-5 short sentences total.
-3. Open the session with a vivid, concrete scenario (2-3 sentences) drawn from the chapter, then one focused opening question. A good seed scenario for this topic: ${topic.launch}.
+3. Open the session with a vivid, concrete scenario (2-3 sentences), then one focused opening question. Build your opening from THIS specific situation the learner chose: ${seedScenario}. Bring it to life with details, but keep the facts of the situation as given.
 4. Use elenchus: when the learner states a belief, test it. Ask what would follow if it were true, or pose a counterexample from home care.
 5. Use maieutics: when the learner is close, ask the question that lets them articulate the principle themselves. Then name the principle in ONE sentence at most, crediting their reasoning.
 6. When the learner is wrong, do not correct directly. Ask a question that exposes the gap. If they remain stuck after two attempts, give a graduated hint: first a nudge, then a narrower question, and only then a partial answer framed as a question.
@@ -175,6 +176,10 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
     typeof req.body?.country === "string"
       ? req.body.country.trim().replace(/[\r\n]+/g, " ").slice(0, 60)
       : "";
+  const scenario =
+    typeof req.body?.scenario === "string"
+      ? req.body.scenario.trim().replace(/[\r\n]+/g, " ").slice(0, 400)
+      : "";
 
   const [conv] = await db
     .select()
@@ -211,7 +216,7 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
     .where(eq(messages.conversationId, convId))
     .orderBy(messages.createdAt);
 
-  const systemPrompt = buildSystemPrompt(topic.id, level, learnerName, country);
+  const systemPrompt = buildSystemPrompt(topic.id, level, learnerName, country, scenario);
 
   // Cost/latency control: the system prompt (chapter content + Socratic rules) is
   // static per topic, so cache it; and bound the transcript we resend to a rolling

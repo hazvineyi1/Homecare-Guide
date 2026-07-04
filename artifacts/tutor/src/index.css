@@ -161,3 +161,11 @@
 
 /* Squared, clinical appearance: flatten large radii */
 .rounded-full, .rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg { border-radius: 3px; }
+
+/* Gentle, relatable motion on scenario illustrations (respects reduced-motion) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hg-art-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+  @keyframes hg-art-pulse { 0%, 100% { transform: scale(1); opacity: .45; } 50% { transform: scale(1.18); opacity: 0; } }
+  .hg-art-float { animation: hg-art-float 3s ease-in-out infinite; }
+  .hg-art-pulse { animation: hg-art-pulse 3s ease-in-out infinite; }
+}

@@ -56,6 +56,8 @@ interface AppState {
   setLearnerName: (name: string) => void;
   country: string;
   setCountry: (country: string) => void;
+  scenarioByTopic: Record<number, string>;
+  setScenarioForTopic: (topicId: number, scenarioId: string | null) => void;
   currentUser: AuthUser | null;
   setCurrentUser: (u: AuthUser | null) => void;
   authOpen: boolean;
@@ -126,6 +128,21 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
       /* ignore */
     }
   }, []);
+  const [scenarioByTopic, setScenarioByTopicState] = useState<Record<number, string>>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("hg_scenarios") || "{}");
+    } catch {
+      return {};
+    }
+  });
+  const setScenarioForTopic = useCallback((topicId: number, scenarioId: string | null) => {
+    setScenarioByTopicState((prev) => {
+      const next = { ...prev };
+      if (scenarioId) next[topicId] = scenarioId; else delete next[topicId];
+      try { localStorage.setItem("hg_scenarios", JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }, []);
   const [onboarded, setOnboardedState] = useState<boolean>(() => {
     try {
       return localStorage.getItem("hg_onboarded") === "1";
@@ -195,6 +212,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setLearnerName,
         country,
         setCountry,
+        scenarioByTopic,
+        setScenarioForTopic,
         currentUser,
         setCurrentUser,
         authOpen,

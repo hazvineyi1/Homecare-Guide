@@ -2,12 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw, Shuffle } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { Paywall } from "./Paywall";
+import { ScenarioPicker } from "./ScenarioPicker";
+import { ScenarioArt } from "./ScenarioArt";
+import { scenariosFor } from "@/lib/scenarios";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -39,8 +42,14 @@ export function ChatArea() {
     country,
     currentUser,
     fullAccess,
+    scenarioByTopic,
+    setScenarioForTopic,
   } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
+  const scenarioTextFor = (topicId: number): string => {
+    const sid = scenarioByTopic[topicId];
+    return scenariosFor(topicId).find((x) => x.id === sid)?.text ?? "";
+  };
 
   // Guards the programmatic level sync in loadSession from being treated as a
   // user-initiated level switch (which would restart the topic).
@@ -83,10 +92,12 @@ export function ChatArea() {
     if (s?.conversationId) {
       if (!s.loaded) void loadSession(currentTopicIndex, s.conversationId);
     } else {
+      // Wait for the learner to pick a scenario before starting a new session.
+      if (scenariosFor(t.id).length > 0 && !scenarioByTopic[t.id]) return;
       void startSession(currentTopicIndex);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTopicIndex, hydrated, fullAccess, currentSession?.conversationId, currentSession?.loaded]);
+  }, [currentTopicIndex, hydrated, fullAccess, scenarioByTopic, currentSession?.conversationId, currentSession?.loaded]);
 
   // When the learner switches the caregiver level while a topic is open, restart
   // that topic at the new level so the tutor actually adapts. Programmatic syncs
@@ -105,7 +116,7 @@ export function ChatArea() {
   }, [level]);
 
   // Stream the tutor's opening turn into the given session.
-  const streamOpening = (topicIndex: number, conversationId: number) => {
+  const streamOpening = (topicIndex: number, conversationId: number, scenario = "") => {
     setIsStreaming(true);
     setStreamingContent("");
     return streamTutorResponse(
@@ -128,6 +139,7 @@ export function ChatArea() {
       },
       firstName,
       country,
+      scenario,
     );
   };
 
@@ -158,7 +170,7 @@ export function ChatArea() {
         loaded: false,
       }));
 
-      await streamOpening(topicIndex, sessionData.conversationId);
+      await streamOpening(topicIndex, sessionData.conversationId, scenarioTextFor(topic.id));
     } catch (e) {
       console.error(e);
       setBusy(false);
@@ -196,7 +208,7 @@ export function ChatArea() {
       }));
       // Recover a session that was created but whose opening never landed.
       if (msgs.length === 0) {
-        await streamOpening(topicIndex, conversationId);
+        await streamOpening(topicIndex, conversationId, scenarioTextFor(TOPICS[topicIndex].id));
       } else {
         setBusy(false);
       }
@@ -245,6 +257,7 @@ export function ChatArea() {
         },
         firstName,
         country,
+        scenarioTextFor(currentTopic?.id ?? -1),
       );
     } catch (e) {
       console.error(e);
@@ -309,6 +322,15 @@ export function ChatArea() {
     }
   };
 
+  // Clear the chosen scenario and reset the session so the picker reappears.
+  const switchScenario = () => {
+    if (currentTopicIndex === null || !currentTopic) return;
+    if (window.confirm("Switch to a different situation? This starts the topic again with a new scenario.")) {
+      setScenarioForTopic(currentTopic.id, null);
+      setSessionState(currentTopicIndex, (p) => ({ ...p, conversationId: null, messages: [], loaded: false, exchanges: 0 }));
+    }
+  };
+
   if (!currentTopic) {
     return <WelcomeScreen />;
   }
@@ -317,6 +339,21 @@ export function ChatArea() {
   if (currentTopic.id !== 1 && !fullAccess) {
     return <Paywall />;
   }
+
+  // Scenario choice: let the learner pick a situation before the lesson starts.
+  const topicScenarios = scenariosFor(currentTopic.id);
+  const chosenScenario = topicScenarios.find((s) => s.id === scenarioByTopic[currentTopic.id]) ?? null;
+  const hasSession = !!currentSession?.conversationId;
+  if (topicScenarios.length > 0 && !chosenScenario && !hasSession) {
+    return (
+      <ScenarioPicker
+        topicId={currentTopic.id}
+        topicTitle={currentTopic.title}
+        onPick={(s) => setScenarioForTopic(currentTopic.id, s.id)}
+      />
+    );
+  }
+  const scenarioText = chosenScenario?.text ?? currentTopic.launch;
 
   const isCompleted = !!currentSession?.completed;
   const meta = TOPIC_META[currentTopic.id];
@@ -344,19 +381,31 @@ export function ChatArea() {
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
               </button>
-              <button
-                onClick={() => {
-                  if (currentTopicIndex === null) return;
-                  if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
-                    startSession(currentTopicIndex, true);
-                  }
-                }}
-                disabled={busy}
-                title="Start this lesson over from the beginning"
-                className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
-              >
-                <RotateCcw className="w-3.5 h-3.5" /> Restart lesson
-              </button>
+              <div className="flex items-center gap-3">
+                {topicScenarios.length > 0 && (
+                  <button
+                    onClick={switchScenario}
+                    disabled={busy}
+                    title="Choose a different situation for this topic"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
+                  >
+                    <Shuffle className="w-3.5 h-3.5" /> Switch scenario
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    if (currentTopicIndex === null) return;
+                    if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
+                      startSession(currentTopicIndex, true);
+                    }
+                  }}
+                  disabled={busy}
+                  title="Start this lesson over from the beginning"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" /> Restart lesson
+                </button>
+              </div>
             </div>
             {currentModule && (
               <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
@@ -445,11 +494,16 @@ export function ChatArea() {
               )}
             </div>
             {showScenario && (
-              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2">
-                <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">Scenario</div>
-                <p className="text-sm text-foreground leading-snug">
-                  {currentTopic.launch.charAt(0).toUpperCase() + currentTopic.launch.slice(1)}.
-                </p>
+              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-2 flex items-start gap-3">
+                {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" className="mt-0.5" />}
+                <div className="min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary mb-0.5">
+                    Scenario{chosenScenario ? `: ${chosenScenario.title}` : ""}
+                  </div>
+                  <p className="text-sm text-foreground leading-snug">
+                    {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
+                  </p>
+                </div>
               </div>
             )}
             {showObjectives && meta && (

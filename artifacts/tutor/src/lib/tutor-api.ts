@@ -6,11 +6,12 @@ export const streamTutorResponse = async (
   onDone: () => void,
   learnerName?: string,
   country?: string,
+  scenario?: string,
 ) => {
   const response = await fetch(`/api/tutor/sessions/${conversationId}/message`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content, messageType, learnerName, country }),
+    body: JSON.stringify({ content, messageType, learnerName, country, scenario }),
   });
   
   if (!response.body) {
