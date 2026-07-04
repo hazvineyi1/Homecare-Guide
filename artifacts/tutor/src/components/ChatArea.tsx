@@ -447,7 +447,7 @@ export function ChatArea() {
                 {[7, 9, 10].includes(currentTopic.id) && (
                   <div className="rounded-md border border-destructive/50 bg-destructive/10 px-3 py-1.5 text-xs text-foreground flex gap-2">
                     <span aria-hidden>🚨</span>
-                    <span><b className="text-destructive">Get emergency help now</b> if the person has any of these: trouble breathing, ongoing chest pain, blood in their spit, new confusion, a blue or grey tinge to the lips, gums, tongue or palms, or signs of sepsis (confusion, fast breathing, shaking, or a temperature of 37.8°C or higher). Do not wait, call for professional medical help straight away.</span>
+                    <span><b className="text-destructive">Get emergency help now</b> if the person has any of these: trouble breathing, ongoing chest pain, blood in their spit, new confusion, a blue or grey tinge to the lips, gums, tongue, palms or nail beds, or signs of sepsis (confusion, fast breathing, shaking, or a temperature of 37.8°C or higher). Do not wait, call for professional medical help straight away.</span>
                   </div>
                 )}
                 {currentTopic.id === 8 && (
