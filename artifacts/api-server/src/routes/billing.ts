@@ -9,6 +9,11 @@ const PRICE = "P75";
 const CURRENCY = "BWP";
 const FREE_TOPIC_ID = 1;
 
+// Master switch for the trial/paywall. While false, the whole course is free
+// for everyone (no payment required). Flip to true to re-enable the paywall,
+// and set the app-state `fullAccess` default back to false to match.
+const PAYWALL_ENABLED = false;
+
 // Accounts allowed to use the admin dashboard.
 const ADMIN_EMAILS = ["hazvimusoni@gmail.com", "info@synops-consulting.com"];
 
@@ -46,7 +51,8 @@ async function getPayInfo() {
 // ---------- Learner-facing ----------
 
 router.get("/access", async (req, res) => {
-  res.json({ fullAccess: await hasFullAccess(req.ownerId), freeTopicId: FREE_TOPIC_ID });
+  const fullAccess = PAYWALL_ENABLED ? await hasFullAccess(req.ownerId) : true;
+  res.json({ fullAccess, freeTopicId: FREE_TOPIC_ID });
 });
 
 router.get("/pay-info", async (_req, res) => {

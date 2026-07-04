@@ -110,6 +110,7 @@ export const COUNTRIES: string[] = [
   "Norway",
   "Oman",
   "Pakistan",
+  "Palestine",
   "Panama",
   "Papua New Guinea",
   "Paraguay",
