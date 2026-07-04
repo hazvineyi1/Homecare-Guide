@@ -11,6 +11,8 @@ export function Footer() {
           In an emergency, contact professional medical help.
         </p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <a href="/topics" className="hover:text-foreground hover:underline">All topics</a>
+          <span aria-hidden>&middot;</span>
           <a href="/privacy" className="hover:text-foreground hover:underline">Privacy</a>
           <span aria-hidden>&middot;</span>
           <a href="/terms" className="hover:text-foreground hover:underline">Terms</a>

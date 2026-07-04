@@ -6,6 +6,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
 import router from "./routes";
+import seoRouter from "./routes/seo";
 import { logger } from "./lib/logger";
 import { ownerMiddleware } from "./middlewares/owner";
 
@@ -78,6 +79,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(ownerMiddleware);
 
 app.use("/api", router);
+
+// Crawlable, server-rendered SEO pages (/topics, /topics/:slug, /sitemap.xml).
+// Mounted before the static + SPA fallback so these paths render real HTML.
+app.use(seoRouter);
 
 // ---------------------------------------------------------------------------
 // Single-service deploy: serve the built tutor frontend from this same server
