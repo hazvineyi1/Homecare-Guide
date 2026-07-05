@@ -32,22 +32,25 @@ function shell(opts: { title: string; description: string; canonical: string; bo
 <meta property="og:url" content="${opts.canonical}" />
 <meta property="og:image" content="${SITE}/og-cover.jpg" />
 <meta name="robots" content="index, follow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0F172A;--soft:#475569;--blue:#1D4ED8;--line:#E2E8F0;--tint:#F4F7FC}
+  :root{--ink:#2E1A0F;--soft:#54432F;--brown:#7E3418;--amber:#C98A33;--line:#DCCBB0;--tint:#F5EDDE;--card:#FCF8EF}
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);line-height:1.6;background:#fff}
-  a{color:var(--blue)}
+  body{margin:0;font-family:'Source Sans 3',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);line-height:1.6;background:#FFFDF8}
+  a{color:var(--brown)}
   .wrap{max-width:760px;margin:0 auto;padding:22px 20px 64px}
   header a{font-size:13px;font-weight:700;text-decoration:none}
-  h1{font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1.15;margin:16px 0 6px}
-  h2{font-family:Georgia,serif;font-size:20px;margin:28px 0 8px}
-  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+  h1{font-family:'Source Sans 3',system-ui,sans-serif;font-weight:600;font-size:32px;line-height:1.15;margin:16px 0 6px}
+  h2{font-family:'Source Sans 3',system-ui,sans-serif;font-weight:600;font-size:20px;margin:28px 0 8px;color:var(--brown)}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brown)}
   .meta{color:var(--soft);font-size:14px;margin-bottom:14px}
-  .cta{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:4px;margin:16px 0}
-  .box{border-left:4px solid var(--blue);border-radius:4px;padding:12px 16px;background:var(--tint);margin:16px 0}
-  .grid a{display:block;border:1px solid var(--line);border-radius:6px;padding:14px 16px;text-decoration:none;color:var(--ink);margin:10px 0}
-  .grid a:hover{border-color:var(--blue)}
-  .grid .t{font-family:Georgia,serif;font-size:18px}
+  .cta{display:inline-block;background:var(--brown);color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:4px;margin:16px 0}
+  .box{border-left:4px solid var(--amber);border-radius:4px;padding:12px 16px;background:var(--tint);margin:16px 0}
+  .grid a{display:block;border:1px solid var(--line);border-radius:6px;padding:14px 16px;text-decoration:none;color:var(--ink);margin:10px 0;background:var(--card)}
+  .grid a:hover{border-color:var(--brown)}
+  .grid .t{font-family:'Source Sans 3',system-ui,sans-serif;font-weight:600;font-size:18px}
   .disclaimer{color:var(--soft);font-size:13px;border-top:1px solid var(--line);margin-top:32px;padding-top:14px}
   footer{color:var(--soft);font-size:13px;border-top:1px solid var(--line);margin-top:38px;padding-top:16px}
   footer a{color:var(--soft)}
