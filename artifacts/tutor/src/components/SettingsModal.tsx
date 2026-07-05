@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useAppState, Level } from "@/hooks/use-app-state";
 import { COUNTRIES } from "@/lib/countries";
+import { resetProgress } from "@/lib/tutor-api";
 import { cn } from "@/lib/utils";
 
 export function SettingsModal() {
@@ -30,6 +31,14 @@ export function SettingsModal() {
     setLevel(lv);
     toast.success("Your settings are saved.");
     setSettingsOpen(false);
+  };
+
+  const startOver = async () => {
+    if (!window.confirm("Reset everything and start over? This clears all your progress and takes you back to the beginning. This cannot be undone.")) return;
+    try { await resetProgress(); } catch { /* ignore */ }
+    try { localStorage.removeItem("hg_scenarios"); } catch { /* ignore */ }
+    // Reload to the landing page with a clean slate.
+    window.location.assign("/");
   };
 
   return (
@@ -80,6 +89,20 @@ export function SettingsModal() {
           <Button onClick={save} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
             Save settings
           </Button>
+
+          <div className="pt-3 mt-1 border-t border-border">
+            <div className="text-sm font-semibold text-foreground">Start over</div>
+            <p className="mt-0.5 mb-2 text-xs text-muted-foreground">
+              Clear all your progress and go back to the very beginning. This cannot be undone.
+            </p>
+            <Button
+              variant="outline"
+              onClick={startOver}
+              className="w-full border-destructive/40 text-destructive hover:bg-destructive/10"
+            >
+              Reset all progress and start over
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

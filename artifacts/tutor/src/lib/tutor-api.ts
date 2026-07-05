@@ -161,6 +161,7 @@ export const signup = (email: string, name: string, password: string) =>
 export const login = (email: string, password: string) =>
   postJson("/api/auth/login", { email, password });
 export const logout = () => postJson("/api/auth/logout");
+export const resetProgress = () => postJson("/api/reset");
 export const changePassword = (currentPassword: string, newPassword: string) =>
   postJson("/api/auth/change-password", { currentPassword, newPassword });
 
