@@ -11,7 +11,7 @@ import { fetchPayInfo } from "@/lib/tutor-api";
 import { chatUrl, shareUrl, SHARE_COURSE, CONTACT_MSG, PARTNER_MSG } from "@/lib/whatsapp";
 import { Footer } from "./Footer";
 
-const PARTNER_EMAIL = "partners@dorothymooka.com";
+const PARTNER_EMAIL = "info@synops-consulting.com";
 const AMAZON_URL = "https://www.amazon.com/dp/B0BS8Z27KK";
 
 // One example exchange shown in the hero, to make the Socratic method tangible.
