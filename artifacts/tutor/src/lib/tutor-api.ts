@@ -168,7 +168,7 @@ export const changePassword = (currentPassword: string, newPassword: string) =>
 // ---------- Billing / access ----------
 export interface PayInfo {
   price: string; currency: string; method: string;
-  recipient: string; name: string; instructions: string;
+  recipient: string; name: string; whatsapp: string; instructions: string;
 }
 export const fetchAccess = async (): Promise<{ fullAccess: boolean; freeTopicId: number }> => {
   try {
@@ -206,7 +206,7 @@ export const adminCreateCoupon = (body: { code: string; percentOff?: number; max
 export const adminToggleCoupon = (code: string) =>
   postJson(`/api/admin/coupons/${encodeURIComponent(code)}/toggle`);
 export const adminGrant = (email: string) => postJson("/api/admin/grant", { email });
-export const adminSetPayInfo = (body: { recipient?: string; name?: string; instructions?: string }) =>
+export const adminSetPayInfo = (body: { recipient?: string; name?: string; whatsapp?: string; instructions?: string }) =>
   postJson("/api/admin/pay-info", body);
 
 export const recordAttempt = (a: {

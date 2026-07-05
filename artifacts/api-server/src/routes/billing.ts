@@ -20,6 +20,7 @@ const ADMIN_EMAILS = ["hazvimusoni@gmail.com", "info@synops-consulting.com"];
 const PAY_DEFAULTS = {
   recipient: "",
   name: "A Guide to Homecare",
+  whatsapp: "", // WhatsApp number (international format) for click-to-chat buttons
   instructions:
     "Send the amount shown above by mobile money to the number listed, then enter the code you receive below to unlock the full course. If you have paid but do not have a code, contact your course administrator.",
 };
@@ -44,6 +45,7 @@ async function getPayInfo() {
     method: "Orange Money",
     recipient: map["pay_recipient"] ?? PAY_DEFAULTS.recipient,
     name: map["pay_name"] ?? PAY_DEFAULTS.name,
+    whatsapp: map["pay_whatsapp"] ?? PAY_DEFAULTS.whatsapp,
     instructions: map["pay_instructions"] ?? PAY_DEFAULTS.instructions,
   };
 }
@@ -137,6 +139,7 @@ router.post("/admin/pay-info", async (req, res) => {
   const entries: Array<[string, string]> = [];
   if (typeof req.body?.recipient === "string") entries.push(["pay_recipient", req.body.recipient.slice(0, 120)]);
   if (typeof req.body?.name === "string") entries.push(["pay_name", req.body.name.slice(0, 120)]);
+  if (typeof req.body?.whatsapp === "string") entries.push(["pay_whatsapp", req.body.whatsapp.slice(0, 40)]);
   if (typeof req.body?.instructions === "string") entries.push(["pay_instructions", req.body.instructions.slice(0, 500)]);
   for (const [key, value] of entries) {
     await db.insert(appSettings).values({ key, value }).onConflictDoUpdate({ target: appSettings.key, set: { value } });

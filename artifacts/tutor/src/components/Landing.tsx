@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight, MessageCircleQuestion, Compass, BookOpen, Check,
-  Users, Building2, HeartHandshake, Sparkles,
+  Users, Building2, HeartHandshake, Sparkles, MessageCircle, Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { moneyFor, priceLabel } from "@/lib/pricing";
+import { fetchPayInfo } from "@/lib/tutor-api";
+import { chatUrl, shareUrl, SHARE_COURSE, CONTACT_MSG, PARTNER_MSG } from "@/lib/whatsapp";
 import { Footer } from "./Footer";
 
 const PARTNER_EMAIL = "partners@dorothymooka.com";
@@ -34,6 +36,8 @@ export function Landing() {
 
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
   const money = moneyFor(country);
+  const [wa, setWa] = useState("");
+  useEffect(() => { fetchPayInfo().then((p) => setWa(p.whatsapp || "")).catch(() => {}); }, []);
   const values = Object.values(sessions);
   const mastered = values.filter((s) => s.completed).length;
   const explored = values.filter((s) => s.conversationId).length;
@@ -106,6 +110,14 @@ export function Landing() {
                 ? `${mastered} of ${TOPICS.length} topics mastered so far.`
                 : "Your first topic is free, in full. No card, no sign-up to start. Works on any device."}
             </p>
+            <a
+              href={shareUrl(SHARE_COURSE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+            >
+              <Share2 className="w-4 h-4" /> Share with a family member on WhatsApp
+            </a>
           </div>
 
           {/* Living-dialogue demo */}
@@ -324,9 +336,18 @@ export function Landing() {
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />{x}</li>
                 ))}
               </ul>
-              <a href={`mailto:${PARTNER_EMAIL}`} className="inline-block mt-6">
-                <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
-              </a>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <a href={`mailto:${PARTNER_EMAIL}`}>
+                  <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
+                </a>
+                {wa && (
+                  <a href={chatUrl(wa, PARTNER_MSG)} target="_blank" rel="noopener noreferrer">
+                    <Button variant="secondary" className="bg-primary-foreground/10 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/20">
+                      <MessageCircle className="w-4 h-4 mr-2" /> Chat on WhatsApp
+                    </Button>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -351,6 +372,20 @@ export function Landing() {
       </section>
 
       <Footer />
+
+      {wa && (
+        <a
+          href={chatUrl(wa, CONTACT_MSG)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with us on WhatsApp"
+          style={{ borderRadius: "9999px" }}
+          className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-3 shadow-lg hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          <MessageCircle className="w-5 h-5" />
+          <span className="hidden sm:inline text-sm font-semibold">Chat with us</span>
+        </a>
+      )}
     </div>
   );
 }

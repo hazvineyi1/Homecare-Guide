@@ -35,7 +35,7 @@ router.post("/tutor/attempts", async (req, res) => {
   res.status(201).json({ ok: true });
 });
 
-function buildSystemPrompt(topicId: number, level: string, learnerName = "", country = "", scenario = ""): string {
+export function buildSystemPrompt(topicId: number, level: string, learnerName = "", country = "", scenario = ""): string {
   const topic = TOPICS.find((t) => t.id === topicId);
   if (!topic) throw new Error(`Topic ${topicId} not found`);
   const seedScenario = scenario || topic.launch;

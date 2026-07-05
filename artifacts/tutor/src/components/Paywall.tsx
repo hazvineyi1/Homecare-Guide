@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Lock, ArrowLeft, Menu } from "lucide-react";
+import { Lock, ArrowLeft, Menu, MessageCircle } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { fetchPayInfo, redeemCoupon, type PayInfo } from "@/lib/tutor-api";
 import { moneyFor, priceLabel } from "@/lib/pricing";
+import { chatUrl, payHelpMsg } from "@/lib/whatsapp";
 
 // Shown when a locked topic is opened. Topic 1 is free; the rest need full
 // access, bought for the price shown via Orange Money, then unlocked with a
@@ -84,6 +85,13 @@ export function Paywall() {
             </div>
           )}
           {pay?.instructions && <p className="text-sm text-muted-foreground leading-relaxed">{pay.instructions}</p>}
+          {pay?.whatsapp && (
+            <a href={chatUrl(pay.whatsapp, payHelpMsg(country))} target="_blank" rel="noopener noreferrer" className="mt-3 block">
+              <Button className="w-full text-white hover:brightness-105" style={{ backgroundColor: "#25D366" }}>
+                <MessageCircle className="w-4 h-4 mr-2" /> Pay or get a code on WhatsApp
+              </Button>
+            </a>
+          )}
         </div>
 
         <div className="rounded-xl border border-border bg-card p-5">

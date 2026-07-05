@@ -1,4 +1,5 @@
 import React from "react";
+import { shareUrl, SHARE_COURSE } from "@/lib/whatsapp";
 
 export function Footer() {
   return (
@@ -18,6 +19,8 @@ export function Footer() {
           <a href="/terms" className="hover:text-foreground hover:underline">Terms</a>
           <span aria-hidden>&middot;</span>
           <a href="mailto:info@synops-consulting.com" className="hover:text-foreground hover:underline">Contact</a>
+          <span aria-hidden>&middot;</span>
+          <a href={shareUrl(SHARE_COURSE)} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">Share on WhatsApp</a>
           <span className="sm:ml-auto text-xs">&copy; {new Date().getFullYear()} A Guide to Homecare</span>
         </div>
       </div>

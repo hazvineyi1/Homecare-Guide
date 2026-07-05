@@ -20,6 +20,7 @@ export function AdminDashboard() {
   const [grantEmail, setGrantEmail] = useState("");
   const [payRecipient, setPayRecipient] = useState("");
   const [payName, setPayName] = useState("");
+  const [payWhats, setPayWhats] = useState("");
   const [payInstr, setPayInstr] = useState("");
 
   const load = async () => {
@@ -27,7 +28,7 @@ export function AdminDashboard() {
     const d = await fetchAdminOverview();
     setLoading(false);
     setData(d);
-    if (d) { setPayRecipient(d.payInfo.recipient); setPayName(d.payInfo.name); setPayInstr(d.payInfo.instructions); }
+    if (d) { setPayRecipient(d.payInfo.recipient); setPayName(d.payInfo.name); setPayWhats(d.payInfo.whatsapp); setPayInstr(d.payInfo.instructions); }
   };
   useEffect(() => { if (adminOpen) load(); }, [adminOpen]);
 
@@ -52,7 +53,7 @@ export function AdminDashboard() {
     else toast.error(res.data?.error ?? "Failed.");
   };
   const savePay = async () => {
-    const res = await adminSetPayInfo({ recipient: payRecipient, name: payName, instructions: payInstr });
+    const res = await adminSetPayInfo({ recipient: payRecipient, name: payName, whatsapp: payWhats, instructions: payInstr });
     if (res.ok) { toast.success("Payment details saved."); load(); }
     else toast.error(res.data?.error ?? "Failed.");
   };
@@ -82,6 +83,8 @@ export function AdminDashboard() {
               <div className="space-y-2">
                 <Input value={payRecipient} onChange={(e) => setPayRecipient(e.target.value)} placeholder="Orange Money number, e.g. 7X XXX XXX" />
                 <Input value={payName} onChange={(e) => setPayName(e.target.value)} placeholder="Account name" />
+                <Input value={payWhats} onChange={(e) => setPayWhats(e.target.value)} placeholder="WhatsApp number (international, e.g. 267 7X XXX XXX)" />
+                <p className="text-xs text-muted-foreground">The WhatsApp number powers the chat, partnership and 'pay on WhatsApp' buttons across the site. Leave blank to hide them.</p>
                 <textarea
                   value={payInstr}
                   onChange={(e) => setPayInstr(e.target.value)}
