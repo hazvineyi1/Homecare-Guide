@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw, Shuffle } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw, Shuffle, Home } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,7 @@ export function ChatArea() {
     incrementTotalExchanges,
     setMobileSidebarOpen,
     setCurrentTopicIndex,
+    setAtLanding,
     hydrated,
     learnerName,
     country,
@@ -373,6 +374,16 @@ export function ChatArea() {
             aria-label="Open menu"
           >
             <MenuIcon />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="shrink-0 mt-0.5"
+            onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }}
+            aria-label="Home"
+            title="Back to the homepage"
+          >
+            <Home className="w-4 h-4" />
           </Button>
           <div className="min-w-0">
             <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1 mb-2">

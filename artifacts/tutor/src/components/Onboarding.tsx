@@ -72,10 +72,10 @@ export function Onboarding() {
       {/* Brand + progress */}
       <header className="shrink-0 border-b border-border">
         <div className="max-w-2xl mx-auto w-full px-6 py-3 flex items-center justify-between gap-4">
-          <div className="min-w-0">
+          <button onClick={() => setAtLanding(true)} className="min-w-0 text-left hover:opacity-80 focus-visible:outline-none" title="Back to the homepage">
             <div className="font-serif text-lg text-foreground leading-tight truncate">A Guide to Homecare</div>
-            <div className="text-[11px] text-muted-foreground">Guided by Dorothy Mooka</div>
-          </div>
+            <div className="text-[11px] text-muted-foreground">Home &middot; Guided by Dorothy Mooka</div>
+          </button>
           <div className="text-xs font-semibold text-muted-foreground shrink-0">Step {step} of {TOTAL_STEPS}</div>
         </div>
         <div className="h-1 bg-secondary">

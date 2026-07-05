@@ -47,18 +47,24 @@ export function Landing() {
   const firstUnmastered = TOPICS.findIndex((_, i) => !sessions[i]?.completed);
   const startIndex = firstUnmastered < 0 ? 0 : firstUnmastered;
 
-  const enterRoadmap = () => setAtLanding(false);
   const continueLearning = () => { setAtLanding(false); setCurrentTopicIndex(startIndex); };
   const openTopic = (i: number) => { setAtLanding(false); setCurrentTopicIndex(i); };
+  // Paid CTAs send the visitor to a locked topic, which renders the unlock/paywall
+  // page (coupon, WhatsApp, and payment options) instead of the free topic.
+  const goUnlock = () => { setAtLanding(false); setCurrentTopicIndex(1); };
+  const scrollToId = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const goTop = () => document.getElementById("hg-top")?.scrollTo({ top: 0, behavior: "smooth" });
+  const openExternal = (url: string) => window.open(url, "_blank", "noopener,noreferrer");
+  const emailPartners = () => { window.location.href = `mailto:${PARTNER_EMAIL}`; };
 
   const startLabel = explored > 0 ? "Continue where you left off" : "Try your first topic free";
 
   return (
-    <div className="h-screen overflow-y-auto bg-background scroll-smooth">
+    <div id="hg-top" className="h-screen overflow-y-auto bg-background scroll-smooth">
       {/* ---------- Header ---------- */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-          <button onClick={enterRoadmap} className="min-w-0 text-left focus-visible:outline-none">
+          <button onClick={goTop} aria-label="A Guide to Homecare, back to top" className="min-w-0 text-left focus-visible:outline-none">
             <div className="font-serif text-lg sm:text-xl font-semibold text-primary leading-tight">
               A Guide to <span className="text-accent-foreground/90">Homecare</span>
             </div>
@@ -104,9 +110,7 @@ export function Landing() {
                 {startLabel}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <a href="#method">
-                <Button size="lg" variant="secondary" className="h-12 px-6 text-base">See how it works</Button>
-              </a>
+              <Button size="lg" variant="secondary" onClick={() => scrollToId("method")} className="h-12 px-6 text-base">See how it works</Button>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
               {explored > 0
@@ -252,11 +256,9 @@ export function Landing() {
             <p className="text-ink-soft leading-relaxed mb-5">
               Prefer the full text at your bedside? The guide is available in print and on Kindle.
             </p>
-            <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <BookOpen className="w-4 h-4 mr-2" /> Get the book on Amazon
-              </Button>
-            </a>
+            <Button onClick={() => openExternal(AMAZON_URL)} className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <BookOpen className="w-4 h-4 mr-2" /> Get the book on Amazon
+            </Button>
           </div>
         </div>
       </section>
@@ -295,7 +297,7 @@ export function Landing() {
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />{x}</li>
                 ))}
               </ul>
-              <Button onClick={continueLearning} className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">Unlock all 17 topics</Button>
+              <Button onClick={goUnlock} className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">Unlock all 17 topics</Button>
             </div>
             {/* Annual */}
             <div className="border border-border bg-card p-7 flex flex-col">
@@ -307,7 +309,7 @@ export function Landing() {
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent-foreground shrink-0 mt-0.5" />{x}</li>
                 ))}
               </ul>
-              <Button onClick={continueLearning} variant="secondary" className="mt-6">Get the annual bundle</Button>
+              <Button onClick={goUnlock} variant="secondary" className="mt-6">Get the annual bundle</Button>
             </div>
           </div>
           <p className="text-center text-sm text-muted-foreground mt-8 max-w-2xl mx-auto">
@@ -354,17 +356,20 @@ export function Landing() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap gap-2">
-                <a href={`mailto:${PARTNER_EMAIL}`}>
-                  <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
-                </a>
+                <Button onClick={emailPartners} className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
                 {wa && (
-                  <a href={chatUrl(wa, PARTNER_MSG)} target="_blank" rel="noopener noreferrer">
-                    <Button variant="secondary" className="bg-primary-foreground/10 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/20">
-                      <MessageCircle className="w-4 h-4 mr-2" /> Chat on WhatsApp
-                    </Button>
-                  </a>
+                  <Button
+                    onClick={() => openExternal(chatUrl(wa, PARTNER_MSG))}
+                    variant="secondary"
+                    className="bg-primary-foreground/10 text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/20"
+                  >
+                    <MessageCircle className="w-4 h-4 mr-2" /> Chat on WhatsApp
+                  </Button>
                 )}
               </div>
+              <p className="mt-3 text-sm opacity-90">
+                Or email <a href={`mailto:${PARTNER_EMAIL}`} className="font-semibold underline">{PARTNER_EMAIL}</a>
+              </p>
             </div>
           </div>
         </div>

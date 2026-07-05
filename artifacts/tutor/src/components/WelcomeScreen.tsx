@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Search,
   Menu,
+  Home,
   Lock,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
@@ -25,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { Certificate } from "./Certificate";
 
 export function WelcomeScreen() {
-  const { setCurrentTopicIndex, sessions, currentUser, learnerName, setMobileSidebarOpen, fullAccess } = useAppState();
+  const { setCurrentTopicIndex, sessions, currentUser, learnerName, setMobileSidebarOpen, setAtLanding, fullAccess } = useAppState();
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
   const [certOpen, setCertOpen] = useState(false);
   const [certLevel, setCertLevel] = useState(1);
@@ -90,13 +91,21 @@ export function WelcomeScreen() {
     <div className="flex-1 overflow-y-auto bg-background">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 py-9 sm:py-12">
 
-        {/* Menu opens the drawer (topics, progress, account, settings) */}
-        <button
-          onClick={() => setMobileSidebarOpen(true)}
-          className="mb-6 inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
-        >
-          <Menu className="w-4 h-4" /> Menu
-        </button>
+        {/* Home returns to the marketing homepage; Menu opens the drawer. */}
+        <div className="mb-6 flex items-center gap-2">
+          <button
+            onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }}
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+          >
+            <Home className="w-4 h-4" /> Home
+          </button>
+          <button
+            onClick={() => setMobileSidebarOpen(true)}
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+          >
+            <Menu className="w-4 h-4" /> Menu
+          </button>
+        </div>
 
         {/* Compact header */}
         <div className="mb-8">
