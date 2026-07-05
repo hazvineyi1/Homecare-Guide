@@ -108,7 +108,7 @@ export function AdminDashboard() {
 
             <section>
               <h3 className="font-semibold text-foreground mb-2">Payment details (shown on the paywall)</h3>
-              <p className="text-xs text-muted-foreground mb-2">The learner sees a payment method matched to their country (Orange Money, EcoCash, M-Pesa, card/Apple Pay, etc.). Enter the account/number you want them to pay to.</p>
+              <p className="text-xs text-muted-foreground mb-2">The learner sees a payment method matched to their country (Orange Money, EcoCash, M-Pesa, debit/credit card, Apple Pay, etc.). Enter the account/number you want them to pay to.</p>
               <div className="space-y-2">
                 <Input value={payRecipient} onChange={(e) => setPayRecipient(e.target.value)} placeholder="Payment number / account (mobile money, bank, etc.)" />
                 <Input value={payName} onChange={(e) => setPayName(e.target.value)} placeholder="Account name" />

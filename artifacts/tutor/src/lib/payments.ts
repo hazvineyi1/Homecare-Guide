@@ -7,7 +7,7 @@ const METHODS: Record<string, string> = {
   Botswana: "Orange Money",
   Zimbabwe: "EcoCash",
   Zambia: "MTN MoMo or Airtel Money",
-  Namibia: "card or mobile money",
+  Namibia: "mobile money or a debit/credit card",
   Lesotho: "M-Pesa or EcoCash",
   Eswatini: "MTN MoMo",
   Malawi: "Airtel Money or TNM Mpamba",
@@ -20,22 +20,22 @@ const METHODS: Record<string, string> = {
   Rwanda: "MTN MoMo",
   Ethiopia: "telebirr",
   // West & Central Africa
-  Nigeria: "bank transfer or card",
+  Nigeria: "bank transfer or debit/credit card",
   Ghana: "MTN MoMo",
   "Côte d'Ivoire": "Orange Money or MTN MoMo",
   Senegal: "Wave or Orange Money",
   Cameroon: "Orange Money or MTN MoMo",
   // North Africa
-  Egypt: "card or Vodafone Cash",
-  Morocco: "card",
-  Tunisia: "card",
-  Algeria: "card",
+  Egypt: "Vodafone Cash or a debit/credit card",
+  Morocco: "debit or credit card",
+  Tunisia: "debit or credit card",
+  Algeria: "debit or credit card",
   // Other markets
-  "South Africa": "card, Apple Pay or Google Pay",
-  India: "UPI, card, Apple Pay or Google Pay",
+  "South Africa": "debit/credit card, Apple Pay or Google Pay",
+  India: "UPI, debit/credit card, Apple Pay or Google Pay",
 };
 
-const DEFAULT_METHOD = "card, Apple Pay or Google Pay";
+const DEFAULT_METHOD = "debit/credit card, Apple Pay or Google Pay";
 
 export function paymentMethodFor(country?: string): string {
   return (country && METHODS[country]) || DEFAULT_METHOD;
