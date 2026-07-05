@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
+import { moneyFor, priceLabel } from "@/lib/pricing";
 import { Footer } from "./Footer";
 
 const PARTNER_EMAIL = "partners@dorothymooka.com";
@@ -28,10 +29,11 @@ const METHOD = [
 
 export function Landing() {
   const {
-    setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName,
+    setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName, country,
   } = useAppState();
 
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
+  const money = moneyFor(country);
   const values = Object.values(sessions);
   const mastered = values.filter((s) => s.completed).length;
   const explored = values.filter((s) => s.conversationId).length;
@@ -257,8 +259,8 @@ export function Landing() {
             {/* Featured */}
             <div className="border border-primary bg-primary text-primary-foreground p-7 flex flex-col shadow-lg">
               <div className="text-xs font-bold uppercase tracking-[0.12em] text-accent mb-3">Full access</div>
-              <div className="font-serif text-4xl font-semibold leading-none">$9<span className="text-base font-normal opacity-80">/month</span></div>
-              <div className="text-sm opacity-80 mt-1 mb-5">Regional pricing across Southern Africa</div>
+              <div className="font-serif text-4xl font-semibold leading-none">{priceLabel(money, "month")}<span className="text-base font-normal opacity-80">/month</span></div>
+              <div className="text-sm opacity-80 mt-1 mb-5">Priced in {money.code} for your region</div>
               <ul className="space-y-2 text-sm flex-1">
                 {["All 17 topics, unlimited sessions", "Personalised next-topic guidance", "New scenarios as the guide grows", "Cancel anytime"].map((x) => (
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />{x}</li>
@@ -269,7 +271,7 @@ export function Landing() {
             {/* Annual */}
             <div className="border border-border bg-card p-7 flex flex-col">
               <div className="text-xs font-bold uppercase tracking-[0.12em] text-accent-foreground mb-3">Annual + the book</div>
-              <div className="font-serif text-4xl font-semibold text-primary leading-none">$90<span className="text-base font-normal text-muted-foreground">/year</span></div>
+              <div className="font-serif text-4xl font-semibold text-primary leading-none">{priceLabel(money, "year")}<span className="text-base font-normal text-muted-foreground">/year</span></div>
               <div className="text-sm text-muted-foreground mt-1 mb-5">Two months free, book included</div>
               <ul className="space-y-2 text-sm flex-1">
                 {["Everything in Full access", "A copy of A Guide to Homecare", "Best for the full journey"].map((x) => (

@@ -21,7 +21,7 @@ const PAY_DEFAULTS = {
   recipient: "",
   name: "A Guide to Homecare",
   instructions:
-    "Send P75 by Orange Money to the number shown above, then enter the code you receive below to unlock the full course. If you have paid but do not have a code, contact your course administrator.",
+    "Send the amount shown above by mobile money to the number listed, then enter the code you receive below to unlock the full course. If you have paid but do not have a code, contact your course administrator.",
 };
 
 async function isAdmin(req: Request): Promise<boolean> {

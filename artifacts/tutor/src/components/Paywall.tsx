@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { fetchPayInfo, redeemCoupon, type PayInfo } from "@/lib/tutor-api";
+import { moneyFor, priceLabel } from "@/lib/pricing";
 
 // Shown when a locked topic is opened. Topic 1 is free; the rest need full
 // access, bought for the price shown via Orange Money, then unlocked with a
 // code (or granted by an admin). No card or money is handled in-app.
 export function Paywall() {
-  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen } = useAppState();
+  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen, country } = useAppState();
   const [pay, setPay] = useState<PayInfo | null>(null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,7 +33,9 @@ export function Paywall() {
     }
   };
 
-  const price = pay?.price ?? "P75";
+  // The price is shown in the currency of the learner's chosen country.
+  const money = moneyFor(country);
+  const price = `${priceLabel(money, "month")}/month`;
 
   return (
     <div className="flex-1 overflow-y-auto bg-background">
