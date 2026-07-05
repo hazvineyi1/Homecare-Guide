@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { fetchPayInfo, redeemCoupon, type PayInfo } from "@/lib/tutor-api";
 import { moneyFor, priceLabel } from "@/lib/pricing";
+import { paymentMethodFor } from "@/lib/payments";
 import { chatUrl, payHelpMsg } from "@/lib/whatsapp";
 
 // Shown when a locked topic is opened. Topic 1 is free; the rest need full
@@ -34,9 +35,16 @@ export function Paywall() {
     }
   };
 
-  // The price is shown in the currency of the learner's chosen country.
+  // The price is shown in the currency of the learner's chosen country, and the
+  // payment method reflects how people usually pay there (Orange Money in
+  // Botswana, EcoCash in Zimbabwe, M-Pesa in Kenya, card/Apple Pay/Google Pay
+  // elsewhere, etc.).
   const money = moneyFor(country);
   const price = `${priceLabel(money, "month")}/month`;
+  const method = paymentMethodFor(country);
+  const instructions = pay?.instructions?.trim()
+    ? pay.instructions
+    : `Pay ${price} by ${method}, then enter the unlock code you receive below to open the full course. If you have paid but do not have a code, contact us.`;
 
   return (
     <div className="flex-1 overflow-y-auto bg-background">
@@ -69,9 +77,9 @@ export function Paywall() {
 
         <div className="rounded-xl border border-border bg-card p-5 mb-5">
           <div className="text-xs font-bold uppercase tracking-wide text-primary mb-2">How to pay</div>
-          <div className="flex items-baseline justify-between mb-3">
-            <span className="font-serif text-2xl text-foreground">{price}</span>
-            <span className="text-sm font-semibold text-foreground">{pay?.method ?? "Orange Money"}</span>
+          <div className="flex items-baseline justify-between gap-3 mb-3">
+            <span className="font-serif text-2xl text-foreground shrink-0">{price}</span>
+            <span className="text-sm font-semibold text-foreground text-right">{method}</span>
           </div>
           {pay?.recipient ? (
             <div className="rounded-lg bg-secondary/60 px-3 py-2 mb-3">
@@ -81,16 +89,18 @@ export function Paywall() {
             </div>
           ) : (
             <div className="rounded-lg bg-secondary/60 px-3 py-2 mb-3 text-sm text-muted-foreground">
-              The Orange Money payment number will appear here once the course administrator sets it.
+              The {method} payment details will appear here once the course administrator sets them.
             </div>
           )}
-          {pay?.instructions && <p className="text-sm text-muted-foreground leading-relaxed">{pay.instructions}</p>}
+          <p className="text-sm text-muted-foreground leading-relaxed">{instructions}</p>
           {pay?.whatsapp && (
-            <a href={chatUrl(pay.whatsapp, payHelpMsg(country))} target="_blank" rel="noopener noreferrer" className="mt-3 block">
-              <Button className="w-full text-white hover:brightness-105" style={{ backgroundColor: "#25D366" }}>
-                <MessageCircle className="w-4 h-4 mr-2" /> Pay or get a code on WhatsApp
-              </Button>
-            </a>
+            <Button
+              onClick={() => window.open(chatUrl(pay.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}
+              className="mt-3 w-full text-white hover:brightness-105"
+              style={{ backgroundColor: "#25D366" }}
+            >
+              <MessageCircle className="w-4 h-4 mr-2" /> Pay or get a code on WhatsApp
+            </Button>
           )}
         </div>
 

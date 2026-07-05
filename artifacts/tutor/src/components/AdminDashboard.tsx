@@ -107,9 +107,10 @@ export function AdminDashboard() {
             </section>
 
             <section>
-              <h3 className="font-semibold text-foreground mb-2">Orange Money payment details (shown on the paywall)</h3>
+              <h3 className="font-semibold text-foreground mb-2">Payment details (shown on the paywall)</h3>
+              <p className="text-xs text-muted-foreground mb-2">The learner sees a payment method matched to their country (Orange Money, EcoCash, M-Pesa, card/Apple Pay, etc.). Enter the account/number you want them to pay to.</p>
               <div className="space-y-2">
-                <Input value={payRecipient} onChange={(e) => setPayRecipient(e.target.value)} placeholder="Orange Money number, e.g. 7X XXX XXX" />
+                <Input value={payRecipient} onChange={(e) => setPayRecipient(e.target.value)} placeholder="Payment number / account (mobile money, bank, etc.)" />
                 <Input value={payName} onChange={(e) => setPayName(e.target.value)} placeholder="Account name" />
                 <Input value={payWhats} onChange={(e) => setPayWhats(e.target.value)} placeholder="WhatsApp number (international, e.g. 267 7X XXX XXX)" />
                 <p className="text-xs text-muted-foreground">The WhatsApp number powers the chat, partnership and 'pay on WhatsApp' buttons across the site. Leave blank to hide them.</p>

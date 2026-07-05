@@ -46,7 +46,9 @@ async function getPayInfo() {
     recipient: map["pay_recipient"] ?? PAY_DEFAULTS.recipient,
     name: map["pay_name"] ?? PAY_DEFAULTS.name,
     whatsapp: map["pay_whatsapp"] ?? PAY_DEFAULTS.whatsapp,
-    instructions: map["pay_instructions"] ?? PAY_DEFAULTS.instructions,
+    // Empty by default so the paywall can show a country-appropriate default
+    // (built client-side from the learner's country); admins may override it.
+    instructions: map["pay_instructions"] ?? "",
   };
 }
 
