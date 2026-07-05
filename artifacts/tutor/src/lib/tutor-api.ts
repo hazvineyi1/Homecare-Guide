@@ -190,10 +190,18 @@ export interface AdminCoupon {
 export interface AdminUnlock {
   id: number; ownerId: string; method: string; code: string | null; note: string | null; createdAt: string;
 }
-export interface AdminOverview {
-  payInfo: PayInfo; coupons: AdminCoupon[]; unlocks: AdminUnlock[];
-  counts: { fullAccessOwners: number; coupons: number; redemptions: number };
+export interface AdminLead {
+  id: number; ownerId: string | null; kind: string; name: string | null;
+  email: string | null; org: string | null; message: string; handled: boolean; createdAt: string;
 }
+export interface AdminOverview {
+  payInfo: PayInfo; coupons: AdminCoupon[]; unlocks: AdminUnlock[]; leads: AdminLead[];
+  counts: { fullAccessOwners: number; coupons: number; redemptions: number; newMessages: number };
+}
+// Public: submit the site contact / partnership form.
+export const submitLead = (body: { name?: string; email?: string; org?: string; message: string; kind?: string }) =>
+  postJson("/api/leads", body);
+export const adminToggleLead = (id: number) => postJson(`/api/admin/leads/${id}/toggle`);
 export const fetchAdminOverview = async (): Promise<AdminOverview | null> => {
   try {
     const res = await fetch("/api/admin/overview", { headers: { Accept: "application/json" } });

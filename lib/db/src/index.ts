@@ -116,5 +116,17 @@ export async function ensureSchema(): Promise<void> {
       value text NOT NULL
     );
     CREATE INDEX IF NOT EXISTS unlock_events_owner_idx ON unlock_events (owner_id);
+    CREATE TABLE IF NOT EXISTS leads (
+      id serial PRIMARY KEY,
+      owner_id text,
+      kind text NOT NULL DEFAULT 'contact',
+      name text,
+      email text,
+      org text,
+      message text NOT NULL,
+      handled boolean NOT NULL DEFAULT false,
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS leads_created_idx ON leads (created_at);
   `);
 }

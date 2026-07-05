@@ -70,6 +70,10 @@ interface AppState {
   setSettingsOpen: (open: boolean) => void;
   adminOpen: boolean;
   setAdminOpen: (open: boolean) => void;
+  contactOpen: boolean;
+  setContactOpen: (open: boolean) => void;
+  contactKind: string;
+  setContactKind: (k: string) => void;
   fullAccess: boolean;
   setFullAccess: (v: boolean) => void;
   atLanding: boolean;
@@ -94,6 +98,8 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [pwOpen, setPwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [contactKind, setContactKind] = useState("contact");
   // Defaults to false because the paywall is enabled server-side (see
   // PAYWALL_ENABLED in billing.ts). The real value is fetched from /api/access
   // on load; only Topic 1 is free until an unlock is redeemed.
@@ -227,6 +233,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
         setSettingsOpen,
         adminOpen,
         setAdminOpen,
+        contactOpen,
+        setContactOpen,
+        contactKind,
+        setContactKind,
         fullAccess,
         setFullAccess,
         atLanding,

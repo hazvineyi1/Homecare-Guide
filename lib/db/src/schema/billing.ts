@@ -40,6 +40,21 @@ export const appSettings = pgTable("app_settings", {
   value: text("value").notNull(),
 });
 
+// Messages submitted from the site's contact / partnership form, surfaced in
+// the admin dashboard so the operator can follow up.
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  ownerId: text("owner_id"),
+  kind: text("kind").notNull().default("contact"), // 'partnership' | 'sponsored' | 'contact'
+  name: text("name"),
+  email: text("email"),
+  org: text("org"),
+  message: text("message").notNull(),
+  handled: boolean("handled").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export type Entitlement = typeof entitlements.$inferSelect;
 export type Coupon = typeof coupons.$inferSelect;
 export type UnlockEvent = typeof unlockEvents.$inferSelect;
+export type Lead = typeof leads.$inferSelect;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { desc, eq, sql } from "drizzle-orm";
-import { db, entitlements, coupons, unlockEvents, appSettings, users } from "@workspace/db";
+import { db, entitlements, coupons, unlockEvents, appSettings, users, leads } from "@workspace/db";
 import type { Request } from "express";
 
 const router = Router();
@@ -85,6 +85,7 @@ router.get("/admin/overview", async (req, res) => {
   if (!(await isAdmin(req))) { res.status(403).json({ error: "Admins only." }); return; }
   const couponRows = await db.select().from(coupons).orderBy(desc(coupons.createdAt));
   const events = await db.select().from(unlockEvents).orderBy(desc(unlockEvents.createdAt)).limit(100);
+  const leadRows = await db.select().from(leads).orderBy(desc(leads.createdAt)).limit(100);
   const [row] = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(entitlements)
@@ -93,8 +94,25 @@ router.get("/admin/overview", async (req, res) => {
     payInfo: await getPayInfo(),
     coupons: couponRows,
     unlocks: events,
-    counts: { fullAccessOwners: row?.count ?? 0, coupons: couponRows.length, redemptions: events.length },
+    leads: leadRows,
+    counts: {
+      fullAccessOwners: row?.count ?? 0,
+      coupons: couponRows.length,
+      redemptions: events.length,
+      newMessages: leadRows.filter((l) => !l.handled).length,
+    },
   });
+});
+
+// Mark a message handled / unhandled.
+router.post("/admin/leads/:id/toggle", async (req, res) => {
+  if (!(await isAdmin(req))) { res.status(403).json({ error: "Admins only." }); return; }
+  const id = Number(req.params.id);
+  if (!Number.isFinite(id)) { res.status(400).json({ error: "Invalid id." }); return; }
+  const [lead] = await db.select().from(leads).where(eq(leads.id, id));
+  if (!lead) { res.status(404).json({ error: "Message not found." }); return; }
+  const [updated] = await db.update(leads).set({ handled: !lead.handled }).where(eq(leads.id, id)).returning();
+  res.json({ lead: updated });
 });
 
 router.post("/admin/coupons", async (req, res) => {

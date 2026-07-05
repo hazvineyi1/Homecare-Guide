@@ -7,6 +7,7 @@ import orgRouter from "./org";
 import billingRouter from "./billing";
 import resetRouter from "./reset";
 import whatsappRouter from "./whatsapp";
+import leadsRouter from "./leads";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(orgRouter);
 router.use(billingRouter);
 router.use(resetRouter);
 router.use(whatsappRouter);
+router.use(leadsRouter);
 
 export default router;

@@ -11,6 +11,7 @@ import { TeamDashboard } from "@/components/TeamDashboard";
 import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 import { SettingsModal } from "@/components/SettingsModal";
 import { AdminDashboard } from "@/components/AdminDashboard";
+import { ContactModal } from "@/components/ContactModal";
 import { VerifyView } from "@/components/VerifyView";
 import { Sidebar } from "@/components/Sidebar";
 import { ChatArea } from "@/components/ChatArea";
@@ -122,6 +123,7 @@ function App() {
           <ChangePasswordModal />
           <SettingsModal />
           <AdminDashboard />
+          <ContactModal />
           <Toaster />
           <SonnerToaster />
         </TooltipProvider>

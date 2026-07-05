@@ -32,6 +32,7 @@ const METHOD = [
 export function Landing() {
   const {
     setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName, country, onboarded,
+    setContactOpen, setContactKind,
   } = useAppState();
 
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
@@ -55,7 +56,7 @@ export function Landing() {
   const scrollToId = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   const goTop = () => document.getElementById("hg-top")?.scrollTo({ top: 0, behavior: "smooth" });
   const openExternal = (url: string) => window.open(url, "_blank", "noopener,noreferrer");
-  const emailPartners = () => { window.location.href = `mailto:${PARTNER_EMAIL}`; };
+  const openContact = (kind: string) => { setContactKind(kind); setContactOpen(true); };
 
   const startLabel = explored > 0 ? "Continue where you left off" : "Try your first topic free";
 
@@ -314,7 +315,7 @@ export function Landing() {
           </div>
           <p className="text-center text-sm text-muted-foreground mt-8 max-w-2xl mx-auto">
             Facing financial hardship? Sponsored access is available through partner churches and community
-            organisations. <a href={`mailto:${PARTNER_EMAIL}`} className="font-semibold text-primary hover:underline">Ask about sponsored access</a>.
+            organisations. <button onClick={() => openContact("sponsored")} className="font-semibold text-primary hover:underline">Ask about sponsored access</button>.
           </p>
         </div>
       </section>
@@ -356,7 +357,7 @@ export function Landing() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-wrap gap-2">
-                <Button onClick={emailPartners} className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
+                <Button onClick={() => openContact("partnership")} className="bg-accent text-accent-foreground hover:bg-accent/90">Talk to us about a partnership</Button>
                 {wa && (
                   <Button
                     onClick={() => openExternal(chatUrl(wa, PARTNER_MSG))}
