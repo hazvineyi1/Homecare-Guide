@@ -94,9 +94,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [pwOpen, setPwOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
-  // Defaults to true because the paywall is currently disabled server-side
-  // (see PAYWALL_ENABLED in billing.ts). Set back to false if re-enabling.
-  const [fullAccess, setFullAccess] = useState(true);
+  // Defaults to false because the paywall is enabled server-side (see
+  // PAYWALL_ENABLED in billing.ts). The real value is fetched from /api/access
+  // on load; only Topic 1 is free until an unlock is redeemed.
+  const [fullAccess, setFullAccess] = useState(false);
   const [atLanding, setAtLanding] = useState(true);
   const [learnerName, setLearnerNameState] = useState<string>(() => {
     try {

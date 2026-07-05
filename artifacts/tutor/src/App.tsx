@@ -66,8 +66,11 @@ function MainLayout() {
     };
   }, [hydrateSessions]);
 
-  if (!onboarded) return <Onboarding />;
+  // The marketing homepage is the front door for everyone. When a visitor clicks
+  // any "Try free"/start CTA it clears `atLanding`; first-time visitors then pass
+  // through onboarding (name + country) before the tool itself.
   if (atLanding) return <Landing />;
+  if (!onboarded) return <Onboarding />;
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">

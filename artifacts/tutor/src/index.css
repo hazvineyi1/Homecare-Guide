@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -45,7 +45,7 @@
   --color-muted-border: var(--line);
 
   --color-accent: var(--marigold);
-  --color-accent-foreground: var(--card);
+  --color-accent-foreground: var(--ink);
   --color-accent-border: var(--marigold);
 
   --color-destructive: var(--rose);
@@ -74,24 +74,26 @@
 }
 
 :root {
-  /* Bright, clean palette: crisp white cards on a bright near-white ground,
-     near-black text for clarity, and richer, cleaner browns + amber (not greyed).
-     (Token names like --pine/--teal/--marigold are kept for stability.) */
-  --paper: #FFFFFF;          /* pure white */
-  --card: #FFFFFF;           /* crisp white card */
-  --ink: #0F172A;            /* slate near-black (~17:1 on white) */
-  --ink-soft: #475569;       /* slate secondary text (~7:1 on white) */
-  --pine: #1E293B;           /* deep slate for chip/secondary text */
-  --teal: #1D4ED8;           /* clinical blue (primary): white text 6.6:1 (AAA) */
-  --teal-tint: #F4F7FC;      /* very light cool tint (sidebar + secondary) */
-  --marigold: #2563EB;       /* clinical blue accent: both directions 5.1:1 (AA) */
-  --marigold-tint: #EDF2FD;  /* pale blue */
-  --rose: #DC2626;           /* clinical red (errors/destructive) */
-  --rose-tint: #FCE8E8;
-  --line: #E2E8F0;           /* crisp cool border */
+  /* Warm "book" palette, drawn from the cover of A Guide to Homecare: deep
+     sienna, honey amber, and cream on a warm near-white ground. Shared with the
+     marketing homepage so the whole product reads as one piece.
+     (Token names like --pine/--teal/--marigold are kept for stability:
+      --teal = the sienna primary, --marigold = the amber accent.) */
+  --paper: #FFFDF8;          /* warm near-white page ground */
+  --card: #FCF8EF;           /* soft cream card */
+  --ink: #2E1A0F;            /* deep warm near-black (~14:1 on cream) */
+  --ink-soft: #54432F;       /* warm secondary text (~7:1 on cream) */
+  --pine: #7E3418;           /* deep sienna for chip/secondary text */
+  --teal: #7E3418;           /* deep sienna (primary): cream text ~8:1 (AAA) */
+  --teal-tint: #F5EDDE;      /* cream tint (sidebar + secondary surfaces) */
+  --marigold: #C98A33;       /* honey amber accent: dark ink text ~4.7:1 (AA) */
+  --marigold-tint: #F3E3C8;  /* pale amber */
+  --rose: #B3261E;           /* warm red (errors/destructive): white text ~5.6:1 */
+  --rose-tint: #F7E4E1;
+  --line: #DCCBB0;           /* warm sand border */
 
-  --app-font-sans: 'Atkinson Hyperlegible', sans-serif;
-  --app-font-serif: 'Fraunces', serif;
+  --app-font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --app-font-serif: 'Source Sans 3', system-ui, sans-serif;
   --app-font-mono: Menlo, monospace;
   --radius: .125rem;
 }
@@ -147,8 +149,8 @@
   .hg-pop       { animation: hg-pop .5s cubic-bezier(.34,1.56,.64,1) both; }
   .hg-draw      { stroke-dasharray: 26; stroke-dashoffset: 26; animation: hg-draw .5s .15s ease-out forwards; }
   @keyframes hg-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, .30); }
-    50%      { box-shadow: 0 0 0 7px rgba(29, 78, 216, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(126, 52, 24, .30); }
+    50%      { box-shadow: 0 0 0 7px rgba(126, 52, 24, 0); }
   }
   .hg-pulse { animation: hg-pulse 2.2s ease-in-out infinite; }
 }

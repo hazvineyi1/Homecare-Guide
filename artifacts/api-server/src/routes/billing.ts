@@ -9,10 +9,10 @@ const PRICE = "P75";
 const CURRENCY = "BWP";
 const FREE_TOPIC_ID = 1;
 
-// Master switch for the trial/paywall. While false, the whole course is free
-// for everyone (no payment required). Flip to true to re-enable the paywall,
-// and set the app-state `fullAccess` default back to false to match.
-const PAYWALL_ENABLED = false;
+// Master switch for the trial/paywall. When true, only the free topic (Topic 1)
+// is open to everyone; the remaining topics require an unlock (coupon redemption
+// or an admin grant). The app-state `fullAccess` default is false to match.
+const PAYWALL_ENABLED = true;
 
 // Accounts allowed to use the admin dashboard.
 const ADMIN_EMAILS = ["hazvimusoni@gmail.com", "info@synops-consulting.com"];
