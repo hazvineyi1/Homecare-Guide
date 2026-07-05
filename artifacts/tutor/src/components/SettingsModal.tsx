@@ -34,10 +34,10 @@ export function SettingsModal() {
   };
 
   const startOver = async () => {
-    if (!window.confirm("Reset everything and start over? This clears all your progress and takes you back to the beginning. This cannot be undone.")) return;
+    if (!window.confirm("Reset everything and start over from the very beginning? This clears all your progress AND your name and country, and you'll set up again from scratch. This cannot be undone.")) return;
     try { await resetProgress(); } catch { /* ignore */ }
-    try { localStorage.removeItem("hg_scenarios"); } catch { /* ignore */ }
-    // Reload to the landing page with a clean slate.
+    try { localStorage.clear(); } catch { /* ignore */ }
+    // With onboarding cleared, this returns to the very first screen.
     window.location.assign("/");
   };
 
@@ -93,7 +93,7 @@ export function SettingsModal() {
           <div className="pt-3 mt-1 border-t border-border">
             <div className="text-sm font-semibold text-foreground">Start over</div>
             <p className="mt-0.5 mb-2 text-xs text-muted-foreground">
-              Clear all your progress and go back to the very beginning. This cannot be undone.
+              Clear all your progress, name and country, and set up from scratch. This cannot be undone.
             </p>
             <Button
               variant="outline"
