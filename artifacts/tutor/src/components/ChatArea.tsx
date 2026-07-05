@@ -375,12 +375,14 @@ export function ChatArea() {
             <MenuIcon />
           </Button>
           <div className="min-w-0">
-            <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1 mb-2">
               <button
                 onClick={() => setCurrentTopicIndex(null)}
                 className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
               >
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span className="sm:hidden">Back</span>
+                <span className="hidden sm:inline">Back to roadmap</span>
               </button>
               <div className="flex items-center gap-3">
                 {topicScenarios.length > 0 && (
@@ -390,7 +392,9 @@ export function ChatArea() {
                     title="Choose a different situation for this topic"
                     className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
                   >
-                    <Shuffle className="w-3.5 h-3.5" /> Switch scenario
+                    <Shuffle className="w-3.5 h-3.5" />
+                    <span className="sm:hidden">Switch</span>
+                    <span className="hidden sm:inline">Switch scenario</span>
                   </button>
                 )}
                 <button
@@ -404,7 +408,9 @@ export function ChatArea() {
                   title="Start this lesson over from the beginning"
                   className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" /> Restart lesson
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span className="sm:hidden">Restart</span>
+                  <span className="hidden sm:inline">Restart lesson</span>
                 </button>
               </div>
             </div>

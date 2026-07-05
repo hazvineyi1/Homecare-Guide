@@ -123,8 +123,8 @@ export function KnowledgeCheck({ topicId, topicTitle, open, onOpenChange, onPass
           </div>
         )}
 
-        <div className="flex items-center justify-between gap-3 pt-2 border-t border-border">
-          <div className="text-sm">
+        <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-2 pt-2 border-t border-border">
+          <div className="text-sm min-w-0">
             {submitted && (
               <span className={passed ? "text-primary font-semibold" : "text-muted-foreground"}>
                 {correctCount} / {questions.length} correct

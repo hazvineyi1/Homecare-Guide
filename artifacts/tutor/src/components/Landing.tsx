@@ -27,7 +27,7 @@ export function Landing() {
     <div className="h-screen overflow-y-auto bg-background">
       <header className="border-b border-border">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-          <button onClick={enterRoadmap} className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+          <button onClick={enterRoadmap} className="min-w-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
             <div className="font-serif text-xl text-foreground leading-tight">A Guide to Homecare</div>
             <div className="text-xs text-muted-foreground">Caregiver preparedness &middot; guided by Dorothy Mooka</div>
           </button>
@@ -50,8 +50,12 @@ export function Landing() {
           Work through {TOPICS.length} real-world topics with <b>Nurse Mooka</b>, based on <em>A Guide to Homecare</em> by
           Dorothy Mooka. Reason through each one, check your understanding, and earn your Certificate of Completion.
         </p>
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary">
-          Free &middot; No payment &middot; No account needed to start
+        <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-x-2 max-w-full rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary text-center">
+          <span>Free</span>
+          <span aria-hidden>&middot;</span>
+          <span>No payment</span>
+          <span aria-hidden>&middot;</span>
+          <span>No sign-up to start</span>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" onClick={continueLearning}
