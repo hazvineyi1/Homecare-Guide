@@ -58,11 +58,28 @@ app.use(
   }),
 );
 
-// Baseline security headers. CSP is left off because the SPA loads Google Fonts
-// and streams from the same origin; tightening it is a good follow-up.
+// Baseline security headers plus a tuned Content-Security-Policy. The SPA and the
+// server-rendered SEO pages need: same-origin scripts and streaming (SSE) fetch,
+// Google Fonts (googleapis for the stylesheet, gstatic for the font files),
+// inline styles (React sets style attributes; SEO pages use inline <style>), and
+// data: URIs (Vite inlines small assets). Everything else is locked down.
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": ["'self'"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        "font-src": ["'self'", "data:", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:", "https:"],
+        "connect-src": ["'self'"],
+        "object-src": ["'none'"],
+        "base-uri": ["'self'"],
+        "frame-ancestors": ["'self'"],
+        "form-action": ["'self'"],
+      },
+    },
     crossOriginResourcePolicy: { policy: "same-origin" },
   }),
 );
