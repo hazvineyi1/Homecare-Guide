@@ -70,7 +70,7 @@ router.get("/topics", (_req, res) => {
 <a class="cta" href="/">Start the interactive course &rarr;</a>
 <div class="grid">${TOPICS.map(topicCard).join("")}</div>`;
   res.type("html").send(shell({
-    title: "All caregiving topics — A Guide to Homecare",
+    title: "All caregiving topics | A Guide to Homecare",
     description: `Free plain-language reference for ${TOPICS.length} home-caregiving topics from A Guide to Homecare by Dr Dorothy Mooka.`,
     canonical: `${SITE}/topics`,
     body,
@@ -95,7 +95,7 @@ router.get("/topics/:slug", (req, res, next) => {
 <p><a href="/topics">Browse all ${TOPICS.length} topics &rarr;</a></p>
 <p class="disclaimer">This guide helps you prepare and learn. It is not medical advice and does not replace a doctor, nurse, or emergency care. If someone is unwell or you are unsure, contact a health professional.</p>`;
   res.type("html").send(shell({
-    title: `${topic.title} — A Guide to Homecare`,
+    title: `${topic.title} | A Guide to Homecare`,
     description,
     canonical: `${SITE}/topics/${req.params.slug}`,
     body,

@@ -20,23 +20,26 @@ const DEMO = [
   { who: "learner", text: "Her back, her heels… maybe her elbows?" },
   { who: "tutor", text: "Good. Now what do you think happens to the skin over those points if the pressure never moves?" },
   { who: "learner", text: "The blood can't reach it… so the skin starts to break down?" },
-  { who: "tutor", text: "Exactly. You've just reasoned your way to why pressure sores form — and why we prevent them before they start. Let's build your turning plan." },
+  { who: "tutor", text: "Exactly. You've just reasoned your way to why pressure sores form, and why we prevent them before they start. Let's build your turning plan." },
 ] as const;
 
 const METHOD = [
   { n: "01", icon: Compass, t: "Start with a real situation", b: "Each topic opens with a scenario you might actually face at home, drawn from the guide's real-world cases and set in your own country." },
-  { n: "02", icon: MessageCircleQuestion, t: "Reason through it together", b: "Nurse Mooka asks one question at a time, listens to your thinking, and guides you toward safe, correct practice — never just handing you the answer." },
+  { n: "02", icon: MessageCircleQuestion, t: "Reason through it together", b: "Nurse Mooka asks one question at a time, listens to your thinking, and guides you toward safe, correct practice, never just handing you the answer." },
   { n: "03", icon: Sparkles, t: "Keep the judgement you built", b: "Because you worked it out yourself, it stays with you. You walk into your loved one's room calm, and prepared." },
 ];
 
 export function Landing() {
   const {
-    setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName, country,
+    setAtLanding, setCurrentTopicIndex, sessions, currentUser, setAuthOpen, learnerName, country, onboarded,
   } = useAppState();
 
   const firstName = (learnerName || currentUser?.name || "").trim().split(" ")[0];
-  const money = moneyFor(country);
+  // Default to US dollars until the learner has actually chosen a country (in
+  // onboarding); only then price in their local currency.
+  const money = moneyFor(onboarded ? country : "");
   const [wa, setWa] = useState("");
+  const [coverError, setCoverError] = useState(false);
   useEffect(() => { fetchPayInfo().then((p) => setWa(p.whatsapp || "")).catch(() => {}); }, []);
   const values = Object.values(sessions);
   const mastered = values.filter((s) => s.completed).length;
@@ -92,8 +95,8 @@ export function Landing() {
               Nobody is born knowing how to care for a loved one. <span className="text-primary italic">You can learn.</span>
             </h1>
             <p className="text-base sm:text-lg text-ink-soft leading-relaxed mb-7 max-w-xl">
-              When someone you love needs care at home, the questions come fast. This AI tutor — built on
-              Dr Dorothy Mooka's <b>A Guide to Homecare: Caregiver Preparedness</b> — walks you through real
+              When someone you love needs care at home, the questions come fast. This AI tutor, built on
+              Dr Dorothy Mooka's <b>A Guide to Homecare: Caregiver Preparedness</b>, walks you through real
               situations with guided questions, so the judgement you build is your own.
             </p>
             <div className="flex flex-wrap items-center gap-3">
@@ -154,8 +157,8 @@ export function Landing() {
               A tutor that asks questions instead of giving lectures
             </h2>
             <p className="text-ink-soft leading-relaxed">
-              Dr Mooka's guide was written to build caregiver judgement — spotting problems, solving them, and
-              making informed decisions — not just to hand out instructions. Nurse Mooka teaches the same way,
+              Dr Mooka's guide was written to build caregiver judgement (spotting problems, solving them, and
+              making informed decisions), not just to hand out instructions. Nurse Mooka teaches the same way,
               through Socratic dialogue. Knowledge you work out for yourself stays with you when you need it.
             </p>
           </div>
@@ -203,19 +206,32 @@ export function Landing() {
       {/* ---------- Book ---------- */}
       <section id="book" className="scroll-mt-20 border-b border-border bg-secondary/40">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 py-14 sm:py-16 grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-14 items-center">
-          {/* On-theme cover treatment */}
+          {/* The actual book cover; falls back to an on-theme cover only if the
+              image file is missing. */}
           <div className="mx-auto w-full max-w-[280px]">
-            <div className="aspect-[3/4] w-full bg-primary text-primary-foreground p-6 flex flex-col justify-between shadow-lg border border-primary">
-              <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent">A Guide to</div>
-              <div>
-                <div className="font-serif text-3xl font-semibold leading-tight">Home&shy;care</div>
-                <div className="mt-2 text-sm opacity-90">Caregiver Preparedness</div>
+            {!coverError ? (
+              <img
+                src="/book-cover.jpg"
+                alt="Cover of A Guide to Homecare: Caregiver Preparedness by Dr Dorothy Mooka"
+                width={280}
+                height={373}
+                onError={() => setCoverError(true)}
+                className="w-full h-auto shadow-lg border border-line"
+                style={{ borderRadius: "6px" }}
+              />
+            ) : (
+              <div className="aspect-[3/4] w-full bg-primary text-primary-foreground p-6 flex flex-col justify-between shadow-lg border border-primary">
+                <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent">A Guide to</div>
+                <div>
+                  <div className="font-serif text-3xl font-semibold leading-tight">Home&shy;care</div>
+                  <div className="mt-2 text-sm opacity-90">Caregiver Preparedness</div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <HeartHandshake className="w-9 h-9 text-accent" />
+                  <div className="text-xs leading-tight opacity-90">Dr Dorothy&nbsp;Mooka<br />RN, RM, PhD</div>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <HeartHandshake className="w-9 h-9 text-accent" />
-                <div className="text-xs leading-tight opacity-90">Dr Dorothy&nbsp;Mooka<br />RN, RM, PhD</div>
-              </div>
-            </div>
+            )}
           </div>
 
           <div>
@@ -225,7 +241,7 @@ export function Landing() {
             </h2>
             <p className="text-ink-soft leading-relaxed mb-4">
               Every conversation is anchored in <b>A Guide to Homecare: Caregiver Preparedness</b> by
-              Dr Dorothy Mooka — a registered nurse and midwife with a PhD in community health nursing. She has
+              Dr Dorothy Mooka, a registered nurse and midwife with a PhD in community health nursing. She has
               taught in health training schools, hospitals, and community settings, rural and urban, and wrote this
               guide so families could learn what she taught professionals.
             </p>
@@ -313,7 +329,7 @@ export function Landing() {
                 <h3 className="font-serif text-xl font-semibold text-primary">For families</h3>
               </div>
               <p className="text-ink-soft leading-relaxed mb-4">
-                Private, patient, and there the moment you need it — on any phone, at any hour. Start with a full topic free.
+                Private, patient, and there the moment you need it, on any phone, at any hour. Start with a full topic free.
               </p>
               <ul className="space-y-2 text-sm">
                 {["Learn before a crisis, or in the middle of one", "Practise real scenarios without judgement", "Share topics with relatives caring from afar"].map((x) => (

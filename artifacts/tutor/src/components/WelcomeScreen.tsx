@@ -287,7 +287,7 @@ export function WelcomeScreen() {
           })}
         </div>
 
-        {/* Learn more — compact, collapsed by default */}
+        {/* Learn more: compact, collapsed by default */}
         <div className="mt-10">
           <h2 className="font-serif text-lg text-foreground mb-3">Learn more</h2>
           <div className="grid gap-3 sm:grid-cols-2 items-start">

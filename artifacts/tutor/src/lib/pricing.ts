@@ -1,6 +1,6 @@
 // Localised display pricing. The price shown to a learner is expressed in the
 // currency of the country they chose in onboarding. These are DISPLAY figures
-// only — rounded local equivalents of a US$9/month · US$90/year base — with no
+// only, rounded local equivalents of a US$9/month, US$90/year base, with no
 // live FX and no in-app settlement (unlock is via coupon or admin grant). To
 // change pricing, edit the amounts here. Unlisted countries fall back to USD.
 
