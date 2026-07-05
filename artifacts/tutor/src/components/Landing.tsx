@@ -211,10 +211,11 @@ export function Landing() {
           <div className="mx-auto w-full max-w-[280px]">
             {!coverError ? (
               <img
-                src="/book-cover.jpg"
-                alt="Cover of A Guide to Homecare: Caregiver Preparedness by Dr Dorothy Mooka"
+                src="https://m.media-amazon.com/images/I/61OyhbbexJL._SY600_.jpg"
+                alt="Cover of A Guide to Homecare: Caregiver Preparedness by Dr Dorothy Mooka: two clasped hands"
                 width={280}
-                height={373}
+                height={420}
+                loading="lazy"
                 onError={() => setCoverError(true)}
                 className="w-full h-auto shadow-lg border border-line"
                 style={{ borderRadius: "6px" }}
