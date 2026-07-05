@@ -1,7 +1,10 @@
 import React from "react";
 import { shareUrl, SHARE_COURSE } from "@/lib/whatsapp";
+import { useAppState } from "@/hooks/use-app-state";
 
 export function Footer() {
+  const { setContactOpen, setContactKind } = useAppState();
+  const openContact = () => { setContactKind("contact"); setContactOpen(true); };
   return (
     <footer className="border-t border-border mt-6">
       <div className="max-w-5xl mx-auto px-6 py-8 text-sm text-muted-foreground">
@@ -18,7 +21,7 @@ export function Footer() {
           <span aria-hidden>&middot;</span>
           <a href="/terms" className="hover:text-foreground hover:underline">Terms</a>
           <span aria-hidden>&middot;</span>
-          <a href="mailto:info@synops-consulting.com" className="hover:text-foreground hover:underline">Contact</a>
+          <button onClick={openContact} className="hover:text-foreground hover:underline">Contact</button>
           <span aria-hidden>&middot;</span>
           <a href={shareUrl(SHARE_COURSE)} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline">Share on WhatsApp</a>
           <span className="sm:ml-auto text-xs">&copy; {new Date().getFullYear()} A Guide to Homecare</span>
