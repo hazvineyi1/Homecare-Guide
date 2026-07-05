@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   ShieldCheck,
   Lightbulb,
+  Home,
   Map as MapIcon,
 } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
@@ -74,9 +75,18 @@ export function Onboarding() {
         <div className="max-w-2xl mx-auto w-full px-6 py-3 flex items-center justify-between gap-4">
           <button onClick={() => setAtLanding(true)} className="min-w-0 text-left hover:opacity-80 focus-visible:outline-none" title="Back to the homepage">
             <div className="font-serif text-lg text-foreground leading-tight truncate">A Guide to Homecare</div>
-            <div className="text-[11px] text-muted-foreground">Home &middot; Guided by Dorothy Mooka</div>
+            <div className="text-[11px] text-muted-foreground">Guided by Dorothy Mooka</div>
           </button>
-          <div className="text-xs font-semibold text-muted-foreground shrink-0">Step {step} of {TOTAL_STEPS}</div>
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => setAtLanding(true)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary transition-colors"
+              title="Back to the homepage"
+            >
+              <Home className="w-4 h-4" /> Home
+            </button>
+            <div className="text-xs font-semibold text-muted-foreground">Step {step} of {TOTAL_STEPS}</div>
+          </div>
         </div>
         <div className="h-1 bg-secondary">
           <div

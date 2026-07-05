@@ -33,7 +33,7 @@ export function VerifyView({ code }: { code: string }) {
             <p className="text-foreground">No certificate found for code <b>{code}</b>.</p>
           </>
         )}
-        <a href="/"><Button variant="secondary" className="mt-6">Go to the course</Button></a>
+        <Button variant="secondary" className="mt-6" onClick={() => { window.location.href = "/"; }}>Go to the homepage</Button>
       </div>
     </div>
   );

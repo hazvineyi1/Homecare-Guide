@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Lock, ArrowLeft, Menu, MessageCircle } from "lucide-react";
+import { Lock, ArrowLeft, Menu, MessageCircle, Home } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { chatUrl, payHelpMsg } from "@/lib/whatsapp";
 // access, bought for the price shown via Orange Money, then unlocked with a
 // code (or granted by an admin). No card or money is handled in-app.
 export function Paywall() {
-  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen, country } = useAppState();
+  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen, setAtLanding, country } = useAppState();
   const [pay, setPay] = useState<PayInfo | null>(null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -56,13 +56,22 @@ export function Paywall() {
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
           </button>
-          <button
-            onClick={() => setMobileSidebarOpen(true)}
-            aria-label="Open menu"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
-          >
-            <Menu className="w-4 h-4" /> Menu
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }}
+              title="Back to the homepage"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
+            >
+              <Home className="w-4 h-4" /> Home
+            </button>
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              aria-label="Open menu"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
+            >
+              <Menu className="w-4 h-4" /> Menu
+            </button>
+          </div>
         </div>
 
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">

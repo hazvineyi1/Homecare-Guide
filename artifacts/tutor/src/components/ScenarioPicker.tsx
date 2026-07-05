@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Menu } from "lucide-react";
+import { ArrowLeft, Menu, Home } from "lucide-react";
 import { useAppState } from "@/hooks/use-app-state";
 import { scenariosFor, type Scenario } from "@/lib/scenarios";
 import { ScenarioArt } from "./ScenarioArt";
@@ -15,7 +15,7 @@ export function ScenarioPicker({
   topicTitle: string;
   onPick: (s: Scenario) => void;
 }) {
-  const { setCurrentTopicIndex, setMobileSidebarOpen } = useAppState();
+  const { setCurrentTopicIndex, setMobileSidebarOpen, setAtLanding } = useAppState();
   const scenarios = scenariosFor(topicId);
 
   return (
@@ -28,13 +28,22 @@ export function ScenarioPicker({
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to roadmap
           </button>
-          <button
-            onClick={() => setMobileSidebarOpen(true)}
-            aria-label="Open menu"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
-          >
-            <Menu className="w-4 h-4" /> Menu
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }}
+              title="Back to the homepage"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
+            >
+              <Home className="w-4 h-4" /> Home
+            </button>
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              aria-label="Open menu"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary"
+            >
+              <Menu className="w-4 h-4" /> Menu
+            </button>
+          </div>
         </div>
 
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-primary mb-1">Choose your situation</div>
