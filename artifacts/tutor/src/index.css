@@ -104,7 +104,7 @@
   }
 
   html {
-    font-size: 110%;          /* larger base text for readability (~17.6px) */
+    font-size: 104%;          /* readable but not oversized (~16.6px), so more fits per screen */
   }
 
   body {

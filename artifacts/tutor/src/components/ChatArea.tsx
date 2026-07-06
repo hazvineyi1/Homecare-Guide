@@ -386,7 +386,7 @@ export function ChatArea() {
             <Home className="w-4 h-4" />
           </Button>
           <div className="min-w-0">
-            <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1 mb-2">
+            <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1 mb-1">
               <button
                 onClick={() => setCurrentTopicIndex(null)}
                 className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
@@ -425,7 +425,7 @@ export function ChatArea() {
                 </button>
               </div>
             </div>
-            <div className="flex items-center gap-x-2 gap-y-0.5 flex-wrap mb-1 text-xs font-semibold text-muted-foreground">
+            <div className="flex items-center gap-x-2 gap-y-0.5 flex-wrap mb-0.5 text-xs font-semibold text-muted-foreground">
               {currentModule && (
                 <>
                   <span className="uppercase tracking-wider text-primary">Module {currentModule.level} · {currentModule.name}</span>
@@ -451,9 +451,37 @@ export function ChatArea() {
                 <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
               )}
             </div>
-            <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight">
-              {currentTopic.title}
-            </h2>
+            <div className="flex items-start justify-between gap-2 flex-wrap">
+              <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight min-w-0">
+                {currentTopic.title}
+              </h2>
+              <div className="flex items-center gap-2 shrink-0">
+                {meta && (
+                  <button
+                    onClick={() => setShowObjectives((v) => !v)}
+                    aria-expanded={showObjectives}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
+                      showObjectives
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-primary/40 text-primary hover:bg-primary/5",
+                    )}
+                  >
+                    <Target className="w-3.5 h-3.5" />
+                    Objectives ({meta.objectives.length})
+                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
+                  </button>
+                )}
+                {READINGS[currentTopic.id] && (
+                  <button
+                    onClick={() => setReadingOpen(true)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" /> Read the chapter
+                  </button>
+                )}
+              </div>
+            </div>
 
             {[7, 8, 9, 10].includes(currentTopic.id) && (
               <div className="mt-2 space-y-1.5 max-w-3xl">
@@ -479,45 +507,28 @@ export function ChatArea() {
             <button
               onClick={() => setShowScenario((v) => !v)}
               aria-expanded={showScenario}
-              className="mt-2 w-full max-w-3xl text-left rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-1.5 flex items-center gap-2 hover:bg-accent/15 transition-colors"
+              className="mt-1.5 w-full max-w-3xl text-left rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-1.5 flex items-center gap-2 hover:bg-accent/15 transition-colors"
             >
               {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" />}
               <span className="min-w-0 flex-1">
-                <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-                  Scenario{chosenScenario ? ` · ${chosenScenario.title}` : ""}
-                </span>
-                <span className={cn("block text-sm text-foreground leading-snug", !showScenario && "truncate")}>
-                  {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
-                </span>
+                {showScenario ? (
+                  <>
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+                      Scenario{chosenScenario ? ` · ${chosenScenario.title}` : ""}
+                    </span>
+                    <span className="block text-sm text-foreground leading-snug">
+                      {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
+                    </span>
+                  </>
+                ) : (
+                  <span className="block text-sm text-foreground leading-snug truncate">
+                    <span className="font-bold uppercase text-[11px] tracking-[0.12em] text-primary mr-1.5">Scenario</span>
+                    {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
+                  </span>
+                )}
               </span>
               <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-transform", showScenario && "rotate-180")} />
             </button>
-            <div className="mt-2 flex items-center gap-2 flex-wrap">
-              {meta && (
-                <button
-                  onClick={() => setShowObjectives((v) => !v)}
-                  aria-expanded={showObjectives}
-                  className={cn(
-                    "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
-                    showObjectives
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-primary/40 text-primary hover:bg-primary/5",
-                  )}
-                >
-                  <Target className="w-3.5 h-3.5" />
-                  Objectives ({meta.objectives.length})
-                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
-                </button>
-              )}
-              {READINGS[currentTopic.id] && (
-                <button
-                  onClick={() => setReadingOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
-                >
-                  <BookOpen className="w-3.5 h-3.5" /> Read the chapter
-                </button>
-              )}
-            </div>
             {showObjectives && meta && (
               <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
                 {meta.objectives.map((o, i) => (
@@ -532,7 +543,7 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="hg-scroll flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-5">
+      <div ref={scrollRef} className="hg-scroll flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-4">
        <div className="max-w-3xl mx-auto w-full space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
@@ -594,7 +605,7 @@ export function ChatArea() {
             onKeyDown={onKeyDown}
             disabled={busy || !currentSession?.conversationId}
             placeholder="Type your answer to Nurse Mooka here, then press Enter..."
-            className="min-h-[72px] max-h-[200px] resize-none border-border focus-visible:ring-primary text-base"
+            className="min-h-[56px] max-h-[200px] resize-none border-border focus-visible:ring-primary text-base"
           />
           <Button
             onClick={() => handleSend(input, "normal")}
