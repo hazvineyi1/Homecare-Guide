@@ -86,31 +86,20 @@ export function Paywall() {
 
         <div className="rounded-xl border border-border bg-card p-5 mb-5">
           <div className="text-xs font-bold uppercase tracking-wide text-primary mb-2">How to pay</div>
-          <div className="flex items-baseline justify-between gap-3 mb-3">
-            <span className="font-serif text-2xl text-foreground shrink-0">{price}</span>
-            <span className="text-sm font-semibold text-foreground text-right">{method}</span>
-          </div>
-          {pay?.recipient ? (
-            <div className="rounded-lg bg-secondary/60 px-3 py-2 mb-3">
-              <div className="text-xs text-muted-foreground">Pay to</div>
-              <div className="text-base font-semibold text-foreground">{pay.recipient}</div>
-              {pay.name && <div className="text-xs text-muted-foreground">{pay.name}</div>}
-            </div>
-          ) : (
-            <div className="rounded-lg bg-secondary/60 px-3 py-2 mb-3 text-sm text-muted-foreground">
-              The {method} payment details will appear here once the course administrator sets them.
-            </div>
-          )}
-          <p className="text-sm text-muted-foreground leading-relaxed">{instructions}</p>
-          {pay?.whatsapp && (
-            <Button
-              onClick={() => window.open(chatUrl(pay.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}
-              className="mt-3 w-full text-white hover:brightness-105"
-              style={{ backgroundColor: "#25D366" }}
-            >
-              <MessageCircle className="w-4 h-4 mr-2" /> Pay or get a code on WhatsApp
-            </Button>
-          )}
+          <div className="font-serif text-2xl text-foreground mb-2">{price}</div>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            Message us on WhatsApp and we'll send you the payment options for your country, then unlock your full access.
+          </p>
+          <Button
+            onClick={() => window.open(chatUrl(pay?.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}
+            className="w-full text-white hover:brightness-105"
+            style={{ backgroundColor: "#25D366" }}
+          >
+            <MessageCircle className="w-4 h-4 mr-2" /> Message us on WhatsApp to pay
+          </Button>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Prefer email? <a href="mailto:info@synops-consulting.com" className="text-primary font-semibold hover:underline">info@synops-consulting.com</a>
+          </p>
         </div>
 
         <div className="rounded-xl border border-border bg-card p-5">
