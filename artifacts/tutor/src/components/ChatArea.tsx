@@ -364,7 +364,7 @@ export function ChatArea() {
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
       <div className="px-4 sm:px-8 py-2 border-b border-border bg-background z-10 shrink-0">
-        <div className="flex items-start gap-3 max-w-3xl mx-auto w-full">
+        <div className="flex items-start gap-3 max-w-6xl mx-auto w-full">
           <Button
             variant="ghost"
             size="sm"
@@ -455,7 +455,7 @@ export function ChatArea() {
             </h2>
 
             {[7, 8, 9, 10].includes(currentTopic.id) && (
-              <div className="mt-2 space-y-1.5 max-w-3xl">
+              <div className="mt-2 space-y-1.5 max-w-6xl">
                 <div className="rounded-md border border-accent/40 bg-accent/10 px-3 py-1.5 text-xs text-foreground flex gap-2">
                   <span aria-hidden>⚠️</span>
                   <span><b>A quick safety note.</b> This guide helps you prepare and learn, it does not replace a doctor, nurse, or emergency care. If you are unsure about a procedure, or the person seems unwell, contact a health professional. When in doubt, ask.</span>
@@ -476,7 +476,7 @@ export function ChatArea() {
             )}
             {/* Tabs across the top. Content shows in a panel below only when a tab
                 is active, so the header stays compact. */}
-            <div className="mt-2.5 max-w-3xl flex items-stretch gap-2">
+            <div className="mt-2.5 max-w-6xl flex items-stretch gap-2">
               <button
                 onClick={() => setOpenPanel((p) => (p === "scenario" ? null : "scenario"))}
                 aria-expanded={openPanel === "scenario"}
@@ -516,7 +516,7 @@ export function ChatArea() {
             </div>
 
             {openPanel === "scenario" && (
-              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-4 py-3 flex gap-3">
+              <div className="mt-2 max-w-6xl rounded-lg border-l-4 border-accent bg-accent/10 px-4 py-3 flex gap-3">
                 {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" />}
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary mb-0.5">
@@ -529,7 +529,7 @@ export function ChatArea() {
               </div>
             )}
             {openPanel === "objectives" && meta && (
-              <ul className="mt-2 max-w-3xl rounded-lg border border-border bg-card px-4 py-3 space-y-1.5">
+              <ul className="mt-2 max-w-6xl rounded-lg border border-border bg-card px-4 py-3 space-y-1.5">
                 {meta.objectives.map((o, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-foreground">
                     <Target className="w-4 h-4 text-primary shrink-0 mt-0.5" />
@@ -543,7 +543,7 @@ export function ChatArea() {
       </div>
 
       <div ref={scrollRef} className="hg-scroll flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-4">
-       <div className="max-w-3xl mx-auto w-full space-y-4">
+       <div className="max-w-6xl mx-auto w-full space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
         ))}
@@ -579,7 +579,7 @@ export function ChatArea() {
       </div>
 
       <div className="px-4 sm:px-8 py-3 bg-background border-t border-border">
-       <div className="max-w-3xl mx-auto w-full">
+       <div className="max-w-6xl mx-auto w-full">
         {/* Contextual next step: the knowledge check only appears once the learner
             has done an understanding check, so it never clutters the first attempt. */}
         {!isCompleted && hasSynthesis && (
