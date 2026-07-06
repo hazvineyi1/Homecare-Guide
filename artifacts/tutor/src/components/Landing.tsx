@@ -205,22 +205,22 @@ export function Landing() {
               problems, and practice.
             </p>
           </div>
-          <div className="max-w-3xl divide-y divide-border border border-border rounded-lg overflow-hidden bg-card">
-            {TOPICS.map((t, i) => {
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-3">
+            {TOPICS.map((t) => {
               const isOpen = openTopicId === t.id;
               return (
-                <div key={t.id}>
+                <div key={t.id} className="break-inside-avoid mb-3 border border-border rounded-lg bg-card overflow-hidden">
                   <button
                     onClick={() => setOpenTopicId(isOpen ? null : t.id)}
                     aria-expanded={isOpen}
-                    className="w-full text-left flex items-center gap-3 px-4 sm:px-5 py-4 hover:bg-secondary/50 transition-colors"
+                    className="w-full text-left flex items-center gap-2.5 px-3.5 py-3 hover:bg-secondary/50 transition-colors"
                   >
-                    <span className="text-xs font-bold text-accent-foreground min-w-[1.9rem]">{String(t.id).padStart(2, "0")}</span>
-                    <span className="flex-1 text-sm sm:text-base font-semibold text-foreground">{t.title}</span>
-                    <ChevronDown className={"w-5 h-5 text-muted-foreground shrink-0 transition-transform" + (isOpen ? " rotate-180" : "")} />
+                    <span className="text-[11px] font-bold text-accent-foreground min-w-[1.6rem]">{String(t.id).padStart(2, "0")}</span>
+                    <span className="flex-1 text-sm font-semibold text-foreground leading-snug">{t.title}</span>
+                    <ChevronDown className={"w-4 h-4 text-muted-foreground shrink-0 transition-transform" + (isOpen ? " rotate-180" : "")} />
                   </button>
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-4 -mt-1">
+                    <div className="px-3.5 pb-3.5 -mt-0.5">
                       <p className="text-sm text-ink-soft leading-relaxed">{topicBrief(t.kb)}</p>
                       {t.id === 1 ? (
                         <button
