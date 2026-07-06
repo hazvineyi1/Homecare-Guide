@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
+import { LEVELS } from "@/lib/course-structure";
 import { moneyFor, priceLabel } from "@/lib/pricing";
 import { fetchPayInfo } from "@/lib/tutor-api";
 import { chatUrl, shareUrl, SHARE_COURSE, CONTACT_MSG, PARTNER_MSG } from "@/lib/whatsapp";
@@ -205,38 +206,50 @@ export function Landing() {
               problems, and practice.
             </p>
           </div>
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-3">
-            {TOPICS.map((t) => {
-              const isOpen = openTopicId === t.id;
-              return (
-                <div key={t.id} className="break-inside-avoid mb-3 border border-border rounded-lg bg-card overflow-hidden">
-                  <button
-                    onClick={() => setOpenTopicId(isOpen ? null : t.id)}
-                    aria-expanded={isOpen}
-                    className="w-full text-left flex items-center gap-2.5 px-3.5 py-3 hover:bg-secondary/50 transition-colors"
-                  >
-                    <span className="text-[11px] font-bold text-accent-foreground min-w-[1.6rem]">{String(t.id).padStart(2, "0")}</span>
-                    <span className="flex-1 text-sm font-semibold text-foreground leading-snug">{t.title}</span>
-                    <ChevronDown className={"w-4 h-4 text-muted-foreground shrink-0 transition-transform" + (isOpen ? " rotate-180" : "")} />
-                  </button>
-                  {isOpen && (
-                    <div className="px-3.5 pb-3.5 -mt-0.5">
-                      <p className="text-sm text-ink-soft leading-relaxed">{topicBrief(t.kb)}</p>
-                      {t.id === 1 ? (
-                        <button
-                          onClick={() => openTopic(0)}
-                          className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-                        >
-                          Try this topic free <ArrowRight className="w-4 h-4" />
-                        </button>
-                      ) : (
-                        <p className="mt-2 text-xs text-muted-foreground">Taught in full with Nurse Mooka inside the course.</p>
-                      )}
-                    </div>
-                  )}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
+            {LEVELS.map((lv) => (
+              <div key={lv.level} className="break-inside-avoid mb-5">
+                <div className="mb-2">
+                  <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent-foreground">Module {lv.level}</div>
+                  <div className="font-serif text-lg font-semibold text-primary leading-tight">{lv.name}</div>
                 </div>
-              );
-            })}
+                <div className="border border-border rounded-lg bg-card overflow-hidden divide-y divide-border">
+                  {lv.topicIds.map((id) => {
+                    const t = TOPICS.find((x) => x.id === id);
+                    if (!t) return null;
+                    const isOpen = openTopicId === t.id;
+                    return (
+                      <div key={t.id}>
+                        <button
+                          onClick={() => setOpenTopicId(isOpen ? null : t.id)}
+                          aria-expanded={isOpen}
+                          className="w-full text-left flex items-center gap-2.5 px-3.5 py-2.5 hover:bg-secondary/50 transition-colors"
+                        >
+                          <span className="text-[11px] font-bold text-accent-foreground min-w-[1.6rem]">{String(t.id).padStart(2, "0")}</span>
+                          <span className="flex-1 text-sm font-semibold text-foreground leading-snug">{t.title}</span>
+                          <ChevronDown className={"w-4 h-4 text-muted-foreground shrink-0 transition-transform" + (isOpen ? " rotate-180" : "")} />
+                        </button>
+                        {isOpen && (
+                          <div className="px-3.5 pb-3 bg-secondary/20">
+                            <p className="text-sm text-ink-soft leading-relaxed pt-1.5">{topicBrief(t.kb)}</p>
+                            {t.id === 1 ? (
+                              <button
+                                onClick={() => openTopic(0)}
+                                className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                              >
+                                Try this topic free <ArrowRight className="w-4 h-4" />
+                              </button>
+                            ) : (
+                              <p className="mt-2 text-xs text-muted-foreground">Taught in full with Nurse Mooka inside the course.</p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
