@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
-import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw, Shuffle, Home } from "lucide-react";
+import { CheckCircle2, Clock, Target, Award, Printer, ChevronDown, BookOpen, ArrowLeft, RotateCcw, Shuffle, Home, ClipboardList } from "lucide-react";
 import { useAppState, Message } from "@/hooks/use-app-state";
 import { TOPICS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -61,9 +61,8 @@ export function ChatArea() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [completing, setCompleting] = useState(false);
   const [checkOpen, setCheckOpen] = useState(false);
-  const [showObjectives, setShowObjectives] = useState(false);
+  const [openPanel, setOpenPanel] = useState<"scenario" | "objectives" | null>(null);
   const [readingOpen, setReadingOpen] = useState(false);
-  const [showScenario, setShowScenario] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const createSessionMutation = useCreateTutorSession();
@@ -451,37 +450,9 @@ export function ChatArea() {
                 <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
               )}
             </div>
-            <div className="flex items-start justify-between gap-2 flex-wrap">
-              <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight min-w-0">
-                {currentTopic.title}
-              </h2>
-              <div className="flex items-center gap-2 shrink-0">
-                {meta && (
-                  <button
-                    onClick={() => setShowObjectives((v) => !v)}
-                    aria-expanded={showObjectives}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border px-3 py-1 transition-colors",
-                      showObjectives
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-primary/40 text-primary hover:bg-primary/5",
-                    )}
-                  >
-                    <Target className="w-3.5 h-3.5" />
-                    Objectives ({meta.objectives.length})
-                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showObjectives && "rotate-180")} />
-                  </button>
-                )}
-                {READINGS[currentTopic.id] && (
-                  <button
-                    onClick={() => setReadingOpen(true)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-secondary transition-colors"
-                  >
-                    <BookOpen className="w-3.5 h-3.5" /> Read the chapter
-                  </button>
-                )}
-              </div>
-            </div>
+            <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight">
+              {currentTopic.title}
+            </h2>
 
             {[7, 8, 9, 10].includes(currentTopic.id) && (
               <div className="mt-2 space-y-1.5 max-w-3xl">
@@ -503,37 +474,65 @@ export function ChatArea() {
                 )}
               </div>
             )}
-            {/* Compact, always-visible scenario. Collapsed shows one line; click to expand the full text. */}
-            <button
-              onClick={() => setShowScenario((v) => !v)}
-              aria-expanded={showScenario}
-              className="mt-1.5 w-full max-w-3xl text-left rounded-lg border-l-4 border-accent bg-accent/10 px-3 py-1.5 flex items-center gap-2 hover:bg-accent/15 transition-colors"
-            >
-              {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" />}
-              <span className="min-w-0 flex-1">
-                {showScenario ? (
-                  <>
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-                      Scenario{chosenScenario ? ` · ${chosenScenario.title}` : ""}
-                    </span>
-                    <span className="block text-sm text-foreground leading-snug">
-                      {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
-                    </span>
-                  </>
-                ) : (
-                  <span className="block text-sm text-foreground leading-snug truncate">
-                    <span className="font-bold uppercase text-[11px] tracking-[0.12em] text-primary mr-1.5">Scenario</span>
-                    {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
-                  </span>
+            {/* Tabs across the top. Content shows in a panel below only when a tab
+                is active, so the header stays compact. */}
+            <div className="mt-2.5 max-w-3xl flex items-stretch gap-2">
+              <button
+                onClick={() => setOpenPanel((p) => (p === "scenario" ? null : "scenario"))}
+                aria-expanded={openPanel === "scenario"}
+                className={cn(
+                  "flex-1 inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors",
+                  openPanel === "scenario"
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border bg-card text-foreground hover:bg-secondary",
                 )}
-              </span>
-              <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-transform", showScenario && "rotate-180")} />
-            </button>
-            {showObjectives && meta && (
-              <ul className="mt-2 space-y-1 pl-1 max-w-3xl">
+              >
+                <ClipboardList className="w-4 h-4 shrink-0" /> Scenario
+              </button>
+              {meta && (
+                <button
+                  onClick={() => setOpenPanel((p) => (p === "objectives" ? null : "objectives"))}
+                  aria-expanded={openPanel === "objectives"}
+                  className={cn(
+                    "flex-1 inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors",
+                    openPanel === "objectives"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-card text-foreground hover:bg-secondary",
+                  )}
+                >
+                  <Target className="w-4 h-4 shrink-0" /> Objectives <span className="opacity-70">({meta.objectives.length})</span>
+                </button>
+              )}
+              {READINGS[currentTopic.id] && (
+                <button
+                  onClick={() => setReadingOpen(true)}
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary transition-colors"
+                >
+                  <BookOpen className="w-4 h-4 shrink-0" />
+                  <span className="hidden sm:inline">Read the chapter</span>
+                  <span className="sm:hidden">Chapter</span>
+                </button>
+              )}
+            </div>
+
+            {openPanel === "scenario" && (
+              <div className="mt-2 max-w-3xl rounded-lg border-l-4 border-accent bg-accent/10 px-4 py-3 flex gap-3">
+                {chosenScenario && <ScenarioArt art={chosenScenario.art} size="sm" />}
+                <div className="min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-primary mb-0.5">
+                    Scenario{chosenScenario ? ` · ${chosenScenario.title}` : ""}
+                  </div>
+                  <p className="text-sm text-foreground leading-snug">
+                    {scenarioText.charAt(0).toUpperCase() + scenarioText.slice(1)}.
+                  </p>
+                </div>
+              </div>
+            )}
+            {openPanel === "objectives" && meta && (
+              <ul className="mt-2 max-w-3xl rounded-lg border border-border bg-card px-4 py-3 space-y-1.5">
                 {meta.objectives.map((o, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                    <span className="text-primary mt-0.5">•</span>
+                    <Target className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <span>{o}</span>
                   </li>
                 ))}
