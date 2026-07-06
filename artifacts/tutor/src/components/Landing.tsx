@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   ArrowRight, MessageCircleQuestion, Compass, BookOpen, Check,
-  Users, Building2, HeartHandshake, Sparkles, MessageCircle, Share2,
+  Users, Building2, HeartHandshake, Sparkles, MessageCircle, Share2, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/hooks/use-app-state";
@@ -13,6 +13,17 @@ import { Footer } from "./Footer";
 
 const PARTNER_EMAIL = "info@synops-consulting.com";
 const AMAZON_URL = "https://www.amazon.com/dp/B0BS8Z27KK";
+
+// Match the server-rendered SEO page slugs (routes/seo.ts) so topic links resolve.
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+// A short, plain-language brief for a topic, drawn from the first sentences of its
+// chapter content.
+const topicBrief = (kb: string) => {
+  let s = kb.split(". ").slice(0, 2).join(". ").trim();
+  if (!s.endsWith(".")) s += ".";
+  if (s.length > 260) s = s.slice(0, 255).replace(/\s+\S*$/, "") + "…";
+  return s;
+};
 
 // One example exchange shown in the hero, to make the Socratic method tangible.
 const DEMO = [
@@ -41,6 +52,7 @@ export function Landing() {
   const money = moneyFor(onboarded ? country : "");
   const [wa, setWa] = useState("");
   const [coverError, setCoverError] = useState(false);
+  const [openTopicId, setOpenTopicId] = useState<number | null>(null);
   useEffect(() => { fetchPayInfo().then((p) => setWa(p.whatsapp || "")).catch(() => {}); }, []);
   const values = Object.values(sessions);
   const mastered = values.filter((s) => s.completed).length;
@@ -193,17 +205,44 @@ export function Landing() {
               problems, and practice.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {TOPICS.map((t, i) => (
-              <button
-                key={t.id}
-                onClick={() => openTopic(i)}
-                className="text-left flex gap-3 items-baseline border border-border bg-card px-4 py-3.5 hover:border-primary hover:bg-secondary/50 transition-colors"
-              >
-                <span className="text-xs font-bold text-accent-foreground min-w-[1.6rem]">{String(t.id).padStart(2, "0")}</span>
-                <span className="text-sm font-semibold text-foreground leading-snug">{t.title}</span>
-              </button>
-            ))}
+          <div className="max-w-3xl divide-y divide-border border border-border rounded-lg overflow-hidden bg-card">
+            {TOPICS.map((t, i) => {
+              const isOpen = openTopicId === t.id;
+              return (
+                <div key={t.id}>
+                  <button
+                    onClick={() => setOpenTopicId(isOpen ? null : t.id)}
+                    aria-expanded={isOpen}
+                    className="w-full text-left flex items-center gap-3 px-4 sm:px-5 py-4 hover:bg-secondary/50 transition-colors"
+                  >
+                    <span className="text-xs font-bold text-accent-foreground min-w-[1.9rem]">{String(t.id).padStart(2, "0")}</span>
+                    <span className="flex-1 text-sm sm:text-base font-semibold text-foreground">{t.title}</span>
+                    <ChevronDown className={"w-5 h-5 text-muted-foreground shrink-0 transition-transform" + (isOpen ? " rotate-180" : "")} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 sm:px-5 pb-4 -mt-1">
+                      <p className="text-sm text-ink-soft leading-relaxed mb-3">{topicBrief(t.kb)}</p>
+                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                        <a
+                          href={`/topics/${slugify(t.title)}`}
+                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                        >
+                          Read the full chapter brief <ArrowRight className="w-4 h-4" />
+                        </a>
+                        {t.id === 1 && (
+                          <button
+                            onClick={() => openTopic(0)}
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-foreground hover:underline"
+                          >
+                            Try this topic free <ArrowRight className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
