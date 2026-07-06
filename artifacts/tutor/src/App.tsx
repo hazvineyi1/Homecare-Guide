@@ -3,6 +3,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { AppStateProvider, useAppState, HydratedSession } from "@/hooks/use-app-state";
@@ -33,6 +34,22 @@ function MainLayout() {
 
   useEffect(() => {
     fetchAccess().then((a) => setFullAccess(a.fullAccess));
+  }, [setFullAccess]);
+
+  // Handle the return from the DPO Pay hosted page (?paid=1 on success).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const paid = params.get("paid");
+    if (!paid) return;
+    if (paid === "1") {
+      toast.success("Payment received. Your full access is unlocked.");
+      fetchAccess().then((a) => setFullAccess(a.fullAccess));
+    } else if (paid === "0") {
+      toast.error("That payment did not go through. You can try again or use another option.");
+    }
+    params.delete("paid");
+    const clean = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+    window.history.replaceState({}, "", clean);
   }, [setFullAccess]);
 
   // Rehydrate the sidebar + resumable topics from the server on first load, so

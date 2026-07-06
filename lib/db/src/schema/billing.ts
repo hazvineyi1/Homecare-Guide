@@ -54,7 +54,21 @@ export const leads = pgTable("leads", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
+// Online payment attempts (DPO Pay). One row per checkout started; marked paid
+// when DPO verifies the transaction, at which point full access is granted.
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  ref: text("ref").notNull().unique(),
+  ownerId: text("owner_id").notNull(),
+  transToken: text("trans_token"),
+  amount: text("amount"),
+  currency: text("currency"),
+  status: text("status").notNull().default("created"), // 'created' | 'paid' | 'failed'
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 export type Entitlement = typeof entitlements.$inferSelect;
 export type Coupon = typeof coupons.$inferSelect;
 export type UnlockEvent = typeof unlockEvents.$inferSelect;
 export type Lead = typeof leads.$inferSelect;
+export type Payment = typeof payments.$inferSelect;

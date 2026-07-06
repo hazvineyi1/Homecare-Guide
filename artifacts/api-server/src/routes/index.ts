@@ -8,6 +8,7 @@ import billingRouter from "./billing";
 import resetRouter from "./reset";
 import whatsappRouter from "./whatsapp";
 import leadsRouter from "./leads";
+import paymentsRouter from "./payments";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(billingRouter);
 router.use(resetRouter);
 router.use(whatsappRouter);
 router.use(leadsRouter);
+router.use(paymentsRouter);
 
 export default router;

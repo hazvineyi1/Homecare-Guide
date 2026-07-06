@@ -183,6 +183,18 @@ export const fetchPayInfo = async (): Promise<PayInfo> => {
 };
 export const redeemCoupon = (code: string) => postJson("/api/access/redeem", { code });
 
+// Online payment (DPO Pay). config.enabled is false until the operator adds
+// their DPO merchant keys as env vars, in which case the paywall shows a
+// self-serve "Pay now" button.
+export const fetchPayConfig = async (): Promise<{ enabled: boolean; provider?: string; amount?: string; currency?: string }> => {
+  try {
+    const res = await fetch("/api/pay/config", { headers: { Accept: "application/json" } });
+    if (!res.ok) return { enabled: false };
+    return await res.json();
+  } catch { return { enabled: false }; }
+};
+export const createPayment = () => postJson("/api/pay/create");
+
 export interface AdminCoupon {
   code: string; percentOff: number | null; note: string | null;
   active: boolean; maxRedemptions: number | null; redemptions: number; createdAt: string;

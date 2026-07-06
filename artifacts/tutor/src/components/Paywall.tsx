@@ -4,7 +4,7 @@ import { useAppState } from "@/hooks/use-app-state";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { fetchPayInfo, redeemCoupon, type PayInfo } from "@/lib/tutor-api";
+import { fetchPayInfo, redeemCoupon, fetchPayConfig, createPayment, type PayInfo } from "@/lib/tutor-api";
 import { moneyFor, priceLabel } from "@/lib/pricing";
 import { paymentMethodFor } from "@/lib/payments";
 import { chatUrl, payHelpMsg } from "@/lib/whatsapp";
@@ -18,8 +18,19 @@ export function Paywall() {
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [payEnabled, setPayEnabled] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   useEffect(() => { fetchPayInfo().then(setPay).catch(() => {}); }, []);
+  useEffect(() => { fetchPayConfig().then((c) => setPayEnabled(!!c.enabled)).catch(() => {}); }, []);
+
+  const startCheckout = async () => {
+    setCheckingOut(true);
+    const res = await createPayment();
+    if (res.ok && res.data?.url) { window.location.href = res.data.url; return; }
+    setCheckingOut(false);
+    toast.error(res.data?.error ?? "Could not start the payment. Please try again.");
+  };
 
   const redeem = async () => {
     setError(null);
@@ -88,14 +99,22 @@ export function Paywall() {
           <div className="text-xs font-bold uppercase tracking-wide text-primary mb-2">How to pay</div>
           <div className="font-serif text-2xl text-foreground mb-2">{price}</div>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            Tell us where you are and we'll send you the ways to pay, then unlock your full access.
+            {payEnabled
+              ? "Pay securely online with your card or mobile money, and your access unlocks straight away."
+              : "Tell us where you are and we'll send you the ways to pay, then unlock your full access."}
           </p>
           <div className="space-y-2">
+            {payEnabled && (
+              <Button onClick={startCheckout} disabled={checkingOut} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                {checkingOut ? "Starting payment…" : "Pay now with card or mobile money"}
+              </Button>
+            )}
             <Button
               onClick={() => { setContactKind("payment"); setContactOpen(true); }}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              variant={payEnabled ? "secondary" : undefined}
+              className={payEnabled ? "w-full" : "w-full bg-primary text-primary-foreground hover:bg-primary/90"}
             >
-              Request payment options
+              {payEnabled ? "Other ways to pay" : "Request payment options"}
             </Button>
             <Button
               onClick={() => window.open(chatUrl(pay?.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}

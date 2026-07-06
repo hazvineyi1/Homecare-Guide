@@ -128,5 +128,16 @@ export async function ensureSchema(): Promise<void> {
       created_at timestamptz NOT NULL DEFAULT now()
     );
     CREATE INDEX IF NOT EXISTS leads_created_idx ON leads (created_at);
+    CREATE TABLE IF NOT EXISTS payments (
+      id serial PRIMARY KEY,
+      ref text NOT NULL UNIQUE,
+      owner_id text NOT NULL,
+      trans_token text,
+      amount text,
+      currency text,
+      status text NOT NULL DEFAULT 'created',
+      created_at timestamptz NOT NULL DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS payments_trans_token_idx ON payments (trans_token);
   `);
 }
