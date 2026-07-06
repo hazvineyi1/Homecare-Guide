@@ -531,7 +531,7 @@ export function ChatArea() {
         </div>
       </div>
 
-      <div ref={scrollRef} className="hg-scroll flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-4">
+      <div ref={scrollRef} className="hg-scroll-visible flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 py-4">
        <div className="max-w-6xl mx-auto w-full space-y-4">
         {currentSession?.messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} youLabel={firstName || "You"} />
