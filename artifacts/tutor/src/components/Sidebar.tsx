@@ -121,7 +121,7 @@ export function Sidebar() {
         </span>
       </div>
 
-      <div className="hg-scroll flex-1 overflow-y-auto px-4 pb-4 space-y-1">
+      <div className="hg-scroll-visible flex-1 overflow-y-auto px-4 pb-4 space-y-1">
         {TOPICS.map((topic, index) => {
           const isActive = currentTopicIndex === index;
           const session = sessions[index];
