@@ -363,96 +363,86 @@ export function ChatArea() {
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 bg-background relative overflow-hidden">
-      <div className="px-4 sm:px-8 py-2 border-b border-border bg-background z-10 shrink-0">
-        <div className="flex items-start gap-3 max-w-6xl mx-auto w-full">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="shrink-0 -ml-2 mt-0.5"
-            onClick={() => setMobileSidebarOpen(true)}
-            aria-label="Open menu"
-          >
-            <MenuIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="shrink-0 mt-0.5"
-            onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }}
-            aria-label="Home"
-            title="Back to the homepage"
-          >
-            <Home className="w-4 h-4" />
-          </Button>
-          <div className="min-w-0">
-            <div className="flex items-center justify-between flex-wrap gap-x-3 gap-y-1 mb-1">
+      <div className="px-4 sm:px-8 py-3 border-b border-border bg-background z-10 shrink-0">
+        <div className="max-w-6xl mx-auto w-full">
+          {/* Top control bar: navigation on the left, lesson actions on the right */}
+          <div className="flex items-center justify-between gap-3 flex-wrap gap-y-2">
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="sm" className="-ml-2" onClick={() => setMobileSidebarOpen(true)} aria-label="Open menu">
+                <MenuIcon />
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => { setAtLanding(true); setCurrentTopicIndex(null); }} aria-label="Home" title="Back to the homepage">
+                <Home className="w-4 h-4" />
+              </Button>
               <button
                 onClick={() => setCurrentTopicIndex(null)}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+                title="Back to the topic roadmap"
+                className="ml-1 inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-primary/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span className="sm:hidden">Back</span>
-                <span className="hidden sm:inline">Back to roadmap</span>
+                <ArrowLeft className="w-4 h-4" /> Roadmap
               </button>
-              <div className="flex items-center gap-3">
-                {topicScenarios.length > 0 && (
-                  <button
-                    onClick={switchScenario}
-                    disabled={busy}
-                    title="Choose a different situation for this topic"
-                    className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
-                  >
-                    <Shuffle className="w-3.5 h-3.5" />
-                    <span className="sm:hidden">Switch</span>
-                    <span className="hidden sm:inline">Switch scenario</span>
-                  </button>
-                )}
+            </div>
+            <div className="flex items-center gap-2">
+              {topicScenarios.length > 0 && (
                 <button
-                  onClick={() => {
-                    if (currentTopicIndex === null) return;
-                    if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
-                      startSession(currentTopicIndex, true);
-                    }
-                  }}
+                  onClick={switchScenario}
                   disabled={busy}
-                  title="Start this lesson over from the beginning"
-                  className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground disabled:opacity-50"
+                  title="Choose a different situation for this topic"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-semibold text-foreground hover:bg-secondary disabled:opacity-50 transition-colors"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span className="sm:hidden">Restart</span>
-                  <span className="hidden sm:inline">Restart lesson</span>
+                  <Shuffle className="w-4 h-4" />
+                  <span className="hidden sm:inline">Switch scenario</span>
+                  <span className="sm:hidden">Switch</span>
                 </button>
-              </div>
+              )}
+              <button
+                onClick={() => {
+                  if (currentTopicIndex === null) return;
+                  if (window.confirm("Restart this lesson from the beginning? Your current conversation for this topic will be cleared and Nurse Mooka will start again.")) {
+                    startSession(currentTopicIndex, true);
+                  }
+                }}
+                disabled={busy}
+                title="Start this lesson over from the beginning"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-semibold text-foreground hover:bg-secondary disabled:opacity-50 transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span className="hidden sm:inline">Restart lesson</span>
+                <span className="sm:hidden">Restart</span>
+              </button>
             </div>
-            <div className="flex items-center gap-x-2 gap-y-0.5 flex-wrap mb-0.5 text-xs font-semibold text-muted-foreground">
-              {currentModule && (
-                <>
-                  <span className="uppercase tracking-wider text-primary">Module {currentModule.level} · {currentModule.name}</span>
-                  <span aria-hidden>·</span>
-                </>
-              )}
-              <span className="uppercase tracking-wider">Topic {topicPosition} of {TOPICS.length}</span>
-              <span aria-hidden>·</span>
-              <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
-              {country && (
-                <>
-                  <span aria-hidden>·</span>
-                  <span>{country}</span>
-                </>
-              )}
-              {meta && (
-                <>
-                  <span aria-hidden>·</span>
-                  <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> ~{meta.estMinutes} min</span>
-                </>
-              )}
-              {isCompleted && (
-                <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
-              )}
-            </div>
-            <h2 className="text-lg sm:text-xl font-serif text-foreground leading-tight">
-              {currentTopic.title}
-            </h2>
+          </div>
+
+          {/* Topic context */}
+          <div className="mt-3.5 flex items-center gap-x-2 gap-y-0.5 flex-wrap text-xs font-semibold text-muted-foreground">
+            {currentModule && (
+              <>
+                <span className="uppercase tracking-wider text-primary">Module {currentModule.level} · {currentModule.name}</span>
+                <span aria-hidden>·</span>
+              </>
+            )}
+            <span className="uppercase tracking-wider">Topic {topicPosition} of {TOPICS.length}</span>
+            <span aria-hidden>·</span>
+            <span>{(currentSession?.level ?? level) === "experienced" ? "Experienced" : "New caregiver"}</span>
+            {country && (
+              <>
+                <span aria-hidden>·</span>
+                <span>{country}</span>
+              </>
+            )}
+            {meta && (
+              <>
+                <span aria-hidden>·</span>
+                <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> ~{meta.estMinutes} min</span>
+              </>
+            )}
+            {isCompleted && (
+              <span className="inline-flex items-center gap-1 text-accent"><CheckCircle2 className="w-3.5 h-3.5" /> Mastered</span>
+            )}
+          </div>
+          <h2 className="mt-1 text-xl sm:text-2xl font-serif text-foreground leading-tight">
+            {currentTopic.title}
+          </h2>
 
             {[7, 8, 9, 10].includes(currentTopic.id) && (
               <div className="mt-2 space-y-1.5 max-w-6xl">
@@ -538,7 +528,6 @@ export function ChatArea() {
                 ))}
               </ul>
             )}
-          </div>
         </div>
       </div>
 
