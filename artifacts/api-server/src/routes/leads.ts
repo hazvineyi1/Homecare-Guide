@@ -14,7 +14,7 @@ router.post("/leads", async (req, res) => {
   const org = str(req.body?.org, 160);
   const message = str(req.body?.message, 2000);
   const kindRaw = str(req.body?.kind, 40);
-  const kind = ["partnership", "sponsored", "contact"].includes(kindRaw) ? kindRaw : "contact";
+  const kind = ["partnership", "sponsored", "contact", "payment"].includes(kindRaw) ? kindRaw : "contact";
 
   if (!name && !email) {
     res.status(400).json({ error: "Please add your name or an email so we can reply." });

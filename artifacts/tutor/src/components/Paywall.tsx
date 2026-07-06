@@ -13,7 +13,7 @@ import { chatUrl, payHelpMsg } from "@/lib/whatsapp";
 // access, bought for the price shown via Orange Money, then unlocked with a
 // code (or granted by an admin). No card or money is handled in-app.
 export function Paywall() {
-  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen, setAtLanding, country } = useAppState();
+  const { setFullAccess, setCurrentTopicIndex, currentUser, setAuthOpen, setMobileSidebarOpen, setAtLanding, country, setContactOpen, setContactKind } = useAppState();
   const [pay, setPay] = useState<PayInfo | null>(null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -88,17 +88,25 @@ export function Paywall() {
           <div className="text-xs font-bold uppercase tracking-wide text-primary mb-2">How to pay</div>
           <div className="font-serif text-2xl text-foreground mb-2">{price}</div>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-            Message us on WhatsApp and we'll send you the payment options for your country, then unlock your full access.
+            Tell us where you are and we'll send you the ways to pay, then unlock your full access.
           </p>
-          <Button
-            onClick={() => window.open(chatUrl(pay?.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}
-            className="w-full text-white hover:brightness-105"
-            style={{ backgroundColor: "#25D366" }}
-          >
-            <MessageCircle className="w-4 h-4 mr-2" /> Message us on WhatsApp to pay
-          </Button>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Prefer email? <a href="mailto:info@synops-consulting.com" className="text-primary font-semibold hover:underline">info@synops-consulting.com</a>
+          <div className="space-y-2">
+            <Button
+              onClick={() => { setContactKind("payment"); setContactOpen(true); }}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              Request payment options
+            </Button>
+            <Button
+              onClick={() => window.open(chatUrl(pay?.whatsapp, payHelpMsg(country)), "_blank", "noopener,noreferrer")}
+              className="w-full text-white hover:brightness-105"
+              style={{ backgroundColor: "#25D366" }}
+            >
+              <MessageCircle className="w-4 h-4 mr-2" /> Or message us on WhatsApp
+            </Button>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            &ldquo;Request payment options&rdquo; works on any device (no app needed). Prefer email? <a href="mailto:info@synops-consulting.com" className="text-primary font-semibold hover:underline">info@synops-consulting.com</a>
           </p>
         </div>
 

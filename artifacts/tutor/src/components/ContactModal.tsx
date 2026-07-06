@@ -25,10 +25,16 @@ const COPY: Record<string, { title: string; desc: string; placeholder: string; s
     placeholder: "How can we help?",
     showOrg: false,
   },
+  payment: {
+    title: "Request payment options",
+    desc: "Leave your email and we'll send you the ways to pay in your country and unlock full access. Works on any device, no app needed.",
+    placeholder: "e.g. I'd like the monthly plan. I'm in Zimbabwe.",
+    showOrg: false,
+  },
 };
 
 export function ContactModal() {
-  const { contactOpen, setContactOpen, contactKind, learnerName, currentUser } = useAppState();
+  const { contactOpen, setContactOpen, contactKind, learnerName, currentUser, country } = useAppState();
   const copy = COPY[contactKind] ?? COPY.contact;
 
   const [name, setName] = useState("");
@@ -43,9 +49,13 @@ export function ContactModal() {
       setName(currentUser?.name || learnerName || "");
       setEmail(currentUser?.email || "");
       setOrg("");
-      setMessage("");
+      setMessage(
+        contactKind === "payment"
+          ? `I'd like to pay for full access to A Guide to Homecare${country ? ` (I'm in ${country})` : ""}. Please send me the payment options.`
+          : "",
+      );
     }
-  }, [contactOpen, currentUser, learnerName]);
+  }, [contactOpen, currentUser, learnerName, contactKind, country]);
 
   const send = async () => {
     if (!message.trim()) { toast.error("Please add a short message."); return; }

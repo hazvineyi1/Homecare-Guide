@@ -70,13 +70,6 @@ export function Landing() {
   const goTop = () => document.getElementById("hg-top")?.scrollTo({ top: 0, behavior: "smooth" });
   const openExternal = (url: string) => window.open(url, "_blank", "noopener,noreferrer");
   const openContact = (kind: string) => { setContactKind(kind); setContactOpen(true); };
-  // Until self-serve payment is set up, anyone who wants to pay is sent to WhatsApp
-  // to get the payment options for their country.
-  const requestToPay = (plan: string) => {
-    const msg = `Hi, I'd like to pay for A Guide to Homecare (${plan}). Please send me the payment options${country ? ` for ${country}` : ""}.`;
-    if (wa) openExternal(chatUrl(wa, msg));
-    else goUnlock();
-  };
 
   const startLabel = explored > 0 ? "Continue where you left off" : "Try your first topic free";
 
@@ -351,7 +344,7 @@ export function Landing() {
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent shrink-0 mt-0.5" />{x}</li>
                 ))}
               </ul>
-              <Button onClick={() => requestToPay("Full access, monthly")} className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">Unlock all 17 topics</Button>
+              <Button onClick={() => openContact("payment")} className="mt-6 bg-accent text-accent-foreground hover:bg-accent/90">Unlock all 17 topics</Button>
             </div>
             {/* Annual */}
             <div className="border border-border bg-card p-7 flex flex-col">
@@ -363,7 +356,7 @@ export function Landing() {
                   <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-accent-foreground shrink-0 mt-0.5" />{x}</li>
                 ))}
               </ul>
-              <Button onClick={() => requestToPay("Annual plan with the book")} variant="secondary" className="mt-6">Get the annual bundle</Button>
+              <Button onClick={() => openContact("payment")} variant="secondary" className="mt-6">Get the annual bundle</Button>
             </div>
           </div>
           <p className="text-center text-sm text-muted-foreground mt-8 max-w-2xl mx-auto">
