@@ -221,23 +221,17 @@ export function Landing() {
                   </button>
                   {isOpen && (
                     <div className="px-4 sm:px-5 pb-4 -mt-1">
-                      <p className="text-sm text-ink-soft leading-relaxed mb-3">{topicBrief(t.kb)}</p>
-                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                        <a
-                          href={`/topics/${slugify(t.title)}`}
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                      <p className="text-sm text-ink-soft leading-relaxed">{topicBrief(t.kb)}</p>
+                      {t.id === 1 ? (
+                        <button
+                          onClick={() => openTopic(0)}
+                          className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
                         >
-                          Read the full chapter brief <ArrowRight className="w-4 h-4" />
-                        </a>
-                        {t.id === 1 && (
-                          <button
-                            onClick={() => openTopic(0)}
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-foreground hover:underline"
-                          >
-                            Try this topic free <ArrowRight className="w-4 h-4" />
-                          </button>
-                        )}
-                      </div>
+                          Try this topic free <ArrowRight className="w-4 h-4" />
+                        </button>
+                      ) : (
+                        <p className="mt-2 text-xs text-muted-foreground">Taught in full with Nurse Mooka inside the course.</p>
+                      )}
                     </div>
                   )}
                 </div>

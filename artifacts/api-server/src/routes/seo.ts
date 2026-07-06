@@ -15,6 +15,13 @@ const esc = (t: string) =>
 
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
+// A short public synopsis (NOT the full paid chapter) for the crawlable pages.
+const brief = (kb: string) => {
+  let s = kb.split(". ").slice(0, 3).join(". ").trim();
+  if (!s.endsWith(".")) s += ".";
+  return s.length > 340 ? s.slice(0, 335).replace(/\s+\S*$/, "") + "…" : s;
+};
+
 const bySlug = new Map(TOPICS.map((t) => [slugify(t.title), t]));
 
 function shell(opts: { title: string; description: string; canonical: string; body: string }): string {
@@ -91,7 +98,8 @@ router.get("/topics/:slug", (req, res, next) => {
 <a class="cta" href="/">Practise this with Nurse Mooka &rarr;</a>
 <div class="box"><b>A situation to reason through:</b> ${esc(cap(topic.launch))}.</div>
 <h2>What this topic covers</h2>
-<p>${esc(topic.kb)}</p>
+<p>${esc(brief(topic.kb))}</p>
+<p class="meta">This is a short overview. The full lesson is taught interactively, one question at a time, with Nurse Mooka inside the course.</p>
 <a class="cta" href="/">Start the interactive lesson &rarr;</a>
 <h2>More topics</h2>
 <div class="grid">${others}</div>
