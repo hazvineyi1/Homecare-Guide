@@ -702,6 +702,9 @@ function MessageBubble({ message, isStreamingActive, youLabel = "You" }: { messa
     );
   }
 
+  // Never render an empty bubble (e.g. an aborted or blank response) as a stray bar.
+  if (!isStreamingActive && !(message.content && message.content.trim())) return null;
+
   const isUser = message.role === "user";
   const isSynthesis = message.role === "synthesis";
 

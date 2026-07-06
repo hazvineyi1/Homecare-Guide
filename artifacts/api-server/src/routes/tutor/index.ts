@@ -256,7 +256,9 @@ router.post("/tutor/sessions/:conversationId/message", aiRateLimiter, async (req
     }
   }
 
-  await db.insert(messages).values({ conversationId: convId, role: "assistant", content: fullResponse });
+  if (fullResponse.trim()) {
+    await db.insert(messages).values({ conversationId: convId, role: "assistant", content: fullResponse });
+  }
   res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
   res.end();
 });
